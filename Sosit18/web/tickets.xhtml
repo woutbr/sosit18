@@ -7,20 +7,50 @@
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Index - SosIT"/>
         <ui:define name="main">
-<b:form>
-  <h:panelGrid columns="1" cellpadding="5">
-    <b:inputText label="E-mail:" labelStyle="width:80px;">
+            <b:form>
+                <b:panel title="Ticket " collapsible="false">
 
-    </b:inputText>
-    <b:inputText label="Amount:" labelStyle="width:80px;">
+                    <h4><u>Algemene informatie</u></h4>
+                    <b:panelGrid colSpans="4,8">
+                        <b:formGroup>
+                            <h:outputLabel>Ticket Id</h:outputLabel>
+                            <b:inputText></b:inputText>
+                            <h:outputLabel>Bedrijf</h:outputLabel>
+                            <b:inputText></b:inputText>
+                            <h:outputLabel>user</h:outputLabel>
+                            <b:inputText></b:inputText>
+                            <h:outputLabel>Creatie datum</h:outputLabel>
+                            <b:inputText></b:inputText>
+                        </b:formGroup>
 
-    </b:inputText>
-    <b:inputText label="Price:" labelStyle="width:80px;">
+                        <b:formGroup>
+                            <h:outputLabel>Titel</h:outputLabel>
+                            <b:inputText></b:inputText>
+                            <h:outputLabel>TicketType</h:outputLabel>
+                            <b:selectOneMenu></b:selectOneMenu>
+
+                            <h:outputLabel>Asset</h:outputLabel>
+                            <b:selectOneMenu></b:selectOneMenu>
+
+                            <h:outputLabel>Severity</h:outputLabel>
+                            <b:selectOneMenu></b:selectOneMenu>
+
+                            <h:outputLabel>Urgency</h:outputLabel>
+                            <b:selectOneMenu></b:selectOneMenu>
+
+                        </b:formGroup>
+                    </b:panelGrid>
+                    <h4><u>Omschrijving</u></h4>
+                    <b:inputTextarea></b:inputTextarea>
+                    <div class="text-center">
+                        <b:commandButton value="Opslaan" look="success" style="margin-right: 2em"></b:commandButton>
+                        <b:commandButton value="Verwijderen" look="warning" style="margin-left: 2em"></b:commandButton>
+                    </div>
+
+                </b:panel>
+            </b:form>
 
 
-    </b:inputText>
-  </h:panelGrid>
-</b:form>
 
         </ui:define>
     </ui:composition>
