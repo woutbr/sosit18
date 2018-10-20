@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+     >
+    <ui:composition template="/templates/page.xhtml">
+        <ui:param name="Login" value="Login - SosIT"/>
+        <ui:define name="main">
+        <h:form>
+       
+     <b:panelGrid colSpans="12">
+         
+                        <b:formGroup>
+                            <h:outputLabel>Username</h:outputLabel>
+                            <b:inputText ></b:inputText>
+                            <h:outputLabel>Password</h:outputLabel>
+                            <b:inputText style="margin-bottom: 1em"></b:inputText>
+                            
+                            <b:commandLink value="Sign in" look="success" href="loginfailed.xhtml" style="margin-bottom: 1em"   />
+         
+                            <h:link value="Forgot password?"/>  
+                        </b:formGroup>
+         
+          
+         
+      </b:panelGrid>        
+     </h:form> 
+            </ui:define>
+    </ui:composition>
+</html>
+
