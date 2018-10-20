@@ -21,13 +21,13 @@
                                                  label="Status"/>
                         <b:selectBooleanCheckbox caption="In behandeling"/>
                         <b:selectBooleanCheckbox caption="Afgehandeld"/>
-                        <b:datepicker mode="inline"/>
+                        <b:datepicker mode="inline" label="Date"/>
                     </b:formGroup>
                     <b:dataTable value="#{assetController.asset}"
                                  var="asset"
                                  class="editableAssetTable"
                                  fixedHeader="true"
-                                 responsive="true"
+                                 responsive="false"
                                  scroll-x="true">
                         <b:dataTableColumn value="#{asset.assetid}" order="asc"/>
                         <b:dataTableColumn value="#{asset.companyid}" />
