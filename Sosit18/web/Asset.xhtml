@@ -8,28 +8,49 @@
 <ui:composition template="/templates/page.xhtml">
     <ui:param name="pageTitle" value="Asset - SosIT"/>
     <ui:define name="main">
-        <h1>Assets van BEDRIJF</h1>
-        <b:form>
-            <b:selectOneMenu value="#{assetController.ticketid}"
-                             label="Ticket ID">
-                <f:selectItem itemLabel="(Please select)" itemValue="" />
-                <f:selectItem itemLabel="Ticket 1" itemValue="1" />
-            </b:selectOneMenu>
-            <b:selectBooleanCheckbox caption="Nieuw" 
-                                     label="Status"/>
-            <b:selectBooleanCheckbox caption="In behandeling"/>
-            <b:selectBooleanCheckbox caption="Afgehandeld"/>
-            <b:datepicker mode="inline"/>
-        </b:form>
-        <b:dataTable value="#{assetController.asset}"
-                     var="asset">
-            <b:dataTableColumn value="#{asset.assetid}" order="asc"/>
-            <b:dataTableColumn value="#{asset.companyid}" />
-            <b:dataTableColumn value="#{asset.name}" />
-            <b:dataTableColumn value="#{asset.description}" />
-            <b:dataTableColumn value="#{asset.purchasedate}"   label="Date of Purchase" />
-            <b:dataTableColumn value="#{asset.warranty}"/>
-        </b:dataTable>
+        <b:panel title="Assets van BEDRIJF" collapsible="false">
+            <b:form>
+                <b:panelGrid colSpans="3,9" size="sm">
+                    <b:formGroup>
+                        <b:selectOneMenu value="#{assetController.ticketid}"
+                                         label="Asset groep">
+                            <f:selectItem itemLabel="(Please select)" itemValue="" />
+                            <f:selectItem itemLabel="Groep 1" itemValue="1" />
+                        </b:selectOneMenu>
+                        <b:selectBooleanCheckbox caption="Nieuw" 
+                                                 label="Status"/>
+                        <b:selectBooleanCheckbox caption="In behandeling"/>
+                        <b:selectBooleanCheckbox caption="Afgehandeld"/>
+                        <b:datepicker mode="inline"/>
+                    </b:formGroup>
+                    <b:dataTable value="#{assetController.asset}"
+                                 var="asset"
+                                 class="editableAssetTable"
+                                 fixedHeader="true"
+                                 responsive="true"
+                                 scroll-x="true">
+                        <b:dataTableColumn value="#{asset.assetid}" order="asc"/>
+                        <b:dataTableColumn value="#{asset.companyid}" />
+                        <b:dataTableColumn value="#{asset.name}"/>
+                        <b:dataTableColumn label="Description" >
+                            <b:inputText value="#{asset.description}" rendered="#{asset.editable}"/>
+                            <h:outputText value="#{asset.description}" rendered="#{not asset.editable}" />
+                        </b:dataTableColumn>
+                        <b:dataTableColumn value="#{asset.locationid}"/>
+                        <b:dataTableColumn value="#{asset.purchasedate}" label="Date of Purchase" />
+                        <b:dataTableColumn value="#{asset.warranty}"/>
+                        <b:dataTableColumn value="#{asset.supportcontract}"/>
+                        <b:dataTableColumn value="#{asset.value}"/>
+                        <b:dataTableColumn>
+                        <b:commandButton value="edit" icon="edit" ajax="true"
+                                         update="@(.editableAssetTable)"
+                                         onclick="ajax:asset.edit()" >
+                        </b:commandButton>
+                        </b:dataTableColumn>
+                    </b:dataTable>
+                </b:panelGrid>
+            </b:form>
+        </b:panel>
     </ui:define>
 </ui:composition>
 </html>
