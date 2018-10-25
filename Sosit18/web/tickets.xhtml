@@ -3,10 +3,52 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Index - SosIT"/>
         <ui:define name="main">
+            <f:view>
+
+
+                <h:form>
+                    <h1><h:outputText value="Create/Edit"/></h1>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Ticketid:" for="ticketid" />
+                        <h:inputText id="ticketid" value="#{TicketController.ticket.ticketid}" title="Ticketid" required="true" requiredMessage="The Ticketid field is required."/>
+                        <h:outputLabel value="Ticketmasterid:" for="ticketmasterid" />
+                        <h:inputText id="ticketmasterid" value="#{TicketController.ticket.ticketmasterid}" title="Ticketmasterid" />
+                        <h:outputLabel value="Title:" for="title" />
+                        <h:inputText id="title" value="#{TicketController.ticket.title}" title="Title" />
+                        <h:outputLabel value="Description:" for="description" />
+                        <h:inputText id="description" value="#{TicketController.ticket.description}" title="Description" />
+                        <h:outputLabel value="Creationdate:" for="creationdate" />
+                        <h:inputText id="creationdate" value="#{TicketController.ticket.creationdate}" title="Creationdate" >
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:inputText>
+                        <h:outputLabel value="Closeddate:" for="closeddate" />
+                        <h:inputText id="closeddate" value="#{TicketController.ticket.closeddate}" title="Closeddate" >
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:inputText>
+                        <h:outputLabel value="Handlerid:" for="handlerid" />
+                        <h:inputText id="handlerid" value="#{TicketController.ticket.handlerid}" title="Handlerid" />
+                        <h:outputLabel value="Useraccountid:" for="useraccountid" />
+                        <h:inputText id="useraccountid" value="#{TicketController.ticket.useraccountid}" title="Useraccountid" />
+                        <h:outputLabel value="Ticketstatusid:" for="ticketstatusid" />
+                        <h:inputText id="ticketstatusid" value="#{TicketController.ticket.ticketstatusid}" title="Ticketstatusid" />
+                        <h:outputLabel value="Tickettypeid:" for="tickettypeid" />
+                        <h:inputText id="tickettypeid" value="#{TicketController.ticket.tickettypeid}" title="Tickettypeid" />
+                        <h:outputLabel value="Ticketseverityid:" for="ticketseverityid" />
+                        <h:inputText id="ticketseverityid" value="#{TicketController.ticket.ticketseverityid}" title="Ticketseverityid" />
+                        <h:outputLabel value="Ticketpriorityid:" for="ticketpriorityid" />
+                        <h:inputText id="ticketpriorityid" value="#{TicketController.ticket.ticketpriorityid}" title="Ticketpriorityid" />
+                        <h:outputLabel value="Assetid:" for="assetid" />
+                        <h:inputText id="assetid" value="#{TicketController.ticket.assetid}" title="Assetid" />
+                        <h:outputLabel value="Version:" for="version" />
+                        <h:inputText id="version" value="#{TicketController.ticket.version}" title="Version" />
+                    </h:panelGrid>
+                </h:form>
+            </f:view>
 
             <b:form>
                 <b:panel title="Ticket " collapsible="false">

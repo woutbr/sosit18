@@ -26,14 +26,18 @@ public class TicketController implements Serializable {
      */
     @EJB
     private TicketFacade ticketFacade;
+    
+    private Ticket ticket = new Ticket();
 
-    public TicketFacade getTicketFacade() {
-        return ticketFacade;
+    public Ticket getTicket() {
+        return ticket;
     }
 
-    public void setTicketFacade(TicketFacade ticketFacade) {
-        this.ticketFacade = ticketFacade;
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
+
+
     
     
     public TicketController() {
@@ -41,7 +45,6 @@ public class TicketController implements Serializable {
     
     public Ticket FindById(BigDecimal id){
         return this.ticketFacade.FindById(id);
-    
     }
     
 
