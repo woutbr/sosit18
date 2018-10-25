@@ -7,6 +7,7 @@
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Index - SosIT"/>
         <ui:define name="main">
+
             <b:form>
                 <b:panel title="Ticket " collapsible="false">
 
@@ -44,7 +45,7 @@
                     <h4><u>Omschrijving</u></h4>
                     <b:inputTextarea></b:inputTextarea>
                     <div class="text-center">
-                        <b:commandButton value="Opslaan" look="success" style="margin-right: 2em"></b:commandButton>
+                        <b:commandButton value="Opslaan" look="success" style="margin-right: 2em" onclick="#{TicketController.FindById(1)}"></b:commandButton>
                         <b:commandButton value="Verwijderen" look="warning" style="margin-left: 2em"></b:commandButton>
                     </div>
 
