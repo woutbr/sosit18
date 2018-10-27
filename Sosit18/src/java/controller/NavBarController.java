@@ -36,7 +36,7 @@ public class NavBarController {
         this.links.add(companyLink);
 
         MenuList assetLink = new MenuList("Asset ");
-        assetLink.add(new MenuLink("All assets", "Asset"));
+        assetLink.add(new MenuLink("All assets", "assets"));
         assetLink.add(new MenuLink("New asset", ""));
         assetLink.add(new MenuLink("Asset group", "assetgroup"));
         assetLink.add(new MenuLink("Asset location", "assetlocation"));
