@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/templates/page.xhtml">
+    <ui:param name="pageTitle" value="Asset - SosIT"/>
+    <ui:define name="main">
+        <b:panel title="Assets van BEDRIJF" collapsible="false">
+            <b:form>
+                <b:panelGrid colSpans="3,9" size="sm">
+                    <b:formGroup>
+                        <b:selectOneMenu value="#{assetController.ticketid}"
+                                         label="Asset groep">
+                            <f:selectItem itemLabel="(Please select)" itemValue="" />
+                            <f:selectItem itemLabel="Groep 1" itemValue="1" />
+                        </b:selectOneMenu>
+                        <b:selectBooleanCheckbox caption="Nieuw" 
+                                                 label="Status"/>
+                        <b:selectBooleanCheckbox caption="In behandeling"/>
+                        <b:selectBooleanCheckbox caption="Afgehandeld"/>
+                        <b:datepicker mode="inline" label="Date"/>
+                    </b:formGroup>
+                    <b:dataTable value="#{assetController.asset}"
+                                 var="asset"
+                                 class="editableAssetTable"
+                                 fixedHeader="true"
+                                 responsive="false"
+                                 scroll-x="true">
+                        <b:dataTableColumn value="#{asset.assetid}" order="asc"/>
+                        <b:dataTableColumn value="#{asset.companyid}" />
+                        <b:dataTableColumn value="#{asset.name}"/>
+                        <b:dataTableColumn label="Description" >
+                            <b:inputText value="#{asset.description}" rendered="#{asset.editable}"/>
+                            <h:outputText value="#{asset.description}" rendered="#{not asset.editable}" />
+                        </b:dataTableColumn>
+                        <b:dataTableColumn value="#{asset.locationid}"/>
+                        <b:dataTableColumn value="#{asset.purchasedate}" label="Date of Purchase" />
+                        <b:dataTableColumn value="#{asset.warranty}"/>
+                        <b:dataTableColumn value="#{asset.supportcontract}"/>
+                        <b:dataTableColumn value="#{asset.value}"/>
+                        <b:dataTableColumn>
+                        <b:commandButton value="edit" icon="edit" ajax="true"
+                                         update="@(.editableAssetTable)"
+                                         onclick="ajax:asset.edit()" >
+                        </b:commandButton>
+                        </b:dataTableColumn>
+                    </b:dataTable>
+                </b:panelGrid>
+            </b:form>
+        </b:panel>
+    </ui:define>
+</ui:composition>
+</html>
+
