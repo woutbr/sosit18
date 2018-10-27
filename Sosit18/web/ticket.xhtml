@@ -9,8 +9,14 @@
         <ui:param name="pageTitle" value="Index - SosIT"/>
         <ui:define name="main">
             <f:view>
+                <f:metadata>
+                    <f:viewParam name="TicketId" value="2" />
+                    <f:viewAction action="#{TicketController.FindById(TicketId)}" />
+                </f:metadata>
 
-
+                
+                
+                
                 <h:form>
                     <h1><h:outputText value="Create/Edit"/></h1>
                     <h:panelGrid columns="2">
@@ -57,7 +63,7 @@
                     <b:panelGrid colSpans="4,8">
                         <b:formGroup>
                             <h:outputLabel>Ticket Id</h:outputLabel>
-                            <b:inputText></b:inputText>
+                            <b:inputText value="#{TicketController.ticket.ticketid}"></b:inputText>
                             <h:outputLabel>Bedrijf</h:outputLabel>
                             <b:inputText></b:inputText>
                             <h:outputLabel>user</h:outputLabel>
@@ -68,8 +74,8 @@
 
                         
                         <b:formGroup>
-                            <h:outputLabel>Titel</h:outputLabel>
-                            <b:inputText></b:inputText>
+                            <h:outputLabel  >Titel</h:outputLabel>
+                            <b:inputText value="#{TicketController.ticket.title}"></b:inputText>
                             <h:outputLabel>TicketType</h:outputLabel>
                             <b:selectOneMenu></b:selectOneMenu>
 
@@ -85,9 +91,9 @@
                         </b:formGroup>
                     </b:panelGrid>
                     <h4><u>Omschrijving</u></h4>
-                    <b:inputTextarea></b:inputTextarea>
+                    <b:inputTextarea value="#{TicketController.ticket.description}" ></b:inputTextarea>
                     <div class="text-center">
-                        <b:commandButton value="Opslaan" look="success" style="margin-right: 2em" onclick="#{TicketController.FindById(1)}"></b:commandButton>
+                        <b:commandButton value="Opslaan" look="success" style="margin-right: 2em"></b:commandButton>
                         <b:commandButton value="Verwijderen" look="warning" style="margin-left: 2em"></b:commandButton>
                     </div>
 

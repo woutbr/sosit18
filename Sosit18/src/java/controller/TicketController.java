@@ -38,14 +38,15 @@ public class TicketController implements Serializable {
     }
 
 
-    
-    
     public TicketController() {
     }
     
-    public Ticket FindById(BigDecimal id){
-        return this.ticketFacade.FindById(id);
+    public void FindById(BigDecimal id){
+        
+         ticket = this.ticketFacade.FindById(id);
+
     }
+   
     
 
     
