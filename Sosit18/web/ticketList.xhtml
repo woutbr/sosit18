@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/templates/page.xhtml">
+        <ui:param name="pageTitle" value="Ticketlist"/>
+        <ui:define name="main">
+            <f:view>
+                <b:form>
+                    <b:panel title="Ticket " collapsible="false">
+                        <b:dataTable value="#{TicketController.GetAllTickets()}" var="item">
+                       
+                        
+                            <b:dataTableColumn value="#{item.ticketid}" order="asc"/>
+                            <b:dataTableColumn value="#{item.title}" />
+
+                        </b:dataTable>
+                        
+                    </b:panel>
+                </b:form>
+                    
+
+
+                <h:form>
+                    <h1><h:outputText value="List"/></h1>
+                    <h:dataTable value="#{TicketController.GetAllTickets()}" var="item">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ticketid"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ticketid}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ticketmasterid"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ticketmasterid}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Title"/>
+                            </f:facet>
+                            <h:outputText value="#{item.title}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Description"/>
+                            </f:facet>
+                            <h:outputText value="#{item.description}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Creationdate"/>
+                            </f:facet>
+                            <h:outputText value="#{item.creationdate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Closeddate"/>
+                            </f:facet>
+                            <h:outputText value="#{item.closeddate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Handlerid"/>
+                            </f:facet>
+                            <h:outputText value="#{item.handlerid}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Useraccountid"/>
+                            </f:facet>
+                            <h:outputText value="#{item.useraccountid}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ticketstatusid"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ticketstatusid}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Tickettypeid"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tickettypeid}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ticketseverityid"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ticketseverityid}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ticketpriorityid"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ticketpriorityid}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Assetid"/>
+                            </f:facet>
+                            <h:outputText value="#{item.assetid}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Version"/>
+                            </f:facet>
+                            <h:outputText value="#{item.version}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </f:view>
+
+
+            
+            
+        </ui:define>
+    </ui:composition>
+</html>
