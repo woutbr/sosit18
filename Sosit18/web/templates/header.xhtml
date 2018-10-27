@@ -3,18 +3,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
-    <ui:composition>
-        <b:navBar brand="SosIT" brandHref="#" fixed="top" inverse="true">
-            <b:navbarLinks>
-                <b:navLink value="Index" href="index.xhtml"></b:navLink>
-                <b:navLink value="Tickets" href="tickets.xhtml"></b:navLink>
-                <b:navLink value="Action" href="Action.xhtml"></b:navLink>
-                <b:navLink value="Company" href="company.xhtml"></b:navLink>
-                <b:navLink value="Asset" href="Asset.xhtml"></b:navLink>
-                <b:navLink value="Useraccount" href="Useraccount.xhtml"></b:navLink>
-            </b:navbarLinks>
-        </b:navBar>
-    </ui:composition>
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<ui:composition>
+    <b:navBar brand="SosIT" brandHref="#" fixed="top" inverse="true">
+        <b:navbarLinks>
+            <ui:repeat value="#{NavBarController.links.subItems}" var="item" >
+                <b:navLink rendered="#{item.class.simpleName == 'MenuLink'}"
+                    value="#{item.name}" href="#{item.href}.xhtml"></b:navLink>
+                <b:dropMenu rendered="#{item.class.simpleName == 'MenuList'}"
+                    value="#{item.name}">
+                    <ui:repeat value="#{item.subItems}" var="subItem" >
+                        <b:navLink value="#{subItem.name}" href="#{subItem.href}.xhtml"></b:navLink>
+                    </ui:repeat>
+                </b:dropMenu>
+            </ui:repeat>
+        </b:navbarLinks>
+    </b:navBar>
+</ui:composition>
 </html>
 
