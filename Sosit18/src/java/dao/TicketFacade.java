@@ -7,6 +7,7 @@ package dao;
 
 import entity.Ticket;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -36,9 +37,13 @@ public class TicketFacade extends AbstractFacade<Ticket> {
         q.setParameter("ticketid", id);
         Ticket t = (Ticket)q.getSingleResult();
         return t;
-        
-        
+    }
     
+    public List<Ticket> GetAllTickets() {
+        Query q = this.em.createNamedQuery("Ticket.findAll");
+        List<Ticket> l = (List<Ticket>)q.getResultList();
+        return l;
+        
     }
     
 }

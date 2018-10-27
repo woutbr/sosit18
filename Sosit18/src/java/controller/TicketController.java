@@ -12,6 +12,7 @@ import javax.ejb.EJB;
 import dao.TicketFacade;
 import entity.Ticket;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  *
@@ -44,8 +45,17 @@ public class TicketController implements Serializable {
     public void FindById(BigDecimal id){
         
          ticket = this.ticketFacade.FindById(id);
-
     }
+    
+    public List<Ticket> GetAllTickets(){
+        return this.ticketFacade.GetAllTickets();
+    
+    
+    }
+    
+    
+    
+    
    
     
 
