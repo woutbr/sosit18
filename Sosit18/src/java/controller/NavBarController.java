@@ -27,7 +27,7 @@ public class NavBarController {
         ticketList.add(new MenuLink("Ticket status", "ticketstatus"));
         ticketList.add(new MenuLink("Ticket severity", "ticketseverity"));
         ticketList.add(new MenuLink("Ticket priority", "ticketpriority"));
-        ticketList.add(new MenuLink("Assign new action", "Action"));
+        ticketList.add(new MenuLink("Assign new action", "action"));
         this.links.add(ticketList);
 
         MenuList companyLink = new MenuList("Companies ");
