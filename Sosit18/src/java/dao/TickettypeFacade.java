@@ -6,9 +6,11 @@
 package dao;
 
 import entity.Tickettype;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +29,12 @@ public class TickettypeFacade extends AbstractFacade<Tickettype> {
 
     public TickettypeFacade() {
         super(Tickettype.class);
+    }
+    
+    public List<Tickettype> GetAllTickettypes(){
+        Query q = this.em.createNamedQuery("Tickettype.findAll");
+        List<Tickettype> ltt = (List<Tickettype>)q.getResultList() ;
+        return ltt;
     }
     
 }

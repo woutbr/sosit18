@@ -14,114 +14,27 @@
                     <b:panel title="Ticket " collapsible="false">
                         <b:dataTable value="#{TicketController.GetAllTickets()}" var="item">
                        
-                        
+                            <f:facet name="header">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Title</th>
+                                    <th>description</th>
+                                    <th></th>
+                                </tr>
+                                
+                            </f:facet>
                             <b:dataTableColumn value="#{item.ticketid}" order="asc"/>
                             <b:dataTableColumn value="#{item.title}" />
-
-                        </b:dataTable>
-                        
+                            <b:dataTableColumn value="#{item.description}" />
+                            <b:dataTableColumn value="">
+                                <b:commandButton icon="pencil" action="#{TicketController.edit(item)}"/>
+                                <b:commandButton icon="remove"/>            
+                            </b:dataTableColumn>
+                        </b:dataTable>        
                     </b:panel>
+                    <b:commandButton value="new" action="#{TicketController.create()}" />
                 </b:form>
-                    
-
-
-                <h:form>
-                    <h1><h:outputText value="List"/></h1>
-                    <h:dataTable value="#{TicketController.GetAllTickets()}" var="item">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Ticketid"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ticketid}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Ticketmasterid"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ticketmasterid}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Title"/>
-                            </f:facet>
-                            <h:outputText value="#{item.title}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Description"/>
-                            </f:facet>
-                            <h:outputText value="#{item.description}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Creationdate"/>
-                            </f:facet>
-                            <h:outputText value="#{item.creationdate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Closeddate"/>
-                            </f:facet>
-                            <h:outputText value="#{item.closeddate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Handlerid"/>
-                            </f:facet>
-                            <h:outputText value="#{item.handlerid}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Useraccountid"/>
-                            </f:facet>
-                            <h:outputText value="#{item.useraccountid}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Ticketstatusid"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ticketstatusid}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Tickettypeid"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tickettypeid}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Ticketseverityid"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ticketseverityid}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Ticketpriorityid"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ticketpriorityid}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Assetid"/>
-                            </f:facet>
-                            <h:outputText value="#{item.assetid}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Version"/>
-                            </f:facet>
-                            <h:outputText value="#{item.version}"/>
-                        </h:column>
-                    </h:dataTable>
-                </h:form>
             </f:view>
-
-
-            
             
         </ui:define>
     </ui:composition>

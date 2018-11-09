@@ -43,7 +43,7 @@ public class TicketFacade extends AbstractFacade<Ticket> {
         Query q = this.em.createNamedQuery("Ticket.findAll");
         List<Ticket> l = (List<Ticket>)q.getResultList();
         return l;
-        
+
     }
     
 }

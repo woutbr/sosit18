@@ -49,15 +49,30 @@ public class TicketController implements Serializable {
     
     public List<Ticket> GetAllTickets(){
         return this.ticketFacade.GetAllTickets();
-    
-    
+
     }
     
+    public String cancel(){
+        this.ticket = new Ticket();
+        return "ticketList";
+    }
     
+    public String edit(){
+        this.ticketFacade.edit(ticket);
+        this.ticket = new Ticket();
+        return "ticketList";
+    }
     
+    public String edit(Ticket t){
+        this.ticket=t;
+        return "ticket";
+    }
     
-   
+    public String create(){
+        this.ticketFacade.create(ticket);
+        this.ticket = new Ticket();
+        return "ticket";
+    }
     
-
     
 }
