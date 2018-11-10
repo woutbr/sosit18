@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!--- An element list which can contain other lists or links.
+The attribute name is a string which will be displayed. -->
+<!ELEMENT list (#PCDATA|link|list)*>
+<!ATTLIST list
+    name CDATA #REQUIRED
+  >
+
+<!--- An element link with attributes name and href.
+The attribute name is a string which will be displayed.
+The attribute href is a string which references the filename 
+of the JSF page without .xhtml. -->
+<!ELEMENT link EMPTY>
+<!ATTLIST link
+    name CDATA #REQUIRED
+    href CDATA #REQUIRED
+  >

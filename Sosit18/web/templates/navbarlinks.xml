@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE list SYSTEM "navbarlinks.dtd">
+<list name="">
+    <link name="Index" href="index"/>
+    <list name="Ticket ">
+        <link name="All tickets" href=""/>
+        <link name="New ticket" href="tickets"/>
+        <link name="Ticket type" href="tickettype"/>
+        <link name="Ticket status" href="ticketstatus"/>
+        <link name="Ticket severity" href="ticketseverity"/>
+        <link name="Ticket priority" href="ticketpriority"/>
+        <link name="Assign new action" href="action"/>
+    </list>
+    <list name="Companies ">
+        <link name="All companies" href=""/>
+        <link name="New company" href="company"/>
+    </list>>
+    <list name="Asset ">
+        <link name="All assets" href="assets"/>
+        <link name="New asset" href=""/>
+        <link name="Asset group" href="assetgroup"/>
+        <link name="Asset location" href="assetlocation"/>
+    </list>>
+    <list name="User ">
+        <link name="All users" href=""/>
+        <link name="New User" href="useraccount"/>
+        <link name="User role" href="role"/>
+    </list>
+    <link name="SLA" href="sla"/>
+    <link name="Contact" href=""/>
+</list>
