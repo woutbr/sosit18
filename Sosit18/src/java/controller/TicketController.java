@@ -69,6 +69,7 @@ public class TicketController implements Serializable {
     }
     
     public String create(){
+        int i = 0;
         this.ticketFacade.create(ticket);
         this.ticket = new Ticket();
         return "ticket";
