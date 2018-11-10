@@ -10,18 +10,20 @@
         <ui:define name="main">
         <h:form>
        
-     <b:panelGrid colSpans="12">
+     <b:panelGrid colSpans="6,6">
          
                         <b:formGroup>
-                            <h:outputLabel>Username</h:outputLabel>
-                            <b:inputText ></b:inputText>
-                            <h:outputLabel>Password</h:outputLabel>
-                            <b:inputText style="margin-bottom: 1em"></b:inputText>
+                            <h:outputLabel>Username:</h:outputLabel>
+                            <b:inputText></b:inputText>
+                            <h:outputLabel>Password:</h:outputLabel>
+                            <b:inputText style="margin-bottom: 1em"   ></b:inputText>
                             
                             <b:commandLink value="Sign in" look="success" href="loginfailed.xhtml" style="margin-bottom: 1em"   />
          
                             <h:link value="Forgot password?"/>  
                         </b:formGroup>
+         
+        
          
           
          
