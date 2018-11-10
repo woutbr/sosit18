@@ -12,12 +12,12 @@ import javax.inject.Named;
  * @author woutbr@student.hik.be
  */
 @Named(value = "NavBarController")
-public class NavBarController {
+public class NavBarBean {
     //TODO Rename to NavBarBean
 
     private final MenuList links;
 
-    public NavBarController() {
+    public NavBarBean() {
         ExternalContext ext = FacesContext.getCurrentInstance().getExternalContext();
         String linksXmlPath = ext.getRealPath("/templates/navbarlinks.xml");
         this.links = LinksXmlReader.readLinksFromXmlFile(linksXmlPath);
