@@ -12,6 +12,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -28,8 +30,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Useraccountrole.findAll", query = "SELECT u FROM Useraccountrole u")
     , @NamedQuery(name = "Useraccountrole.findByUseraccountroleid", query = "SELECT u FROM Useraccountrole u WHERE u.useraccountroleid = :useraccountroleid")
-    , @NamedQuery(name = "Useraccountrole.findByUseraccountid", query = "SELECT u FROM Useraccountrole u WHERE u.useraccountid = :useraccountid")
-    , @NamedQuery(name = "Useraccountrole.findByRoleid", query = "SELECT u FROM Useraccountrole u WHERE u.roleid = :roleid")
     , @NamedQuery(name = "Useraccountrole.findByVersion", query = "SELECT u FROM Useraccountrole u WHERE u.version = :version")})
 public class Useraccountrole implements Serializable {
 
@@ -40,28 +40,20 @@ public class Useraccountrole implements Serializable {
     @NotNull
     @Column(name = "USERACCOUNTROLEID")
     private BigDecimal useraccountroleid;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "USERACCOUNTID")
-    private BigInteger useraccountid;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ROLEID")
-    private BigInteger roleid;
     @Column(name = "VERSION")
     private BigInteger version;
+    @JoinColumn(name = "ROLEID", referencedColumnName = "ROLEID")
+    @ManyToOne(optional = false)
+    private Role roleid;
+    @JoinColumn(name = "USERACCOUNTID", referencedColumnName = "USERACCOUNTID")
+    @ManyToOne(optional = false)
+    private Useraccount useraccountid;
 
     public Useraccountrole() {
     }
 
     public Useraccountrole(BigDecimal useraccountroleid) {
         this.useraccountroleid = useraccountroleid;
-    }
-
-    public Useraccountrole(BigDecimal useraccountroleid, BigInteger useraccountid, BigInteger roleid) {
-        this.useraccountroleid = useraccountroleid;
-        this.useraccountid = useraccountid;
-        this.roleid = roleid;
     }
 
     public BigDecimal getUseraccountroleid() {
@@ -72,28 +64,28 @@ public class Useraccountrole implements Serializable {
         this.useraccountroleid = useraccountroleid;
     }
 
-    public BigInteger getUseraccountid() {
-        return useraccountid;
-    }
-
-    public void setUseraccountid(BigInteger useraccountid) {
-        this.useraccountid = useraccountid;
-    }
-
-    public BigInteger getRoleid() {
-        return roleid;
-    }
-
-    public void setRoleid(BigInteger roleid) {
-        this.roleid = roleid;
-    }
-
     public BigInteger getVersion() {
         return version;
     }
 
     public void setVersion(BigInteger version) {
         this.version = version;
+    }
+
+    public Role getRoleid() {
+        return roleid;
+    }
+
+    public void setRoleid(Role roleid) {
+        this.roleid = roleid;
+    }
+
+    public Useraccount getUseraccountid() {
+        return useraccountid;
+    }
+
+    public void setUseraccountid(Useraccount useraccountid) {
+        this.useraccountid = useraccountid;
     }
 
     @Override

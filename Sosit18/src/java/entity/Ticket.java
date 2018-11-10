@@ -8,19 +8,28 @@ package entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  *
@@ -32,17 +41,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Ticket.findAll", query = "SELECT t FROM Ticket t")
     , @NamedQuery(name = "Ticket.findByTicketid", query = "SELECT t FROM Ticket t WHERE t.ticketid = :ticketid")
-    , @NamedQuery(name = "Ticket.findByTicketmasterid", query = "SELECT t FROM Ticket t WHERE t.ticketmasterid = :ticketmasterid")
     , @NamedQuery(name = "Ticket.findByTitle", query = "SELECT t FROM Ticket t WHERE t.title = :title")
     , @NamedQuery(name = "Ticket.findByDescription", query = "SELECT t FROM Ticket t WHERE t.description = :description")
     , @NamedQuery(name = "Ticket.findByCreationdate", query = "SELECT t FROM Ticket t WHERE t.creationdate = :creationdate")
     , @NamedQuery(name = "Ticket.findByCloseddate", query = "SELECT t FROM Ticket t WHERE t.closeddate = :closeddate")
-    , @NamedQuery(name = "Ticket.findByHandlerid", query = "SELECT t FROM Ticket t WHERE t.handlerid = :handlerid")
-    , @NamedQuery(name = "Ticket.findByUseraccountid", query = "SELECT t FROM Ticket t WHERE t.useraccountid = :useraccountid")
-    , @NamedQuery(name = "Ticket.findByTicketstatusid", query = "SELECT t FROM Ticket t WHERE t.ticketstatusid = :ticketstatusid")
-    , @NamedQuery(name = "Ticket.findByTickettypeid", query = "SELECT t FROM Ticket t WHERE t.tickettypeid = :tickettypeid")
-    , @NamedQuery(name = "Ticket.findByTicketseverityid", query = "SELECT t FROM Ticket t WHERE t.ticketseverityid = :ticketseverityid")
-    , @NamedQuery(name = "Ticket.findByTicketpriorityid", query = "SELECT t FROM Ticket t WHERE t.ticketpriorityid = :ticketpriorityid")
     , @NamedQuery(name = "Ticket.findByAssetid", query = "SELECT t FROM Ticket t WHERE t.assetid = :assetid")
     , @NamedQuery(name = "Ticket.findByVersion", query = "SELECT t FROM Ticket t WHERE t.version = :version")})
 public class Ticket implements Serializable {
@@ -50,12 +52,12 @@ public class Ticket implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
-    @Basic(optional = false)
-    @NotNull
+    @SequenceGenerator(name="TICKET_SEQ",sequenceName="TICKET_SEQ",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "TICKET_SEQ")
+    //@Basic(optional = false)
+    //@NotNull
     @Column(name = "TICKETID")
     private BigDecimal ticketid;
-    @Column(name = "TICKETMASTERID")
-    private BigInteger ticketmasterid;
     @Size(max = 200)
     @Column(name = "TITLE")
     private String title;
@@ -68,22 +70,37 @@ public class Ticket implements Serializable {
     @Column(name = "CLOSEDDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date closeddate;
-    @Column(name = "HANDLERID")
-    private BigInteger handlerid;
-    @Column(name = "USERACCOUNTID")
-    private BigInteger useraccountid;
-    @Column(name = "TICKETSTATUSID")
-    private BigInteger ticketstatusid;
-    @Column(name = "TICKETTYPEID")
-    private BigInteger tickettypeid;
-    @Column(name = "TICKETSEVERITYID")
-    private BigInteger ticketseverityid;
-    @Column(name = "TICKETPRIORITYID")
-    private BigInteger ticketpriorityid;
     @Column(name = "ASSETID")
     private BigInteger assetid;
     @Column(name = "VERSION")
     private BigInteger version;
+    @OneToMany(mappedBy = "ticketid")
+    private Collection<Message> messageCollection;
+    @OneToMany(mappedBy = "ticketid")
+    private Collection<Action> actionCollection;
+    @OneToMany(mappedBy = "ticketmasterid")
+    private Collection<Ticket> ticketCollection;
+    @JoinColumn(name = "TICKETMASTERID", referencedColumnName = "TICKETID")
+    @ManyToOne
+    private Ticket ticketmasterid;
+    @JoinColumn(name = "TICKETPRIORITYID", referencedColumnName = "TICKETPRIORITYID")
+    @ManyToOne
+    private Ticketpriority ticketpriorityid;
+    @JoinColumn(name = "TICKETSEVERITYID", referencedColumnName = "TICKETSEVERITYID")
+    @ManyToOne
+    private Ticketseverity ticketseverityid;
+    @JoinColumn(name = "TICKETSTATUSID", referencedColumnName = "TICKETSTATUSID")
+    @ManyToOne
+    private Ticketstatus ticketstatusid;
+    @JoinColumn(name = "TICKETTYPEID", referencedColumnName = "TICKETTYPEID")
+    @ManyToOne
+    private Tickettype tickettypeid;
+    @JoinColumn(name = "HANDLERID", referencedColumnName = "USERACCOUNTID")
+    @ManyToOne
+    private Useraccount handlerid;
+    @JoinColumn(name = "USERACCOUNTID", referencedColumnName = "USERACCOUNTID")
+    @ManyToOne
+    private Useraccount useraccountid;
 
     public Ticket() {
     }
@@ -98,14 +115,6 @@ public class Ticket implements Serializable {
 
     public void setTicketid(BigDecimal ticketid) {
         this.ticketid = ticketid;
-    }
-
-    public BigInteger getTicketmasterid() {
-        return ticketmasterid;
-    }
-
-    public void setTicketmasterid(BigInteger ticketmasterid) {
-        this.ticketmasterid = ticketmasterid;
     }
 
     public String getTitle() {
@@ -140,54 +149,6 @@ public class Ticket implements Serializable {
         this.closeddate = closeddate;
     }
 
-    public BigInteger getHandlerid() {
-        return handlerid;
-    }
-
-    public void setHandlerid(BigInteger handlerid) {
-        this.handlerid = handlerid;
-    }
-
-    public BigInteger getUseraccountid() {
-        return useraccountid;
-    }
-
-    public void setUseraccountid(BigInteger useraccountid) {
-        this.useraccountid = useraccountid;
-    }
-
-    public BigInteger getTicketstatusid() {
-        return ticketstatusid;
-    }
-
-    public void setTicketstatusid(BigInteger ticketstatusid) {
-        this.ticketstatusid = ticketstatusid;
-    }
-
-    public BigInteger getTickettypeid() {
-        return tickettypeid;
-    }
-
-    public void setTickettypeid(BigInteger tickettypeid) {
-        this.tickettypeid = tickettypeid;
-    }
-
-    public BigInteger getTicketseverityid() {
-        return ticketseverityid;
-    }
-
-    public void setTicketseverityid(BigInteger ticketseverityid) {
-        this.ticketseverityid = ticketseverityid;
-    }
-
-    public BigInteger getTicketpriorityid() {
-        return ticketpriorityid;
-    }
-
-    public void setTicketpriorityid(BigInteger ticketpriorityid) {
-        this.ticketpriorityid = ticketpriorityid;
-    }
-
     public BigInteger getAssetid() {
         return assetid;
     }
@@ -202,6 +163,89 @@ public class Ticket implements Serializable {
 
     public void setVersion(BigInteger version) {
         this.version = version;
+    }
+
+    @XmlTransient
+    public Collection<Message> getMessageCollection() {
+        return messageCollection;
+    }
+
+    public void setMessageCollection(Collection<Message> messageCollection) {
+        this.messageCollection = messageCollection;
+    }
+
+    @XmlTransient
+    public Collection<Action> getActionCollection() {
+        return actionCollection;
+    }
+
+    public void setActionCollection(Collection<Action> actionCollection) {
+        this.actionCollection = actionCollection;
+    }
+
+    @XmlTransient
+    public Collection<Ticket> getTicketCollection() {
+        return ticketCollection;
+    }
+
+    public void setTicketCollection(Collection<Ticket> ticketCollection) {
+        this.ticketCollection = ticketCollection;
+    }
+
+    public Ticket getTicketmasterid() {
+        return ticketmasterid;
+    }
+
+    public void setTicketmasterid(Ticket ticketmasterid) {
+        this.ticketmasterid = ticketmasterid;
+    }
+
+    public Ticketpriority getTicketpriorityid() {
+        return ticketpriorityid;
+    }
+
+    public void setTicketpriorityid(Ticketpriority ticketpriorityid) {
+        this.ticketpriorityid = ticketpriorityid;
+    }
+
+    public Ticketseverity getTicketseverityid() {
+        return ticketseverityid;
+    }
+
+    public void setTicketseverityid(Ticketseverity ticketseverityid) {
+        this.ticketseverityid = ticketseverityid;
+    }
+
+    public Ticketstatus getTicketstatusid() {
+        return ticketstatusid;
+    }
+
+    public void setTicketstatusid(Ticketstatus ticketstatusid) {
+        this.ticketstatusid = ticketstatusid;
+    }
+
+    public Tickettype getTickettypeid() {
+        return tickettypeid;
+    }
+
+    public void setTickettypeid(Tickettype tickettypeid) {
+        this.tickettypeid = tickettypeid;
+    }
+
+    public Useraccount getHandlerid() {
+        return handlerid;
+    }
+
+    public void setHandlerid(Useraccount handlerid) {
+        this.handlerid = handlerid;
+    }
+
+    public Useraccount getUseraccountid() {
+        return useraccountid;
+    }
+
+    public void setUseraccountid(Useraccount useraccountid) {
+        this.useraccountid = useraccountid;
     }
 
     @Override

@@ -8,19 +8,24 @@ package entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,12 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Asset.findAll", query = "SELECT a FROM Asset a")
     , @NamedQuery(name = "Asset.findByAssetid", query = "SELECT a FROM Asset a WHERE a.assetid = :assetid")
-    , @NamedQuery(name = "Asset.findByAssetmasterid", query = "SELECT a FROM Asset a WHERE a.assetmasterid = :assetmasterid")
-    , @NamedQuery(name = "Asset.findByCompanyid", query = "SELECT a FROM Asset a WHERE a.companyid = :companyid")
     , @NamedQuery(name = "Asset.findByName", query = "SELECT a FROM Asset a WHERE a.name = :name")
     , @NamedQuery(name = "Asset.findByDescription", query = "SELECT a FROM Asset a WHERE a.description = :description")
-    , @NamedQuery(name = "Asset.findByAssetgroupid", query = "SELECT a FROM Asset a WHERE a.assetgroupid = :assetgroupid")
-    , @NamedQuery(name = "Asset.findByAssetlocationid", query = "SELECT a FROM Asset a WHERE a.assetlocationid = :assetlocationid")
     , @NamedQuery(name = "Asset.findByPurchasedate", query = "SELECT a FROM Asset a WHERE a.purchasedate = :purchasedate")
     , @NamedQuery(name = "Asset.findByWarranty", query = "SELECT a FROM Asset a WHERE a.warranty = :warranty")
     , @NamedQuery(name = "Asset.findBySupportcontract", query = "SELECT a FROM Asset a WHERE a.supportcontract = :supportcontract")
@@ -52,10 +53,6 @@ public class Asset implements Serializable {
     @NotNull
     @Column(name = "ASSETID")
     private BigDecimal assetid;
-    @Column(name = "ASSETMASTERID")
-    private BigInteger assetmasterid;
-    @Column(name = "COMPANYID")
-    private BigInteger companyid;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 250)
@@ -64,10 +61,6 @@ public class Asset implements Serializable {
     @Size(max = 1000)
     @Column(name = "DESCRIPTION")
     private String description;
-    @Column(name = "ASSETGROUPID")
-    private BigInteger assetgroupid;
-    @Column(name = "ASSETLOCATIONID")
-    private BigInteger assetlocationid;
     @Column(name = "PURCHASEDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date purchasedate;
@@ -80,6 +73,20 @@ public class Asset implements Serializable {
     private BigInteger value;
     @Column(name = "VERSION")
     private BigInteger version;
+    @OneToMany(mappedBy = "assetmasterid")
+    private Collection<Asset> assetCollection;
+    @JoinColumn(name = "ASSETMASTERID", referencedColumnName = "ASSETID")
+    @ManyToOne
+    private Asset assetmasterid;
+    @JoinColumn(name = "ASSETGROUPID", referencedColumnName = "ASSETGROUPID")
+    @ManyToOne
+    private Assetgroup assetgroupid;
+    @JoinColumn(name = "ASSETLOCATIONID", referencedColumnName = "ASSETLOCATIONID")
+    @ManyToOne
+    private Assetlocation assetlocationid;
+    @JoinColumn(name = "COMPANYID", referencedColumnName = "COMPANYID")
+    @ManyToOne
+    private Company companyid;
 
     public Asset() {
     }
@@ -101,22 +108,6 @@ public class Asset implements Serializable {
         this.assetid = assetid;
     }
 
-    public BigInteger getAssetmasterid() {
-        return assetmasterid;
-    }
-
-    public void setAssetmasterid(BigInteger assetmasterid) {
-        this.assetmasterid = assetmasterid;
-    }
-
-    public BigInteger getCompanyid() {
-        return companyid;
-    }
-
-    public void setCompanyid(BigInteger companyid) {
-        this.companyid = companyid;
-    }
-
     public String getName() {
         return name;
     }
@@ -131,22 +122,6 @@ public class Asset implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public BigInteger getAssetgroupid() {
-        return assetgroupid;
-    }
-
-    public void setAssetgroupid(BigInteger assetgroupid) {
-        this.assetgroupid = assetgroupid;
-    }
-
-    public BigInteger getAssetlocationid() {
-        return assetlocationid;
-    }
-
-    public void setAssetlocationid(BigInteger assetlocationid) {
-        this.assetlocationid = assetlocationid;
     }
 
     public Date getPurchasedate() {
@@ -187,6 +162,47 @@ public class Asset implements Serializable {
 
     public void setVersion(BigInteger version) {
         this.version = version;
+    }
+
+    @XmlTransient
+    public Collection<Asset> getAssetCollection() {
+        return assetCollection;
+    }
+
+    public void setAssetCollection(Collection<Asset> assetCollection) {
+        this.assetCollection = assetCollection;
+    }
+
+    public Asset getAssetmasterid() {
+        return assetmasterid;
+    }
+
+    public void setAssetmasterid(Asset assetmasterid) {
+        this.assetmasterid = assetmasterid;
+    }
+
+    public Assetgroup getAssetgroupid() {
+        return assetgroupid;
+    }
+
+    public void setAssetgroupid(Assetgroup assetgroupid) {
+        this.assetgroupid = assetgroupid;
+    }
+
+    public Assetlocation getAssetlocationid() {
+        return assetlocationid;
+    }
+
+    public void setAssetlocationid(Assetlocation assetlocationid) {
+        this.assetlocationid = assetlocationid;
+    }
+
+    public Company getCompanyid() {
+        return companyid;
+    }
+
+    public void setCompanyid(Company companyid) {
+        this.companyid = companyid;
     }
 
     @Override

@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author Vincent
+ * @author c1041184
  */
 @Stateless
 public class AssetlocationFacade extends AbstractFacade<Assetlocation> {

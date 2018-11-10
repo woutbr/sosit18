@@ -14,7 +14,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Vincent
+ * @author c1041184
  */
 @Stateless
 public class TickettypeFacade extends AbstractFacade<Tickettype> {
@@ -31,7 +31,7 @@ public class TickettypeFacade extends AbstractFacade<Tickettype> {
         super(Tickettype.class);
     }
     
-    public List<Tickettype> GetAllTickettypes(){
+        public List<Tickettype> GetAllTickettypes(){
         Query q = this.em.createNamedQuery("Tickettype.findAll");
         List<Tickettype> ltt = (List<Tickettype>)q.getResultList() ;
         return ltt;

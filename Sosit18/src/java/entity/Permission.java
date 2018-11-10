@@ -12,6 +12,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -32,7 +34,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Permission.findByCanread", query = "SELECT p FROM Permission p WHERE p.canread = :canread")
     , @NamedQuery(name = "Permission.findByCaninsert", query = "SELECT p FROM Permission p WHERE p.caninsert = :caninsert")
     , @NamedQuery(name = "Permission.findByCandelete", query = "SELECT p FROM Permission p WHERE p.candelete = :candelete")
-    , @NamedQuery(name = "Permission.findByRoleid", query = "SELECT p FROM Permission p WHERE p.roleid = :roleid")
     , @NamedQuery(name = "Permission.findByVersion", query = "SELECT p FROM Permission p WHERE p.version = :version")})
 public class Permission implements Serializable {
 
@@ -51,23 +52,17 @@ public class Permission implements Serializable {
     private Short caninsert;
     @Column(name = "CANDELETE")
     private Short candelete;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ROLEID")
-    private BigInteger roleid;
     @Column(name = "VERSION")
     private BigInteger version;
+    @JoinColumn(name = "ROLEID", referencedColumnName = "ROLEID")
+    @ManyToOne(optional = false)
+    private Role roleid;
 
     public Permission() {
     }
 
     public Permission(BigDecimal permissionid) {
         this.permissionid = permissionid;
-    }
-
-    public Permission(BigDecimal permissionid, BigInteger roleid) {
-        this.permissionid = permissionid;
-        this.roleid = roleid;
     }
 
     public BigDecimal getPermissionid() {
@@ -110,20 +105,20 @@ public class Permission implements Serializable {
         this.candelete = candelete;
     }
 
-    public BigInteger getRoleid() {
-        return roleid;
-    }
-
-    public void setRoleid(BigInteger roleid) {
-        this.roleid = roleid;
-    }
-
     public BigInteger getVersion() {
         return version;
     }
 
     public void setVersion(BigInteger version) {
         this.version = version;
+    }
+
+    public Role getRoleid() {
+        return roleid;
+    }
+
+    public void setRoleid(Role roleid) {
+        this.roleid = roleid;
     }
 
     @Override

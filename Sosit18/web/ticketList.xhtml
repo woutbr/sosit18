@@ -27,7 +27,11 @@
                             <b:dataTableColumn value="#{item.title}" />
                             <b:dataTableColumn value="#{item.description}" />
                             <b:dataTableColumn value="">
-                                <b:commandButton icon="pencil" action="#{TicketController.edit(item)}"/>
+                                <b:button icon="pencil" outcome="ticket" >
+                                    <f:param name="TicketId" value="#{item.ticketid}"/>
+                                </b:button>
+                                
+                                <b:commandButton icon="pencil" action="#{TicketController.edit(item)}" />  
                                 <b:commandButton icon="remove"/>            
                             </b:dataTableColumn>
                         </b:dataTable>        

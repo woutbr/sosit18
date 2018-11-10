@@ -13,6 +13,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -35,8 +37,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Message.findByMessagedate", query = "SELECT m FROM Message m WHERE m.messagedate = :messagedate")
     , @NamedQuery(name = "Message.findByMessagecontent", query = "SELECT m FROM Message m WHERE m.messagecontent = :messagecontent")
     , @NamedQuery(name = "Message.findByIspublished", query = "SELECT m FROM Message m WHERE m.ispublished = :ispublished")
-    , @NamedQuery(name = "Message.findByTicketid", query = "SELECT m FROM Message m WHERE m.ticketid = :ticketid")
-    , @NamedQuery(name = "Message.findBySenderid", query = "SELECT m FROM Message m WHERE m.senderid = :senderid")
     , @NamedQuery(name = "Message.findByVersion", query = "SELECT m FROM Message m WHERE m.version = :version")})
 public class Message implements Serializable {
 
@@ -55,12 +55,14 @@ public class Message implements Serializable {
     private String messagecontent;
     @Column(name = "ISPUBLISHED")
     private Short ispublished;
-    @Column(name = "TICKETID")
-    private BigInteger ticketid;
-    @Column(name = "SENDERID")
-    private BigInteger senderid;
     @Column(name = "VERSION")
     private BigInteger version;
+    @JoinColumn(name = "TICKETID", referencedColumnName = "TICKETID")
+    @ManyToOne
+    private Ticket ticketid;
+    @JoinColumn(name = "SENDERID", referencedColumnName = "USERACCOUNTID")
+    @ManyToOne
+    private Useraccount senderid;
 
     public Message() {
     }
@@ -101,28 +103,28 @@ public class Message implements Serializable {
         this.ispublished = ispublished;
     }
 
-    public BigInteger getTicketid() {
-        return ticketid;
-    }
-
-    public void setTicketid(BigInteger ticketid) {
-        this.ticketid = ticketid;
-    }
-
-    public BigInteger getSenderid() {
-        return senderid;
-    }
-
-    public void setSenderid(BigInteger senderid) {
-        this.senderid = senderid;
-    }
-
     public BigInteger getVersion() {
         return version;
     }
 
     public void setVersion(BigInteger version) {
         this.version = version;
+    }
+
+    public Ticket getTicketid() {
+        return ticketid;
+    }
+
+    public void setTicketid(Ticket ticketid) {
+        this.ticketid = ticketid;
+    }
+
+    public Useraccount getSenderid() {
+        return senderid;
+    }
+
+    public void setSenderid(Useraccount senderid) {
+        this.senderid = senderid;
     }
 
     @Override

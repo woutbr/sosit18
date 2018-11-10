@@ -53,27 +53,33 @@ public class TicketController implements Serializable {
     }
     
     public String cancel(){
-        this.ticket = new Ticket();
         return "ticketList";
     }
     
     public String edit(){
         this.ticketFacade.edit(ticket);
-        this.ticket = new Ticket();
-        return "ticketList";
+        this.ticket= new Ticket();
+        return "ticketList?faces-redirect=true";
     }
     
     public String edit(Ticket t){
         this.ticket=t;
-        return "ticket";
+        this.ticket= new Ticket();
+        return "ticket?faces-redirect=true";
     }
     
     public String create(){
         int i = 0;
         this.ticketFacade.create(ticket);
-        this.ticket = new Ticket();
-        return "ticket";
+        this.ticket= new Ticket();
+        return "ticket?faces-redirect=true";
     }
+    
+    //public void resetTicket(){
+    //    this.ticket= new Ticket();
+    //}
+    
+    
     
     
 }

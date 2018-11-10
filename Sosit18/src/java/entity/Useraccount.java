@@ -8,16 +8,22 @@ package entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,7 +42,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Useraccount.findByEmail", query = "SELECT u FROM Useraccount u WHERE u.email = :email")
     , @NamedQuery(name = "Useraccount.findByPhone", query = "SELECT u FROM Useraccount u WHERE u.phone = :phone")
     , @NamedQuery(name = "Useraccount.findBySex", query = "SELECT u FROM Useraccount u WHERE u.sex = :sex")
-    , @NamedQuery(name = "Useraccount.findByCompanyid", query = "SELECT u FROM Useraccount u WHERE u.companyid = :companyid")
     , @NamedQuery(name = "Useraccount.findByVersion", query = "SELECT u FROM Useraccount u WHERE u.version = :version")})
 public class Useraccount implements Serializable {
 
@@ -73,10 +78,21 @@ public class Useraccount implements Serializable {
     private String phone;
     @Column(name = "SEX")
     private Character sex;
-    @Column(name = "COMPANYID")
-    private BigInteger companyid;
     @Column(name = "VERSION")
     private BigInteger version;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "useraccountid")
+    private Collection<Useraccountrole> useraccountroleCollection;
+    @OneToMany(mappedBy = "senderid")
+    private Collection<Message> messageCollection;
+    @JoinColumn(name = "COMPANYID", referencedColumnName = "COMPANYID")
+    @ManyToOne
+    private Company companyid;
+    @OneToMany(mappedBy = "useraccountid")
+    private Collection<Action> actionCollection;
+    @OneToMany(mappedBy = "handlerid")
+    private Collection<Ticket> ticketCollection;
+    @OneToMany(mappedBy = "useraccountid")
+    private Collection<Ticket> ticketCollection1;
 
     public Useraccount() {
     }
@@ -155,20 +171,65 @@ public class Useraccount implements Serializable {
         this.sex = sex;
     }
 
-    public BigInteger getCompanyid() {
-        return companyid;
-    }
-
-    public void setCompanyid(BigInteger companyid) {
-        this.companyid = companyid;
-    }
-
     public BigInteger getVersion() {
         return version;
     }
 
     public void setVersion(BigInteger version) {
         this.version = version;
+    }
+
+    @XmlTransient
+    public Collection<Useraccountrole> getUseraccountroleCollection() {
+        return useraccountroleCollection;
+    }
+
+    public void setUseraccountroleCollection(Collection<Useraccountrole> useraccountroleCollection) {
+        this.useraccountroleCollection = useraccountroleCollection;
+    }
+
+    @XmlTransient
+    public Collection<Message> getMessageCollection() {
+        return messageCollection;
+    }
+
+    public void setMessageCollection(Collection<Message> messageCollection) {
+        this.messageCollection = messageCollection;
+    }
+
+    public Company getCompanyid() {
+        return companyid;
+    }
+
+    public void setCompanyid(Company companyid) {
+        this.companyid = companyid;
+    }
+
+    @XmlTransient
+    public Collection<Action> getActionCollection() {
+        return actionCollection;
+    }
+
+    public void setActionCollection(Collection<Action> actionCollection) {
+        this.actionCollection = actionCollection;
+    }
+
+    @XmlTransient
+    public Collection<Ticket> getTicketCollection() {
+        return ticketCollection;
+    }
+
+    public void setTicketCollection(Collection<Ticket> ticketCollection) {
+        this.ticketCollection = ticketCollection;
+    }
+
+    @XmlTransient
+    public Collection<Ticket> getTicketCollection1() {
+        return ticketCollection1;
+    }
+
+    public void setTicketCollection1(Collection<Ticket> ticketCollection1) {
+        this.ticketCollection1 = ticketCollection1;
     }
 
     @Override

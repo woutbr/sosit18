@@ -8,16 +8,21 @@ package entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,7 +35,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Assetgroup.findAll", query = "SELECT a FROM Assetgroup a")
     , @NamedQuery(name = "Assetgroup.findByAssetgroupid", query = "SELECT a FROM Assetgroup a WHERE a.assetgroupid = :assetgroupid")
     , @NamedQuery(name = "Assetgroup.findByDescription", query = "SELECT a FROM Assetgroup a WHERE a.description = :description")
-    , @NamedQuery(name = "Assetgroup.findBySlaid", query = "SELECT a FROM Assetgroup a WHERE a.slaid = :slaid")
     , @NamedQuery(name = "Assetgroup.findByVersion", query = "SELECT a FROM Assetgroup a WHERE a.version = :version")})
 public class Assetgroup implements Serializable {
 
@@ -44,10 +48,13 @@ public class Assetgroup implements Serializable {
     @Size(max = 1000)
     @Column(name = "DESCRIPTION")
     private String description;
-    @Column(name = "SLAID")
-    private BigInteger slaid;
     @Column(name = "VERSION")
     private BigInteger version;
+    @JoinColumn(name = "SLAID", referencedColumnName = "SLAID")
+    @ManyToOne
+    private Sla slaid;
+    @OneToMany(mappedBy = "assetgroupid")
+    private Collection<Asset> assetCollection;
 
     public Assetgroup() {
     }
@@ -72,20 +79,29 @@ public class Assetgroup implements Serializable {
         this.description = description;
     }
 
-    public BigInteger getSlaid() {
-        return slaid;
-    }
-
-    public void setSlaid(BigInteger slaid) {
-        this.slaid = slaid;
-    }
-
     public BigInteger getVersion() {
         return version;
     }
 
     public void setVersion(BigInteger version) {
         this.version = version;
+    }
+
+    public Sla getSlaid() {
+        return slaid;
+    }
+
+    public void setSlaid(Sla slaid) {
+        this.slaid = slaid;
+    }
+
+    @XmlTransient
+    public Collection<Asset> getAssetCollection() {
+        return assetCollection;
+    }
+
+    public void setAssetCollection(Collection<Asset> assetCollection) {
+        this.assetCollection = assetCollection;
     }
 
     @Override

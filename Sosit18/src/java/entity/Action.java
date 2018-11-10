@@ -13,6 +13,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -33,11 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Action.findAll", query = "SELECT a FROM Action a")
     , @NamedQuery(name = "Action.findByActionid", query = "SELECT a FROM Action a WHERE a.actionid = :actionid")
     , @NamedQuery(name = "Action.findByDescription", query = "SELECT a FROM Action a WHERE a.description = :description")
-    , @NamedQuery(name = "Action.findByUseraccountid", query = "SELECT a FROM Action a WHERE a.useraccountid = :useraccountid")
     , @NamedQuery(name = "Action.findByCreationdate", query = "SELECT a FROM Action a WHERE a.creationdate = :creationdate")
     , @NamedQuery(name = "Action.findByStartdate", query = "SELECT a FROM Action a WHERE a.startdate = :startdate")
     , @NamedQuery(name = "Action.findByEnddate", query = "SELECT a FROM Action a WHERE a.enddate = :enddate")
-    , @NamedQuery(name = "Action.findByTicketid", query = "SELECT a FROM Action a WHERE a.ticketid = :ticketid")
     , @NamedQuery(name = "Action.findByVersion", query = "SELECT a FROM Action a WHERE a.version = :version")})
 public class Action implements Serializable {
 
@@ -51,8 +51,6 @@ public class Action implements Serializable {
     @Size(max = 500)
     @Column(name = "DESCRIPTION")
     private String description;
-    @Column(name = "USERACCOUNTID")
-    private BigInteger useraccountid;
     @Basic(optional = false)
     @NotNull
     @Column(name = "CREATIONDATE")
@@ -64,10 +62,14 @@ public class Action implements Serializable {
     @Column(name = "ENDDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date enddate;
-    @Column(name = "TICKETID")
-    private BigInteger ticketid;
     @Column(name = "VERSION")
     private BigInteger version;
+    @JoinColumn(name = "TICKETID", referencedColumnName = "TICKETID")
+    @ManyToOne
+    private Ticket ticketid;
+    @JoinColumn(name = "USERACCOUNTID", referencedColumnName = "USERACCOUNTID")
+    @ManyToOne
+    private Useraccount useraccountid;
 
     public Action() {
     }
@@ -97,14 +99,6 @@ public class Action implements Serializable {
         this.description = description;
     }
 
-    public BigInteger getUseraccountid() {
-        return useraccountid;
-    }
-
-    public void setUseraccountid(BigInteger useraccountid) {
-        this.useraccountid = useraccountid;
-    }
-
     public Date getCreationdate() {
         return creationdate;
     }
@@ -129,20 +123,28 @@ public class Action implements Serializable {
         this.enddate = enddate;
     }
 
-    public BigInteger getTicketid() {
-        return ticketid;
-    }
-
-    public void setTicketid(BigInteger ticketid) {
-        this.ticketid = ticketid;
-    }
-
     public BigInteger getVersion() {
         return version;
     }
 
     public void setVersion(BigInteger version) {
         this.version = version;
+    }
+
+    public Ticket getTicketid() {
+        return ticketid;
+    }
+
+    public void setTicketid(Ticket ticketid) {
+        this.ticketid = ticketid;
+    }
+
+    public Useraccount getUseraccountid() {
+        return useraccountid;
+    }
+
+    public void setUseraccountid(Useraccount useraccountid) {
+        this.useraccountid = useraccountid;
     }
 
     @Override

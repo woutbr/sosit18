@@ -15,7 +15,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Vincent
+ * @author c1041184
  */
 @Stateless
 public class TicketFacade extends AbstractFacade<Ticket> {
@@ -32,7 +32,7 @@ public class TicketFacade extends AbstractFacade<Ticket> {
         super(Ticket.class);
     }
     
-    public Ticket FindById(BigDecimal id){
+        public Ticket FindById(BigDecimal id){
         Query q = this.em.createNamedQuery("Ticket.findByTicketid");
         q.setParameter("ticketid", id);
         Ticket t = (Ticket)q.getSingleResult();
@@ -43,7 +43,7 @@ public class TicketFacade extends AbstractFacade<Ticket> {
         Query q = this.em.createNamedQuery("Ticket.findAll");
         List<Ticket> l = (List<Ticket>)q.getResultList();
         return l;
-
     }
+
     
 }
