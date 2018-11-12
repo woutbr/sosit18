@@ -12,7 +12,7 @@
         <link name="Assign new action" href="action"/>
     </list>
     <list name="Companies ">
-        <link name="All companies" href=""/>
+        <link name="All companies" href="companyList"/>
         <link name="New company" href="company"/>
     </list>>
     <list name="Asset ">

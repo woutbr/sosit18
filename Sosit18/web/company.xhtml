@@ -16,22 +16,23 @@
                       <b:panelGrid colSpans="6,6">
                           <b:formGroup>
                             <h:outputLabel>Company ID</h:outputLabel>
-                            <b:inputText></b:inputText>
+                            <b:inputText value="#{companyController.company.companyid}"></b:inputText>
                             <h:outputLabel>Name</h:outputLabel>
-                            <b:inputText></b:inputText>
+                            <b:inputText value="#{companyController.company.name}"></b:inputText>
                             <h:outputLabel>VAT</h:outputLabel>
-                            <b:inputText></b:inputText>                              
+                            <b:inputText value="#{companyController.company.vat}"></b:inputText>                              
                           </b:formGroup>  
                           
                           <b:formGroup>
                             <h:outputLabel>Street</h:outputLabel>
-                            <b:inputText></b:inputText>
+                            <b:inputText value="#{companyController.company.street}"></b:inputText>
                             <h:outputLabel>Housenumber</h:outputLabel>
-                            <b:inputText></b:inputText>
+                            <b:inputText value="#{companyController.company.housenumber}"></b:inputText>
                             <h:outputLabel>Postal code</h:outputLabel>
-                            <b:inputText></b:inputText>
+                            <b:inputText
+                                value="#{companyController.company.postalcode}"></b:inputText>
                             <h:outputLabel>Place</h:outputLabel>
-                            <b:inputText></b:inputText>
+                            <b:inputText value="#{companyController.company.place}"></b:inputText>
                             <h:outputLabel>Assets</h:outputLabel>
                             <b:selectOneMenu style="margin-bottom: 1em"></b:selectOneMenu>
                            
@@ -47,7 +48,7 @@
                     <b:inputTextarea></b:inputTextarea>
                     
                      <div class="text-center">
-                        <b:commandButton value="Save" look="success" style="margin-right: 2em"></b:commandButton>
+                        <b:commandButton value="Save" look="success" style="margin-right: 2em" action="#{companyController.create()}"></b:commandButton>
                         <b:commandButton value="Delete" look="warning" style="margin-left: 2em"></b:commandButton>
                     </div>
                     

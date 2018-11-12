@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/templates/page.xhtml">
+        <ui:param name="pageTitle" value="Companylist"/>
+        <ui:define name="main">
+            <f:view>
+                <f:metadata>
+                    <!-- 
+                    ResetTicket maak steeds een nieuw ticket object bij aanroepen van deze pagina.
+                    Waneer TicketController.create() wordt aangeroepen  vertrekken we van een nieuw ticket;
+                    -->
+                
+
+
+                </f:metadata>
+                <b:form>
+                    <b:panel title="Company " collapsible="false">
+                        
+                        <b:dataTable value="#{companyController.GetAllCompanies()}" var="item">
+
+                            <f:facet name="header">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Street</th>
+                                     <th>housenumber</th>
+                                      <th>Postal code</th>
+                                       <th>Place</th>
+                                        <th>VAT</th>
+                                         <th>Version</th>
+                                    <th></th>
+                                </tr>
+                            </f:facet>
+                            <b:dataTableColumn value="#{item.companyid}" order="asc"/>
+                            <b:dataTableColumn value="#{item.name}" />
+                            <b:dataTableColumn value="#{item.street}" />
+                            <b:dataTableColumn value="#{item.housenumber}" />
+                            <b:dataTableColumn value="#{item.postalcode}" />
+                            <b:dataTableColumn value="#{item.place}" />
+                            <b:dataTableColumn value="#{item.vat}" />
+                            <b:dataTableColumn value="#{item.version}" />
+                            <b:dataTableColumn value="">                                
+                                <b:commandButton icon="pencil" action="#{CompanyController.edit(item)}" />  
+                                <b:commandButton icon="remove" action="#{companyController.erase()}" onclick="return confirm('Are you sure ?')"/>  
+                            </b:dataTableColumn>
+                        </b:dataTable>        
+                    </b:panel>
+                    <b:button value="new" outcome="company" />
+                    
+
+
+
+                    
+                </b:form>
+            </f:view>
+            
+        </ui:define>
+    </ui:composition>
+</html>

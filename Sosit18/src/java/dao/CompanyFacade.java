@@ -6,9 +6,11 @@
 package dao;
 
 import entity.Company;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +31,9 @@ public class CompanyFacade extends AbstractFacade<Company> {
         super(Company.class);
     }
     
+    public List<Company> GetAllCompanies() {
+        Query q = this.em.createNamedQuery("Company.findAll");
+        List<Company> l = (List<Company>)q.getResultList();
+        return l;
+    }
 }
