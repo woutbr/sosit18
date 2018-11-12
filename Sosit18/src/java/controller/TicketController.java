@@ -51,12 +51,19 @@ public class TicketController implements Serializable {
     }
     
     public String cancel(){
-        return "ticketList";
+        return "ticketList?faces-redirect=true";
     }
     
-    public String edit(){
-        // slaat het ticket op in de DB
-        this.ticketFacade.edit(ticket);
+    public String save(){
+ 
+        if (ticket.getTicketid()==null) {
+            // een ticket dat nog geen nummer heeft moet een nieuw ticket zijn
+            this.ticketFacade.create(ticket);
+        }else{
+            // een bestaan ticket wordt enkel geupdate
+            this.ticketFacade.edit(ticket);
+        }
+        
         //  ?faces-redirect=true zorgt ervoor dat de browser url meevolgt
         return "ticketList?faces-redirect=true";
     }
@@ -68,7 +75,7 @@ public class TicketController implements Serializable {
     }
     
     public String create(){
-        this.ticketFacade.create(ticket);
+
         return "ticket?faces-redirect=true";
     }
     
@@ -81,8 +88,7 @@ public class TicketController implements Serializable {
     public void resetTicket(){
         // wordt aangeroepen in ticketList
         this.ticket= new Ticket();
+        int a = 1;
     }
 
-    
-    
 }
