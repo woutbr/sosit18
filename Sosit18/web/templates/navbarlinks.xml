@@ -3,7 +3,7 @@
 <list name="">
     <link name="Index" href="index"/>
     <list name="Ticket ">
-        <link name="All tickets" href=""/>
+        <link name="All tickets" href="ticketList"/>
         <link name="New ticket" href="tickets"/>
         <link name="Ticket type" href="tickettype"/>
         <link name="Ticket status" href="ticketstatus"/>

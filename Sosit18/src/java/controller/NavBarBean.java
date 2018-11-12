@@ -12,7 +12,8 @@ import javax.inject.Named;
  * @author woutbr@student.hik.be
  */
 @Named(value = "NavBarController")
-public class NavBarBean {
+@SessionScoped
+public class NavBarBean implements Serializable {
     //TODO Rename to NavBarBean
 
     private final MenuList links;
