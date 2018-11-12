@@ -22,9 +22,7 @@ import java.util.List;
 @SessionScoped
 public class TicketController implements Serializable {
 
-    /**
-     * Creates a new instance of TicketController
-     */
+
     @EJB
     private TicketFacade ticketFacade;
     
@@ -57,29 +55,34 @@ public class TicketController implements Serializable {
     }
     
     public String edit(){
+        // slaat het ticket op in de DB
         this.ticketFacade.edit(ticket);
-        this.ticket= new Ticket();
+        //  ?faces-redirect=true zorgt ervoor dat de browser url meevolgt
         return "ticketList?faces-redirect=true";
     }
     
     public String edit(Ticket t){
-        this.ticket=t;
-        this.ticket= new Ticket();
+        // open ticket
+        this.ticket= t;
         return "ticket?faces-redirect=true";
     }
     
     public String create(){
-        int i = 0;
         this.ticketFacade.create(ticket);
-        this.ticket= new Ticket();
         return "ticket?faces-redirect=true";
     }
     
-    //public void resetTicket(){
-    //    this.ticket= new Ticket();
-    //}
+    public String erase(Ticket t){
+        this.ticketFacade.remove(t);
+        return "ticketList?faces-redirect=true";
     
+    }
     
+    public void resetTicket(){
+        // wordt aangeroepen in ticketList
+        this.ticket= new Ticket();
+    }
+
     
     
 }

@@ -6,24 +6,25 @@
 package controller;
 
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
 import dao.TickettypeFacade;
 import entity.Tickettype;
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 
 /**
  *
  * @author Vincent
  */
 @Named(value = "ticketTypeController")
-@Dependent
-public class TicketTypeController {
+@SessionScoped
+public class TicketTypeController implements Serializable{
 
     @EJB
     private TickettypeFacade tickettypeFacade;
     
-    private Tickettype tickettype;
+    private Tickettype tickettype = new Tickettype();
     
     public TicketTypeController() {
     }
@@ -37,8 +38,10 @@ public class TicketTypeController {
         this.tickettype = tickettype;
     }
     
-    public List<Tickettype> ListAllTickettypes(){
-        return this.tickettypeFacade.GetAllTickettypes();
+    public List<Tickettype> listAllTickettypes(){
+        int i =0;
+        List<Tickettype> ltt = this.tickettypeFacade.GetAllTickettypes();
+        return ltt;
     }
     
 }

@@ -10,10 +10,20 @@
         <ui:param name="pageTitle" value="Ticketlist"/>
         <ui:define name="main">
             <f:view>
+                <f:metadata>
+                    <!-- 
+                    ResetTicket maak steeds een nieuw ticket object bij aanroepen van deze pagina.
+                    Waneer TicketController.create() wordt aangeroepen  vertrekken we van een nieuw ticket;
+                    -->
+                    <f:viewAction action="#{TicketController.resetTicket()}"></f:viewAction>
+
+
+                </f:metadata>
                 <b:form>
                     <b:panel title="Ticket " collapsible="false">
+                        
                         <b:dataTable value="#{TicketController.GetAllTickets()}" var="item">
-                       
+
                             <f:facet name="header">
                                 <tr>
                                     <th>Id</th>
@@ -21,18 +31,13 @@
                                     <th>description</th>
                                     <th></th>
                                 </tr>
-                                
                             </f:facet>
                             <b:dataTableColumn value="#{item.ticketid}" order="asc"/>
                             <b:dataTableColumn value="#{item.title}" />
                             <b:dataTableColumn value="#{item.description}" />
-                            <b:dataTableColumn value="">
-                                <b:button icon="pencil" outcome="ticket" >
-                                    <f:param name="TicketId" value="#{item.ticketid}"/>
-                                </b:button>
-                                
+                            <b:dataTableColumn value="">                                
                                 <b:commandButton icon="pencil" action="#{TicketController.edit(item)}" />  
-                                <b:commandButton icon="remove"/>            
+                                <b:commandButton icon="remove" action="#{TicketController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
                             </b:dataTableColumn>
                         </b:dataTable>        
                     </b:panel>
