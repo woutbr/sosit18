@@ -6,13 +6,13 @@
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <ui:composition template="/templates/page.xhtml">
-    <ui:param name="pageTitle" value="Asset - SosIT"/>
+    <ui:param name="pageTitle" value="Assets - SosIT"/>
     <ui:define name="main">
         <b:panel title="Assets" collapsible="false">
             <b:form>
                 <b:panelGrid colSpans="3,9" size="sm">
                     <b:formGroup>
-                        <b:selectOneMenu value="#{assetController.ticketid}"
+                        <b:selectOneMenu value="TODO"
                                          label="Asset group">
                             <f:selectItem itemLabel="(Please select)" itemValue="" />
                             <f:selectItem itemLabel="Group 1" itemValue="1" />
@@ -21,7 +21,7 @@
                                                  label="Status"/>
                         <b:datepicker mode="inline" label="Date"/>
                     </b:formGroup>
-                    <b:dataTable value="#{AssetController.asset}"
+                    <b:dataTable value="#{AssetController.getAllAssets()}"
                                  var="asset"
                                  class="editableAssetTable"
                                  fixedHeader="true"
