@@ -3,31 +3,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Index - SosIT"/>
         <ui:define name="main">
             <b:form>
                 <b:panel title="Action" collapsible="false">
+                    <f:view>
+                        <f:metadata>
+                            <f:viewAction action="#{actionController.FindById(TicketController.ticket.ticketid)}"></f:viewAction>
+                        </f:metadata>
+                    </f:view>
 
                     <h4>Action</h4>
                     <b:panelGrid colSpans="4,8">
                         <b:formGroup>
                             <h:outputLabel value="User ###"/><br/>
-                            <h:outputLabel value="Ticket ###"/><br/>
-                            <h:outputLabel value="Action ###"/><br/>
-                            <h:outputLabel value="Date 20/10/2018"/>
+                            <h:outputLabel value="#{actionController.action.ticketid}"/><br/>
+                            <h:outputLabel value="#{actionController.action.actionid}"/><br/>
+                            <h:outputLabel value="#{actionController.action.creationdate}"/>
                         </b:formGroup>
 
                         <b:formGroup>
-                            <b:dateTimePicker value="20/10/2018"
+                            <b:dateTimePicker value="#{actionController.action.startdate}"
                                               format="DD.MM.YYYY"
                                               label="Start Date"/>
-                            <b:dateTimePicker value=""
+                            <b:dateTimePicker value="#{actionController.action.enddate}"
                                               format="DD.MM.YYYY"
                                               label="End Date"/>
                             <h4>Description</h4>
-                            <b:inputTextarea></b:inputTextarea>
+                            <b:inputTextarea>#{actionController.action.description}</b:inputTextarea>
                         </b:formGroup>
                     </b:panelGrid>
                     <div class="text-center">

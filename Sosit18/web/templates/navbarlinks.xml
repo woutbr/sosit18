@@ -9,7 +9,6 @@
         <link name="Ticket status" href="ticketstatus"/>
         <link name="Ticket severity" href="ticketseverity"/>
         <link name="Ticket priority" href="ticketpriority"/>
-        <link name="Assign new action" href="action"/>
     </list>
     <list name="Companies ">
         <link name="All companies" href=""/>

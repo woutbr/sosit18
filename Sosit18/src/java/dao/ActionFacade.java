@@ -6,9 +6,11 @@
 package dao;
 
 import entity.Action;
+import java.math.BigDecimal;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +31,10 @@ public class ActionFacade extends AbstractFacade<Action> {
         super(Action.class);
     }
     
+    public Action FindById(BigDecimal id){
+        Query q = this.em.createNamedQuery("Action.findByActiontid");
+        q.setParameter("actionid", id);
+        Action t = (Action)q.getSingleResult();
+        return t;
+    }
 }
