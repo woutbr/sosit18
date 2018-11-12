@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+    <ui:composition template="/templates/page.xhtml">
+        <ui:param name="pageTitle" value="Index - SosIT"/>
+        <ui:define name="main">
+            <b:form>
+                <b:panel title="Action" collapsible="false">
+
+                    <h4>Action</h4>
+                    <b:panelGrid colSpans="4,8">
+                        <b:formGroup>
+                            <h:outputLabel value="User ###"/><br/>
+                            <h:outputLabel value="Ticket ###"/><br/>
+                            <h:outputLabel value="Action ###"/><br/>
+                            <h:outputLabel value="Date 20/10/2018"/>
+                        </b:formGroup>
+
+                        <b:formGroup>
+                            <b:dateTimePicker value="20/10/2018"
+                                              format="DD.MM.YYYY"
+                                              label="Start Date"/>
+                            <b:dateTimePicker value=""
+                                              format="DD.MM.YYYY"
+                                              label="End Date"/>
+                            <h4>Description</h4>
+                            <b:inputTextarea></b:inputTextarea>
+                        </b:formGroup>
+                    </b:panelGrid>
+                    <div class="text-center">
+                        <b:commandButton value="Save" look="success" style="margin-right: 2em"></b:commandButton>
+                        <b:commandButton value="Delete" look="warning" style="margin-left: 2em"></b:commandButton>
+                    </div>
+
+                </b:panel>
+            </b:form>
+
+
+
+        </ui:define>
+    </ui:composition>
+</html>
