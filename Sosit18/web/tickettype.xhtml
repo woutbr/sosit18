@@ -10,61 +10,78 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-          
+
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Ticket type - SosIT"/>
         <ui:define name="main">
-            
+
             <f:view>
                 <f:metadata>
                     <f:viewAction action="#{ticketTypeController.loadPage()}"/> 
                 </f:metadata>
             </f:view>
-            
-            
+
+
             <b:form>
                 <b:panel title="Ticket type" collapsible="false">
-                    <h4><u>Define new ticket type</u></h4>
-                    <b:panelGrid colSpans="6,6">
-                          <b:formGroup>
-                            <h:outputLabel>Ticket type ID</h:outputLabel>
-                            <b:inputText disabled="true" value="#{ticketTypeController.tickettype.tickettypeid}"></b:inputText>          
-                          </b:formGroup> 
-                    </b:panelGrid>
-                    <h4><u>Description</u></h4>
-                    <b:inputTextarea value="#{ticketTypeController.tickettype.description}"></b:inputTextarea>
-                    <div class="text-center">
-                        <b:commandButton value="Save" look="success" style="margin-right: 2em" action="#{ticketTypeController.test('hello')}"></b:commandButton>
-                        <b:commandButton value="Cancel" look="warning" style="margin-left: 2em"></b:commandButton>
-                    </div>
-
+                    <h4><u>TicketType's</u></h4>
                     
-                    <b:dataTable value="#{ticketTypeController.listAllTickettypes()}" 
-                                 var="item" 
-                                 select="true" 
-                                 selectionMode="single" 
-                                 onselect="ajax:ticketTypeController.onSelect(item.tickettypeid,item.description,item.version)"
-                                 >
-                       
-                            <f:facet name="header">
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Description</th>
-                                    <th>Version</th>
-                                </tr>
-                            </f:facet>
+                    <b:panelGrid colSpans="4,1,7">
+                        <b:formGroup>
+                            <h:outputLabel>Ticket type ID</h:outputLabel>
+                            <b:inputText disabled="true" 
+                                         value="#{ticketTypeController.tickettype.tickettypeid}" 
+                                         auto-update="true"></b:inputText>          
+                            <h:outputLabel>Description</h:outputLabel>
+                            <b:inputText value="#{ticketTypeController.tickettype.description}" 
+                                         auto-update="true"></b:inputText>
 
-                            <b:dataTableColumn order="asc" value="#{item.tickettypeid}"/>
-                            <b:dataTableColumn value="#{item.description}" /> 
-                            <b:dataTableColumn value="#{item.version}" />           
+                            <div class="text-center">
+                                <b:commandButton value="New" look="info" style='margin: 1em'></b:commandButton>
+                                <b:commandButton value="Save" look="success" style='margin: 1em' action="#{ticketTypeController.test('hello')}"></b:commandButton>
+                                <b:commandButton value="Cancel" look="warning" style='margin: 1em' ></b:commandButton>
+                            </div>
 
-                        </b:dataTable>        
+                        </b:formGroup> 
+                        <b:formGroup></b:formGroup>
+                        <b:formGroup>
+                            <b:dataTable value="#{ticketTypeController.listAllTickettypes()}" 
+                                         class="editTickettypeTable"
+                                         var="item" 
+                                         select="true" 
+                                         selectionMode="single" 
+                                         onselect="ajax:ticketTypeController.onSelect(item.tickettypeid, item.description, item.version)">
+
+                                <f:facet name="header">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Description</th>
+                                        <th>Version</th>
+                                        <th></th>
+                                    </tr>
+                                </f:facet>
+                                <b:dataTableColumn order="asc" value="#{item.tickettypeid}"/>
+                                <b:dataTableColumn >
+                                    <b:inputText  value="#{item.description}"     disabled="#{not ticketTypeController.isRowEditable(item.tickettypeid)}"/>
+                                </b:dataTableColumn> 
+                                <b:dataTableColumn value="#{item.version}"/>
+                                <b:dataTableColumn>
+                                    <b:commandButton icon="pencil" ajax="true"
+                                                     update="@(.editTickettypeTable)"
+                                                     action="#{ticketTypeController.setEditRow(item.tickettypeid)}"
+                                                     rendered="#{not ticketTypeController.isRowEditable(item.tickettypeid)}"
+                                                     />
+                                    <b:commandButton icon="ok" 
+                                                     update="@(.editTickettypeTable)"
+                                                     rendered="#{ticketTypeController.isRowEditable(item.tickettypeid)}"
+                                                     action="#{ticketTypeController.saveTickettype()}"
+                                                     />
+                                    <b:commandButton icon="remove" ></b:commandButton>
+                                </b:dataTableColumn>
+                            </b:dataTable>    
+                        </b:formGroup>
+                    </b:panelGrid>
                 </b:panel>
-                     <div class="text-center">
-                        <b:commandButton value="Save" look="success" style="margin-right: 2em" action="#{ticketTypeController.listAllTickettypes()}"></b:commandButton>
-                        <b:commandButton value="Cancel" look="warning" style="margin-left: 2em"></b:commandButton>
-                    </div>
-
             </b:form>
         </ui:define>
     </ui:composition>
