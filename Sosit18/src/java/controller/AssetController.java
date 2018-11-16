@@ -41,5 +41,9 @@ public class AssetController implements Serializable{
     public Asset findByID(BigDecimal id){
         return this.assetFacade.find(id);
     }
-
+    
+    public String edit(){
+        this.assetFacade.edit(asset);
+        return "null";
+    }
 }

@@ -24,17 +24,19 @@
                     <b:dataTable value="#{AssetController.getAllAssets()}"
                                  var="asset"
                                  class="editableAssetTable"
+                                 widgetVar="AssetTableWidget"
                                  fixedHeader="true"
                                  responsive="false"
-                                 scroll-x="true">
+                                 scroll-x="true"
+                                 columnVisibility="true">
                         <b:dataTableColumn value="#{asset.assetid}" order="asc"/>
-                        <b:dataTableColumn value="#{asset.companyid}"  label="Company" />
+                        <b:dataTableColumn value="#{asset.companyid.name}"  label="Company" />
                         <b:dataTableColumn value="#{asset.name}"/>
                         <b:dataTableColumn label="Description" >
                             <b:inputText value="#{asset.description}" rendered="#{asset.editable}"/>
                             <h:outputText value="#{asset.description}" rendered="#{not asset.editable}" />
                         </b:dataTableColumn>
-                        <b:dataTableColumn value="#{asset.locationid}" label="Location" />
+                        <b:dataTableColumn value="#{asset.assetlocationid.description}" label="Location" />
                         <b:dataTableColumn value="#{asset.purchasedate}" label="Date of Purchase" />
                         <b:dataTableColumn value="#{asset.warranty}"/>
                         <b:dataTableColumn value="#{asset.supportcontract}" label="Support Contract" />
@@ -42,7 +44,7 @@
                         <b:dataTableColumn label="Actions">
                             <b:commandButton value="edit" icon="edit" ajax="true"
                                              update="@(.editableAssetTable)"
-                                             onclick="ajax:asset.edit()" >
+                                             onclick="AssetTableWidget.DataTable().destroy();ajax:asset.setEditable(true)" >
                             </b:commandButton>
                         </b:dataTableColumn>
                     </b:dataTable>

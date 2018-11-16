@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -87,6 +88,9 @@ public class Asset implements Serializable {
     @JoinColumn(name = "COMPANYID", referencedColumnName = "COMPANYID")
     @ManyToOne
     private Company companyid;
+
+    @Transient
+    private boolean editable;
 
     public Asset() {
     }
@@ -229,5 +233,12 @@ public class Asset implements Serializable {
     public String toString() {
         return "entity.Asset[ assetid=" + assetid + " ]";
     }
-    
+
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
 }
