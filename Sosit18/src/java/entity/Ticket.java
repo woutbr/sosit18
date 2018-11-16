@@ -101,6 +101,8 @@ public class Ticket implements Serializable {
     @JoinColumn(name = "USERACCOUNTID", referencedColumnName = "USERACCOUNTID")
     @ManyToOne
     private Useraccount useraccountid;
+    
+
 
     public Ticket() {
     }

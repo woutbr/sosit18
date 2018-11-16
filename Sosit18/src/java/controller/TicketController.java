@@ -13,13 +13,13 @@ import dao.TicketFacade;
 import entity.Ticket;
 import java.math.BigDecimal;
 import java.util.List;
-import javax.annotation.ManagedBean;
+
 
 /**
  *
  * @author Vincent
  */
-@ManagedBean
+
 @Named(value = "TicketController")
 @SessionScoped
 public class TicketController implements Serializable {

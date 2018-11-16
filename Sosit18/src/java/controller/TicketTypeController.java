@@ -30,9 +30,11 @@ public class TicketTypeController implements Serializable{
     
     private Tickettype tickettype = new Tickettype();
     
+    private BigDecimal ticketypeIdSelected = null;
+    private boolean editmode = false; 
+
     public TicketTypeController() {
     }
-
 
     public Tickettype getTickettype() {
         return tickettype;
@@ -58,6 +60,7 @@ public class TicketTypeController implements Serializable{
         if(this.tickettype.getTickettypeid()==null){
             this.tickettype= this.getTickettypebyId(BigDecimal.valueOf(1));
         }
+        editmode=false;
     }
     
     public void onSelect(BigDecimal id, String description, BigInteger version){
@@ -66,6 +69,25 @@ public class TicketTypeController implements Serializable{
         this.tickettype.setVersion(version);
     }
     
-   
+    public void setEditRow(BigDecimal id){
+        ticketypeIdSelected = id;
+        editmode = true; 
+    } 
+    
+    public boolean isRowEditable(BigDecimal id){
+        int a = 1;
+        return ticketypeIdSelected!=null && ticketypeIdSelected==id && editmode;
+    }
+    
+    public void saveTickettype(String description){
+        editmode=false;
+        this.tickettype.setDescription(description);
+        this.tickettypeFacade.edit(this.tickettype);
+    }
+    
+    
+    
+
+
     
 }
