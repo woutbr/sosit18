@@ -26,31 +26,14 @@ and open the template in the editor.
                 <b:panel title="Ticket type" collapsible="false">
                     <h4><u>TicketType's</u></h4>
                     
-                    <b:panelGrid colSpans="4,1,7">
-                        <b:formGroup>
-                            <h:outputLabel>Ticket type ID</h:outputLabel>
-                            <b:inputText disabled="true" 
-                                         value="#{ticketTypeController.tickettype.tickettypeid}" 
-                                         auto-update="true"></b:inputText>          
-                            <h:outputLabel>Description</h:outputLabel>
-                            <b:inputText value="#{ticketTypeController.tickettype.description}" 
-                                         auto-update="true"></b:inputText>
-
-                            <div class="text-center">
-                                <b:commandButton value="New" look="info" style='margin: 1em'></b:commandButton>
-                                <b:commandButton value="Save" look="success" style='margin: 1em' action="#{ticketTypeController.test('hello')}"></b:commandButton>
-                                <b:commandButton value="Cancel" look="warning" style='margin: 1em' ></b:commandButton>
-                            </div>
-
-                        </b:formGroup> 
-                        <b:formGroup></b:formGroup>
+                    <b:panelGrid colSpans="8,4" >
+ 
                         <b:formGroup>
                             <b:dataTable value="#{ticketTypeController.listAllTickettypes()}" 
                                          class="editTickettypeTable"
                                          var="item" 
                                          select="true" 
-                                         selectionMode="single" 
-                                         onselect="ajax:ticketTypeController.onSelect(item)">
+                                         selectionMode="single">
 
                                 <f:facet name="header">
                                     <tr>
@@ -84,8 +67,31 @@ and open the template in the editor.
                                                      />
                                     <b:commandButton icon="remove" />
                                 </b:dataTableColumn>
-                            </b:dataTable>    
-                        </b:formGroup>
+                            </b:dataTable>
+                            <b:commandButton value="New" action="#{ticketTypeController.newTickettype()}" />
+                        </b:formGroup >
+                        <b:formGroup rendered="#{ticketTypeController.isIsNewTickettype()}" >
+
+                            <h:outputLabel>Ticket type ID</h:outputLabel>
+                            <b:inputText disabled="true" 
+                                         value="#{ticketTypeController.tickettype.tickettypeid}" 
+                                         auto-update="true"></b:inputText>          
+                            <h:outputLabel>Description</h:outputLabel>
+                            <b:inputText value="#{ticketTypeController.tickettype.description}" 
+                                         auto-update="true"></b:inputText>
+
+                            <div class="text-center">
+                                <b:commandButton value="Save" 
+                                                 look="success" style='margin: 1em' 
+                                                 action="#{ticketTypeController.saveTickettype()}"
+                                                 />
+                                <b:commandButton value="Cancel" 
+                                                 look="warning" 
+                                                 style='margin: 1em' 
+                                                 action="#{ticketTypeController.cancel()}" 
+                                                 />
+                            </div>
+                        </b:formGroup> 
                     </b:panelGrid>
                 </b:panel>
             </b:form>

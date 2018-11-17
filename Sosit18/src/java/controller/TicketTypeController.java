@@ -31,7 +31,9 @@ public class TicketTypeController implements Serializable{
     private Tickettype tickettype = new Tickettype();
     
     private BigDecimal ticketypeIdSelected = null;
+    
     private boolean editmode = false; 
+    private boolean isNewTickettype=false;
 
     public TicketTypeController() {
     }
@@ -63,7 +65,7 @@ public class TicketTypeController implements Serializable{
         if(this.tickettype.getTickettypeid()==null){
             this.tickettype= this.getTickettypebyId(BigDecimal.valueOf(1));
         }
-        editmode=false;
+        setmode("normal");
     }
     
     // wordt even niet gebruikt
@@ -79,10 +81,11 @@ public class TicketTypeController implements Serializable{
     
     
     public void setEditRow(Tickettype tt){
-        
+        setmode("edit");
         this.tickettype = (Tickettype)tt;
         ticketypeIdSelected=tt.getTickettypeid();
-        editmode = true; 
+
+        
     } 
     
     public boolean isRowEditable(BigDecimal id){
@@ -91,8 +94,48 @@ public class TicketTypeController implements Serializable{
     }
     
     public void saveTickettype(){
-        editmode=false;
-        this.tickettypeFacade.edit(this.tickettype);
+;
+        if (tickettype.getTickettypeid()==null) {
+            this.tickettypeFacade.create(this.tickettype);
+        }else{
+            this.tickettypeFacade.edit(this.tickettype);
+        }
+        setmode("normal");
     }
+
+    public boolean isIsNewTickettype() {
+        return isNewTickettype;
+    }
+    
+    public void newTickettype(){
+        setmode("new");
+        this.tickettype = new Tickettype();    
+    }
+    
+    public void cancel(){
+        setmode("normal");
+    }
+    
+    public void setmode(String mode){
+        // Methode om de zichtbaarheid te suren aan de hand van setmode
+        switch (mode) {
+                case "edit":
+                        isNewTickettype=false;
+                        editmode=true;
+                    break;
+                case "new":
+                        isNewTickettype=true;
+                        editmode=false;
+                    break;
+                case "normal":
+                        isNewTickettype=false;
+                        editmode=false;
+                    break;
+            }
+    
+    
+    }
+    
+ 
 
 }
