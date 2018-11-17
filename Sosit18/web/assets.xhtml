@@ -17,15 +17,19 @@
                 <b:form>
                     <b:panelGrid colSpans="3,9" size="sm">
                         <b:formGroup>
-                            <b:selectOneMenu value="#{assetgroupController.selectedAssetgroup}">
-                                <f:selectItems value="#{assetgroupController.allAssetgroups}"/>
+                            <b:selectOneMenu value="#{assetgroupController.selectedAssetgroup}" 
+                                             label="Filter on assetgroup"
+                                             onchange="AssetTableWidget.DataTable().search(this.value).draw();">
+                                <f:selectItem itemLabel="Select an assetgroup"/>
+                                <f:selectItems value="#{assetgroupController.allAssetgroups}"
+                                               var="assetgroup"
+                                               itemLabel="#{assetgroup.description}"
+                                               itemValue="#{assetgroup.description}"/>
                             </b:selectOneMenu>
-                            <!--b:selectOneMenu value="{dropDownBean.ticketType}">
-                                <f:selectItems value="{dropDownBean.findAll()}" var="tickettype" itemValue="{tickettype.tickettypeid}" itemLabel="{tickettype.description}"/>
-                            </b:selectOneMenu-->
-                            <b:selectBooleanCheckbox caption="New" 
-                                                     label="Status"/>
-                            <b:datepicker mode="inline" label="Date"/>
+                            <b:dateTimePicker label="Date"
+                                              mode="inline"
+                                              show-time="false"
+                                              onchange="AssetTableWidget.DataTable().search(this.value).draw();"/>
                         </b:formGroup>
                         <b:formGroup>
                             <b:dataTable value="#{assetController.allAssets}"
@@ -50,6 +54,7 @@
                                 </b:dataTableColumn>
                                 <b:dataTableColumn value="#{asset.assetid}" order="asc"/>
                                 <b:dataTableColumn value="#{asset.companyid.name}"  label="Company" />
+                                <b:dataTableColumn value="#{asset.assetgroupid.description}" label="Assetgroup" />
                                 <b:dataTableColumn value="#{asset.name}"/>
                                 <b:dataTableColumn label="Description" >
                                     <h:outputText value="#{asset.description}" rendered="#{not assetController.isRowEditable(asset)}" />
