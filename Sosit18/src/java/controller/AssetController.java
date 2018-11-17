@@ -44,7 +44,7 @@ public class AssetController implements Serializable {
         return this.assetFacade.find(id);
     }
 
-    public void loadPage() {
+    public void onload() {
         this.assetidSelected = null;
         this.editMode = false;
     }

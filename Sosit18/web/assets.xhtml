@@ -11,7 +11,7 @@
             <b:panel title="Assets" collapsible="false">
                 <f:view>
                     <f:metadata>
-                        <f:viewAction action="#{assetController.loadPage()}"/>
+                        <f:viewAction action="#{assetController.onload()}"/>
                     </f:metadata>
                 </f:view>
                 <b:form>
@@ -27,7 +27,7 @@
                             <b:datepicker mode="inline" label="Date"/>
                         </b:formGroup>
                         <b:formGroup>
-                            <b:dataTable value="#{assetController.getAllAssets()}"
+                            <b:dataTable value="#{assetController.allAssets}"
                                          var="asset"
                                          class="editableAssetTable"
                                          widgetVar="AssetTableWidget"
@@ -36,14 +36,16 @@
                                          scroll-x="true"
                                          columnVisibility="true">
                                 <b:dataTableColumn label="Actions">
-                                    <b:commandButton icon="edit" value="edit" ajax="true"
+                                    <b:commandButton icon="edit" value="edit" 
+                                                     rendered="#{not assetController.isRowEditable(asset)}"
+                                                     ajax="true"
                                                      update="@(.editableAssetTable)"
-                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.setEditRow(asset)"
-                                                     rendered="#{not assetController.isRowEditable(asset)}"/>
-                                    <b:commandButton icon="refresh" value="cancel" ajax="true"
+                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.setEditRow(asset)"/>
+                                    <b:commandButton icon="refresh" value="cancel" 
+                                                     rendered="#{assetController.isRowEditable(asset)}"
+                                                     ajax="true"
                                                      update="@(.editableAssetTable)"
-                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.cancelEditRow()"
-                                                     rendered="#{assetController.isRowEditable(asset)}"/>
+                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.cancelEditRow()"/>
                                 </b:dataTableColumn>
                                 <b:dataTableColumn value="#{asset.assetid}" order="asc"/>
                                 <b:dataTableColumn value="#{asset.companyid.name}"  label="Company" />
@@ -58,10 +60,12 @@
                                 <b:dataTableColumn value="#{asset.supportcontract}" label="Support Contract" />
                                 <b:dataTableColumn value="#{asset.value}"/>
                             </b:dataTable>
-                            <b:commandButton icon="save" value="save" ajax="true" auto-update="true"
-                                             update="@(.editableAssetTable)"
+                            <b:commandButton icon="save" value="save" 
+                                             look="primary"
                                              disabled="#{not assetController.editMode}"
-                                             onclick="ajax:assetController.saveAsset()"
+                                             ajax="true" auto-update="true"
+                                             update="@(.editableAssetTable)"
+                                             onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.saveAsset()"
                                              />
                         </b:formGroup>
                     </b:panelGrid>
