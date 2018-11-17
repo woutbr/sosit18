@@ -24,6 +24,8 @@ import javax.enterprise.context.SessionScoped;
 
 public class CompanyController implements Serializable {
 
+    @EJB
+    private CompanyFacade companyFacade ;
     /**
      * Creates a new instance of CompanyController
      */
@@ -50,8 +52,7 @@ public class CompanyController implements Serializable {
         this.companyFacade = companyFacade;
     }
     
-    @EJB
-    private CompanyFacade companyFacade ;
+   
     
     
     public List<Company> GetAllCompanies()
@@ -60,8 +61,8 @@ public class CompanyController implements Serializable {
     }
     
     public String create(){
-        this.companyFacade.create(company);
-        return "companyList?faces-redirect=true";
+        company = new Company();
+        return "company?faces-redirect=true";
     }
     
     public String erase(Company c){
@@ -69,9 +70,37 @@ public class CompanyController implements Serializable {
         return "companyList?faces-redirect=true";    
     }
     
+       
     public String edit(Company c){
         // open ticket
         this.company= c;
         return "company?faces-redirect=true";
     }
+    
+    public String save(){
+ 
+        if (company.getCompanyid()==null) {
+            // een ticket dat nog geen nummer heeft moet een nieuw ticket zijn
+            this.companyFacade.create(company);
+            company = new Company();
+        }else{
+            // een bestaand ticket wordt enkel geupdate
+            this.companyFacade.edit(company);
+        }
+        
+        
+        //  ?faces-redirect=true zorgt ervoor dat de browser url meevolgt
+        return "companyList?faces-redirect=true";
+    }
+    
+    public String GoTo(Company c){
+       this.company = c;
+     return "company?faces-redirect=true";
+     }
+    
+    public String cancel()
+    {
+    return "companyList?faces-redirect=true";
+    }
+
 }

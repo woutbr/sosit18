@@ -11,10 +11,7 @@
         <ui:define name="main">
             <f:view>
                 <f:metadata>
-                    <!-- 
-                    ResetTicket maak steeds een nieuw ticket object bij aanroepen van deze pagina.
-                    Waneer TicketController.create() wordt aangeroepen  vertrekken we van een nieuw ticket;
-                    -->
+                    
                 
 
 
@@ -46,12 +43,12 @@
                             <b:dataTableColumn value="#{item.vat}" />
                             <b:dataTableColumn value="#{item.version}" />
                             <b:dataTableColumn value="">                                
-                                <b:commandButton icon="pencil" action="#{CompanyController.edit(item)}" />  
-                                <b:commandButton icon="remove" action="#{companyController.erase()}" onclick="return confirm('Are you sure ?')"/>  
+                                <b:commandButton icon="pencil" action="#{companyController.GoTo(item)}" />  
+                                <b:commandButton icon="remove" action="#{companyController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
                             </b:dataTableColumn>
                         </b:dataTable>        
                     </b:panel>
-                    <b:button value="new" outcome="company" />
+                     <b:commandButton value="New" look="warning" action="#{companyController.create()}"></b:commandButton>
                     
 
 
