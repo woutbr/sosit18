@@ -89,9 +89,6 @@ public class Asset implements Serializable {
     @ManyToOne
     private Company companyid;
 
-    @Transient
-    private boolean editable;
-
     public Asset() {
     }
 
@@ -232,13 +229,5 @@ public class Asset implements Serializable {
     @Override
     public String toString() {
         return "entity.Asset[ assetid=" + assetid + " ]";
-    }
-
-    public boolean isEditable() {
-        return editable;
-    }
-
-    public void setEditable(boolean editable) {
-        this.editable = editable;
     }
 }

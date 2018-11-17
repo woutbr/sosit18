@@ -36,15 +36,13 @@
                                          scroll-x="true"
                                          columnVisibility="true">
                                 <b:dataTableColumn label="Actions">
-                                    <b:commandButton icon="edit" value="edit" ajax="false"
+                                    <b:commandButton icon="edit" value="edit" ajax="true"
                                                      update="@(.editableAssetTable)"
-                                                     action="#{assetController.setEditRow(asset)}"
-                                                     onclick="AssetTableWidget.DataTable().destroy();"
+                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.setEditRow(asset)"
                                                      rendered="#{not assetController.isRowEditable(asset)}"/>
-                                    <b:commandButton icon="refresh" value="cancel" ajax="false"
+                                    <b:commandButton icon="refresh" value="cancel" ajax="true"
                                                      update="@(.editableAssetTable)"
-                                                     action="#{assetController.cancelEditRow()}"
-                                                     onclick="AssetTableWidget.DataTable().destroy();"
+                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.cancelEditRow()"
                                                      rendered="#{assetController.isRowEditable(asset)}"/>
                                 </b:dataTableColumn>
                                 <b:dataTableColumn value="#{asset.assetid}" order="asc"/>
@@ -60,11 +58,10 @@
                                 <b:dataTableColumn value="#{asset.supportcontract}" label="Support Contract" />
                                 <b:dataTableColumn value="#{asset.value}"/>
                             </b:dataTable>
-                            <b:commandButton icon="save" value="save"
-                                             update="@(.editTickettypeTable)"
+                            <b:commandButton icon="save" value="save" ajax="true" auto-update="true"
+                                             update="@(.editableAssetTable)"
                                              disabled="#{not assetController.editMode}"
-                                             onclick="AssetTableWidget.DataTable().destroy();"
-                                             action="#{assetController.saveAsset()}"
+                                             onclick="ajax:assetController.saveAsset()"
                                              />
                         </b:formGroup>
                     </b:panelGrid>
