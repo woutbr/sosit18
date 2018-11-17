@@ -56,21 +56,32 @@ public class TicketTypeController implements Serializable{
         return tt;
     }
     
+    // bij het starten van een pagina Default parameters instellen
     public void loadPage(){
+        // ondertsaande moet beter -< hoe wordt recordId 1 
+        // -> Mogelijk dat record id 1 ,niet bestaat
         if(this.tickettype.getTickettypeid()==null){
             this.tickettype= this.getTickettypebyId(BigDecimal.valueOf(1));
         }
         editmode=false;
     }
     
-    public void onSelect(BigDecimal id, String description, BigInteger version){
-        this.tickettype.setTickettypeid(id);
-        this.tickettype.setDescription(description);
-        this.tickettype.setVersion(version);
+    // wordt even niet gebruikt
+    public void onSelect(Tickettype tt){
+        //this.tickettype=tt;
     }
     
-    public void setEditRow(BigDecimal id){
-        ticketypeIdSelected = id;
+    //public void setEditRow(BigDecimal id){
+    //    ticketypeIdSelected = id;
+    //    this.tickettype = this.tickettypeFacade.GetTicketTypeById(id);
+    //    editmode = true; 
+    //} 
+    
+    
+    public void setEditRow(Tickettype tt){
+        
+        this.tickettype = (Tickettype)tt;
+        ticketypeIdSelected=tt.getTickettypeid();
         editmode = true; 
     } 
     
@@ -79,15 +90,9 @@ public class TicketTypeController implements Serializable{
         return ticketypeIdSelected!=null && ticketypeIdSelected==id && editmode;
     }
     
-    public void saveTickettype(String description){
+    public void saveTickettype(){
         editmode=false;
-        this.tickettype.setDescription(description);
         this.tickettypeFacade.edit(this.tickettype);
     }
-    
-    
-    
 
-
-    
 }
