@@ -48,7 +48,7 @@ public class AssetController implements Serializable {
         this.assetidSelected = null;
         this.editMode = false;
     }
-
+    
     public void setEditRow(Asset a) {
         this.asset = a;
         this.assetidSelected = a.getAssetid();
