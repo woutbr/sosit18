@@ -50,7 +50,7 @@ and open the template in the editor.
                                          var="item" 
                                          select="true" 
                                          selectionMode="single" 
-                                         onselect="ajax:ticketTypeController.onSelect(item.tickettypeid, item.description, item.version)">
+                                         onselect="ajax:ticketTypeController.onSelect(item)">
 
                                 <f:facet name="header">
                                     <tr>
@@ -62,21 +62,27 @@ and open the template in the editor.
                                 </f:facet>
                                 <b:dataTableColumn order="asc" value="#{item.tickettypeid}"/>
                                 <b:dataTableColumn >
-                                    <b:inputText  value="#{item.description}"     disabled="#{not ticketTypeController.isRowEditable(item.tickettypeid)}"/>
+                                    <h:outputText  value="#{item.description}"     
+                                                   rendered="#{not ticketTypeController.isRowEditable(item.tickettypeid)}"/>
+                                    
+                                    <b:inputText  value="#{ticketTypeController.tickettype.description}"     
+                                                  rendered="#{ticketTypeController.isRowEditable(item.tickettypeid)}"/>
                                 </b:dataTableColumn> 
                                 <b:dataTableColumn value="#{item.version}"/>
                                 <b:dataTableColumn>
+                                    
                                     <b:commandButton icon="pencil" ajax="true"
                                                      update="@(.editTickettypeTable)"
-                                                     action="#{ticketTypeController.setEditRow(item.tickettypeid)}"
+                                                     action="#{ticketTypeController.setEditRow(item)}"
                                                      rendered="#{not ticketTypeController.isRowEditable(item.tickettypeid)}"
                                                      />
+                                    
                                     <b:commandButton icon="ok" 
                                                      update="@(.editTickettypeTable)"
                                                      rendered="#{ticketTypeController.isRowEditable(item.tickettypeid)}"
                                                      action="#{ticketTypeController.saveTickettype()}"
                                                      />
-                                    <b:commandButton icon="remove" ></b:commandButton>
+                                    <b:commandButton icon="remove" />
                                 </b:dataTableColumn>
                             </b:dataTable>    
                         </b:formGroup>
