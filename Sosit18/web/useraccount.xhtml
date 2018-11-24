@@ -38,9 +38,7 @@ and open the template in the editor.
                             <h:outputLabel>Username</h:outputLabel>
                             <b:inputText value="#{userController.useraccount.username}"></b:inputText>
                             <h:outputLabel>Password</h:outputLabel>
-                            <b:inputText type="password"></b:inputText>
-                            <h:outputLabel>Repeat password</h:outputLabel>
-                            <b:inputText  type="password"></b:inputText>
+                            <b:inputText type="password" value="#{userController.useraccount.password}"></b:inputText>
                         </b:formGroup>
                     </b:panelGrid>
                     
@@ -48,15 +46,15 @@ and open the template in the editor.
                     <b:panelGrid colSpans="6,6">
                         <b:formGroup>
                         <h:outputLabel>Email</h:outputLabel>
-                        <b:inputText ></b:inputText>
+                        <b:inputText value="#{userController.useraccount.email}"></b:inputText>
                         <h:outputLabel>Phone number</h:outputLabel>
-                        <b:inputText ></b:inputText>
+                        <b:inputText value="#{userController.useraccount.phone}"></b:inputText>
                         </b:formGroup>
                     </b:panelGrid>
                     
                     
                     <div class="text-center">
-                        <b:commandButton value="Save" look="success" style="margin-right: 2em" action="#{userController.edit()}"></b:commandButton>
+                        <b:commandButton value="Save" look="success" style="margin-right: 2em" action="#{userController.save()}"></b:commandButton>
                         <b:commandButton value="Delete" look="warning" style="margin-left: 2em" action="#{userController.cancel()}"></b:commandButton>
                     </div>
     
