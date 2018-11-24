@@ -13,12 +13,15 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -33,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "USERACCOUNT")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Useraccount.findAll", query = "SELECT u FROM Useraccount u")
+    @NamedQuery(name = "Useraccount.findAll", query = "SELECT u FROM Useraccount u ")
     , @NamedQuery(name = "Useraccount.findByUseraccountid", query = "SELECT u FROM Useraccount u WHERE u.useraccountid = :useraccountid")
     , @NamedQuery(name = "Useraccount.findByFirstname", query = "SELECT u FROM Useraccount u WHERE u.firstname = :firstname")
     , @NamedQuery(name = "Useraccount.findByLastname", query = "SELECT u FROM Useraccount u WHERE u.lastname = :lastname")
@@ -48,8 +51,12 @@ public class Useraccount implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
-    @Basic(optional = false)
-    @NotNull
+    //@Basic(optional = false)
+    //@NotNull
+    
+    @SequenceGenerator(name="USERACCOUNT_SEQ",sequenceName="USERACCOUNT_SEQ",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "USERACCOUNT_SEQ")
+    
     @Column(name = "USERACCOUNTID")
     private BigDecimal useraccountid;
     @Size(max = 100)
@@ -60,12 +67,12 @@ public class Useraccount implements Serializable {
     private String lastname;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "USERNAME")
     private String username;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "PASSWORD")
     private String password;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation

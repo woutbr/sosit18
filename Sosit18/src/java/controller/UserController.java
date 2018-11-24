@@ -43,7 +43,7 @@ public class UserController implements Serializable {
     }
     
     public List<Useraccount> GetAllUsers(){
-        return this.useraccountFacade.GetAllUsers();
+        return this.useraccountFacade.findAll();
     }
     
     public String cancel(){
@@ -61,7 +61,7 @@ public class UserController implements Serializable {
     }
     
     public String create(){
-        this.useraccountFacade.create(useraccount);
+        useraccount = new Useraccount();
         return "useraccount?faces-redirect=true";
     }
     
@@ -72,5 +72,21 @@ public class UserController implements Serializable {
     
     public void resetUseraccount(){
         this.useraccount=new Useraccount();
+    }
+    
+        public String save(){
+ 
+        if (useraccount.getUseraccountid()==null) {
+            // een ticket dat nog geen nummer heeft moet een nieuw ticket zijn
+            this.useraccountFacade.create(useraccount);
+            useraccount = new Useraccount();
+        }else{
+            // een bestaand ticket wordt enkel geupdate
+            this.useraccountFacade.edit(useraccount);
+        }
+        
+        useraccount = new Useraccount();
+        //  ?faces-redirect=true zorgt ervoor dat de browser url meevolgt
+        return "userlist?faces-redirect=true";
     }
 }
