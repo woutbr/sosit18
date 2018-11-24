@@ -8,7 +8,8 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="User account - SosIT"/>
@@ -21,24 +22,23 @@ and open the template in the editor.
                     <b:panelGrid colSpans="6,6">
                         <b:formGroup>
                             <h:outputLabel>User account ID</h:outputLabel>
-                            <b:inputText disabled="true"></b:inputText>
+                            <b:inputText value="#{userController.useraccount.useraccountid}"></b:inputText>
+    
                             <h:outputLabel>Company ID</h:outputLabel>
-                            <b:selectOneMenu required="true"></b:selectOneMenu>
+                            <b:selectOneMenu></b:selectOneMenu>
                             <h:outputLabel>First name</h:outputLabel>
-                            <b:inputText required="true"></b:inputText>
+                            <b:inputText value="#{userController.useraccount.firstname}" ></b:inputText>
                             <h:outputLabel >Last name</h:outputLabel>
-                            <b:inputText required="true"></b:inputText>
+                            <b:inputText value="#{userController.useraccount.lastname}"></b:inputText>
                             <h:outputLabel>Sex</h:outputLabel>
-                            <b:selectOneMenu required="true"></b:selectOneMenu>
+                            <b:selectOneMenu></b:selectOneMenu>
                         </b:formGroup>
                         
                         <b:formGroup>
                             <h:outputLabel>Username</h:outputLabel>
-                            <b:inputText required="true"></b:inputText>
+                            <b:inputText value="#{userController.useraccount.username}"></b:inputText>
                             <h:outputLabel>Password</h:outputLabel>
-                            <b:inputText required="true" type="password"></b:inputText>
-                            <h:outputLabel>Repeat password</h:outputLabel>
-                            <b:inputText required="true" type="password"></b:inputText>
+                            <b:inputText type="password" value="#{userController.useraccount.password}"></b:inputText>
                         </b:formGroup>
                     </b:panelGrid>
                     
@@ -46,18 +46,18 @@ and open the template in the editor.
                     <b:panelGrid colSpans="6,6">
                         <b:formGroup>
                         <h:outputLabel>Email</h:outputLabel>
-                        <b:inputText required="true"></b:inputText>
+                        <b:inputText value="#{userController.useraccount.email}"></b:inputText>
                         <h:outputLabel>Phone number</h:outputLabel>
-                        <b:inputText required="true"></b:inputText>
+                        <b:inputText value="#{userController.useraccount.phone}"></b:inputText>
                         </b:formGroup>
                     </b:panelGrid>
                     
                     
                     <div class="text-center">
-                        <b:commandButton value="Save" look="success" style="margin-right: 2em"></b:commandButton>
-                        <b:commandButton value="Delete" look="warning" style="margin-left: 2em"></b:commandButton>
+                        <b:commandButton value="Save" look="success" style="margin-right: 2em" action="#{userController.save()}"></b:commandButton>
+                        <b:commandButton value="Delete" look="warning" style="margin-left: 2em" action="#{userController.cancel()}"></b:commandButton>
                     </div>
-
+    
                 </b:panel>
             </b:form>
         </ui:define>

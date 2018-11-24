@@ -22,7 +22,7 @@
         <link name="Asset location" href="assetlocation"/>
     </list>>
     <list name="User ">
-        <link name="All users" href=""/>
+        <link name="All users" href="userlist"/>
         <link name="New User" href="useraccount"/>
         <link name="User role" href="role"/>
     </list>
