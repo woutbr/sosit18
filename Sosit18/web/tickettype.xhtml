@@ -28,12 +28,13 @@ and open the template in the editor.
                     
                     <b:panelGrid colSpans="8,4" >
  
-                        <b:formGroup>
+                        <b:formGroup >
                             <b:dataTable value="#{ticketTypeController.listAllTickettypes()}" 
                                          class="editTickettypeTable"
                                          var="item" 
                                          select="true" 
-                                         selectionMode="single">
+                                         selectionMode="single" 
+                                         >
 
                                 <f:facet name="header">
                                     <tr>
@@ -65,12 +66,16 @@ and open the template in the editor.
                                                      rendered="#{ticketTypeController.isRowEditable(item.tickettypeid)}"
                                                      action="#{ticketTypeController.saveTickettype()}"
                                                      />
-                                    <b:commandButton icon="remove" />
+                                    <b:commandButton icon="remove" 
+                                                     onclick="return confirm('Are you sure ?')"
+                                                     action="#{ticketTypeController.deleteTickettype(item)}"                                                      
+                                                     />
                                 </b:dataTableColumn>
                             </b:dataTable>
                             <b:commandButton value="New" action="#{ticketTypeController.newTickettype()}" />
+
                         </b:formGroup >
-                        <b:formGroup rendered="#{ticketTypeController.isIsNewTickettype()}" >
+                        <b:formGroup rendered="#{ticketTypeController.isIsNewTickettype()}" auto-update="true" >
 
                             <h:outputLabel>Ticket type ID</h:outputLabel>
                             <b:inputText disabled="true" 

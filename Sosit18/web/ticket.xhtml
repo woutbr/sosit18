@@ -31,7 +31,7 @@
                             <h:outputLabel  >Titel</h:outputLabel>
                             <b:inputText value="#{TicketController.ticket.title}"></b:inputText>
                             <h:outputLabel>TicketType</h:outputLabel>
-                            <b:selectOneMenu></b:selectOneMenu>
+                            <b:selectOneMenu value="#{ticketTypeController.listAllTickettypes()}"/>
 
                             <h:outputLabel>Asset</h:outputLabel>
                             <b:selectOneMenu></b:selectOneMenu>
