@@ -81,12 +81,13 @@ public class TicketTypeController implements Serializable{
     
     
     public void setEditRow(Tickettype tt){
+        int a= 0;
         setmode("edit");
         this.tickettype = (Tickettype)tt;
         ticketypeIdSelected=tt.getTickettypeid();
-
-        
     } 
+    
+
     
     public boolean isRowEditable(BigDecimal id){
         int a = 1;
@@ -94,13 +95,19 @@ public class TicketTypeController implements Serializable{
     }
     
     public void saveTickettype(){
-;
+
         if (tickettype.getTickettypeid()==null) {
             this.tickettypeFacade.create(this.tickettype);
         }else{
             this.tickettypeFacade.edit(this.tickettype);
         }
         setmode("normal");
+    }
+    
+    public void deleteTickettype(Tickettype tt){
+        this.tickettypeFacade.remove(tt);
+        setmode("normal");
+        
     }
 
     public boolean isIsNewTickettype() {
@@ -113,6 +120,7 @@ public class TicketTypeController implements Serializable{
     }
     
     public void cancel(){
+        int a= 0;
         setmode("normal");
     }
     
