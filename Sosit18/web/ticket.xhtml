@@ -31,9 +31,16 @@
                             <h:outputLabel  >Titel</h:outputLabel>
                             <b:inputText value="#{TicketController.ticket.title}"></b:inputText>
                             <h:outputLabel>TicketType</h:outputLabel>
-                            <b:selectOneMenu></b:selectOneMenu>
+
+                            <b:selectOneMenu value="#{TicketController.ticket.tickettypeid}" >
+                                <f:selectItems value="#{ticketTypeController.listAllTickettypes()}" 
+                                    var="tt" 
+                                    itemValue="#{tt}" 
+                                    itemLabel="#{tt.description}"/>
+                            </b:selectOneMenu>
 
                             <h:outputLabel>Asset</h:outputLabel>
+                            
                             <b:selectOneMenu></b:selectOneMenu>
 
                             <h:outputLabel>Severity</h:outputLabel>
@@ -47,8 +54,9 @@
                     <h4><u>Omschrijving</u></h4>
                     <b:inputTextarea value="#{TicketController.ticket.description}" ></b:inputTextarea>
                     <div class="text-center">
-                        <b:commandButton value="Opslaan" look="success" style="margin-right: 2em" action="#{TicketController.edit()}"></b:commandButton>
+                        <b:commandButton value="Opslaan" look="success" style="margin-right: 2em" action="#{TicketController.save()}"></b:commandButton>
                         <b:commandButton value="Terug" look="warning" style="margin-left: 2em" action="#{TicketController.cancel()}"></b:commandButton>
+                        <b:commandButton value="test" action="#{TicketController.test()}"/>                       
                     </div>
 
                 </b:panel>
