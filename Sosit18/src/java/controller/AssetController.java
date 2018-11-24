@@ -10,9 +10,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 /**
- * Model Managed-Bean Distinctions between different kinds of JSF managed beans:
- * https://stackoverflow.com/a/1030196
- *
  * @author woutbr@student.hik.be
  */
 @Named(value = "assetController")
@@ -21,11 +18,12 @@ public class AssetController implements Serializable {
 
     @EJB
     private AssetFacade assetFacade;
-    private Asset asset = null;
+    private Asset asset;
     private BigDecimal assetidSelected = null;
     private boolean editMode = false;
 
     public AssetController() {
+        this.asset = new Asset();
     }
 
     public Asset getAsset() {
@@ -48,7 +46,7 @@ public class AssetController implements Serializable {
         this.assetidSelected = null;
         this.editMode = false;
     }
-    
+
     public void setEditRow(Asset a) {
         this.asset = a;
         this.assetidSelected = a.getAssetid();
@@ -64,13 +62,18 @@ public class AssetController implements Serializable {
     public boolean isRowEditable(Asset a) {
         return assetidSelected != null && assetidSelected == a.getAssetid() && this.editMode;
     }
-    
-    public boolean isEditMode(){
+
+    public boolean isEditMode() {
         return this.editMode;
     }
 
     public void saveAsset() {
         this.assetFacade.edit(asset);
         this.cancelEditRow();
+    }
+
+    public String createNewAsset() {
+        this.assetFacade.edit(asset);
+        return "assets?faces-redirect=true";
     }
 }

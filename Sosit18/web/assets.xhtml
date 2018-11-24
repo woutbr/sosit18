@@ -66,8 +66,7 @@
                                 <b:dataTableColumn value="#{asset.supportcontract}" label="Support Contract" />
                                 <b:dataTableColumn value="#{asset.value}"/>
                             </b:dataTable>
-                            <b:commandButton icon="save" value="save" 
-                                             look="primary"
+                            <b:commandButton value="save" icon="save" look="primary"
                                              disabled="#{not assetController.editMode}"
                                              ajax="true" auto-update="true"
                                              update="@(.editableAssetTable)"

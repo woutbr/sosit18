@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/page.xhtml">
+        <ui:param name="pageTitle" value="New Asset - SosIT"/>
+        <ui:define name="main">
+            <b:panel title="New Asset" collapsible="false">
+                <b:form>
+                    <b:panelGrid colSpans="2,5,5" size="xs">
+                        <h:outputLabel value="Company" for="@next"/>
+                        <b:selectOneMenu value="#{assetController.asset.companyid}" 
+                                         required="false" 
+                                         required-message="Please select a company.">
+                            <f:selectItem itemLabel="Select a company"/>
+                            <f:selectItems value=""
+                                           var="company"
+                                           itemLabel="#{company.name}"
+                                           itemValue="#{company}"/>
+                        </b:selectOneMenu>
+                        <b:message />
+                        <h:outputLabel value="Name" for="@next"/>
+                        <b:inputText value="#{assetController.asset.name}"
+                                     required="true"
+                                     required-message="Please fill in a name."/>
+                        <b:message />
+                        <h:outputLabel value="Master asset" for="@next"/>
+                        <b:selectOneMenu value="#{assetController.asset.assetmasterid}"
+                                         tooltip="Optional">
+                            <f:selectItem itemLabel="No master asset"/>
+                            <f:selectItems value="#{assetController.allAssets}"
+                                           var="assetmaster"
+                                           itemLabel="#{assetmaster.name}"
+                                           itemValue="#{assetmaster}"/>
+                        </b:selectOneMenu>
+                        <b:message />
+                        <h:outputLabel value="Assetgroups" for="@next"/>
+                        <b:selectOneMenu value="#{assetController.asset.assetgroupid}" 
+                                         required="true" 
+                                         required-message="Please select an assetgroup.">
+                            <f:selectItem itemLabel="Select an assetgroup"/>
+                            <f:selectItems value="#{assetgroupController.allAssetgroups}"
+                                           var="assetgroup"
+                                           itemLabel="#{assetgroup.description}"
+                                           itemValue="#{assetgroup}"/>
+                        </b:selectOneMenu>
+                        <b:message />
+                        <h:outputLabel value="Description" for="@next"/>
+                        <b:inputTextarea value="#{assetController.asset.description}"/>
+                        <b:message />
+                        <h:outputLabel value="Asset location" for="@next"/>
+                        <b:selectOneMenu value="#{assetController.asset.assetlocationid}">
+                            <f:selectItem itemLabel="No location"/>
+                            <f:selectItems value=""
+                                           var="assetlocation"
+                                           itemLabel="#{assetlocation.description}"
+                                           itemValue="#{assetlocation}"/>
+                        </b:selectOneMenu>
+                        <b:message />
+                        <h:outputLabel value="Purchase date" for="@next"/>
+                        <b:datepicker value="#{assetController.asset.purchasedate}"
+                                      tooltip="Pick the date of purchase."/>
+                        <b:message />
+                        <h:outputLabel value="Warranty" for="@next"/>
+                        <b:inputText value="#{assetController.asset.warranty}"
+                                     converter-message="Please enter a number."/>
+                        <b:message />
+                        <h:outputLabel value="Support contract" for="@next"/>
+                        <b:inputText value="#{assetController.asset.supportcontract}"/>
+                        <b:message />
+                        <b:commandButton value="save" icon="save" look="primary"
+                                         action="#{assetController.createNewAsset()}" />
+                        <b:button value="cancel" look="warning"
+                                  outcome="assets"/>
+                    </b:panelGrid>
+                </b:form>
+            </b:panel>
+        </ui:define>
+    </ui:composition>
+</html>
+
