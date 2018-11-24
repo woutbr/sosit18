@@ -46,21 +46,34 @@
                                                      ajax="true"
                                                      update="@(.editableAssetTable)"
                                                      onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.setEditRow(asset)"/>
-                                    <b:commandButton icon="refresh" value="cancel" 
+                                    <b:commandButton icon="refresh" value="cancel" look="warning"
                                                      rendered="#{assetController.isRowEditable(asset)}"
                                                      ajax="true"
                                                      update="@(.editableAssetTable)"
                                                      onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.cancelEditRow()"/>
                                 </b:dataTableColumn>
                                 <b:dataTableColumn value="#{asset.assetid}" order="asc"/>
-                                <b:dataTableColumn value="#{asset.companyid.name}"  label="Company" />
-                                <b:dataTableColumn value="#{asset.assetgroupid.description}" label="Assetgroup" />
-                                <b:dataTableColumn value="#{asset.name}"/>
+                                <b:dataTableColumn value="#{asset.companyid.name}" label="Company" />
+                                <b:dataTableColumn label="Assetgroup">
+                                    <h:outputText value="#{asset.assetgroupid.description}" rendered="#{not assetController.isRowEditable(asset)}" />
+                                    <b:selectOneMenu value="#{assetController.asset.assetgroupid}" 
+                                                     rendered="#{assetController.isRowEditable(asset)}">
+                                        <f:selectItems value="#{assetgroupController.allAssetgroups}"
+                                                       var="assetgroup"
+                                                       itemLabel="#{assetgroup.description}"
+                                                       itemValue="#{assetgroup}"/>
+                                    </b:selectOneMenu>
+                                </b:dataTableColumn>
+                                <b:dataTableColumn label="Name">
+                                    <h:outputText value="#{asset.name}" rendered="#{not assetController.isRowEditable(asset)}" />
+                                    <b:inputText value="#{assetController.asset.name}" rendered="#{assetController.isRowEditable(asset)}"/>
+                                </b:dataTableColumn>
                                 <b:dataTableColumn label="Description" >
                                     <h:outputText value="#{asset.description}" rendered="#{not assetController.isRowEditable(asset)}" />
                                     <b:inputText value="#{assetController.asset.description}" rendered="#{assetController.isRowEditable(asset)}"/>
                                 </b:dataTableColumn>
                                 <b:dataTableColumn value="#{asset.assetlocationid.description}" label="Location" />
+                                <b:dataTableColumn value="#{asset.assetmasterid.name}" label="Asset master"/>
                                 <b:dataTableColumn value="#{asset.purchasedate}" label="Date of Purchase" />
                                 <b:dataTableColumn value="#{asset.warranty}"/>
                                 <b:dataTableColumn value="#{asset.supportcontract}" label="Support Contract" />
@@ -72,6 +85,8 @@
                                              update="@(.editableAssetTable)"
                                              onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.saveAsset()"
                                              />
+                            <b:button value="new asset" icon="plus" look="info"
+                                      outcome="newasset"/>
                         </b:formGroup>
                     </b:panelGrid>
                 </b:form>
