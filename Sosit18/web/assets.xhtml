@@ -5,51 +5,93 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<ui:composition template="/templates/page.xhtml">
-    <ui:param name="pageTitle" value="Asset - SosIT"/>
-    <ui:define name="main">
-        <b:panel title="Assets" collapsible="false">
-            <b:form>
-                <b:panelGrid colSpans="3,9" size="sm">
-                    <b:formGroup>
-                        <b:selectOneMenu value="#{assetController.ticketid}"
-                                         label="Asset group">
-                            <f:selectItem itemLabel="(Please select)" itemValue="" />
-                            <f:selectItem itemLabel="Group 1" itemValue="1" />
-                        </b:selectOneMenu>
-                        <b:selectBooleanCheckbox caption="New" 
-                                                 label="Status"/>
-                        <b:datepicker mode="inline" label="Date"/>
-                    </b:formGroup>
-                    <b:dataTable value="#{AssetController.asset}"
-                                 var="asset"
-                                 class="editableAssetTable"
-                                 fixedHeader="true"
-                                 responsive="false"
-                                 scroll-x="true">
-                        <b:dataTableColumn value="#{asset.assetid}" order="asc"/>
-                        <b:dataTableColumn value="#{asset.companyid}"  label="Company" />
-                        <b:dataTableColumn value="#{asset.name}"/>
-                        <b:dataTableColumn label="Description" >
-                            <b:inputText value="#{asset.description}" rendered="#{asset.editable}"/>
-                            <h:outputText value="#{asset.description}" rendered="#{not asset.editable}" />
-                        </b:dataTableColumn>
-                        <b:dataTableColumn value="#{asset.locationid}" label="Location" />
-                        <b:dataTableColumn value="#{asset.purchasedate}" label="Date of Purchase" />
-                        <b:dataTableColumn value="#{asset.warranty}"/>
-                        <b:dataTableColumn value="#{asset.supportcontract}" label="Support Contract" />
-                        <b:dataTableColumn value="#{asset.value}"/>
-                        <b:dataTableColumn label="Actions">
-                            <b:commandButton value="edit" icon="edit" ajax="true"
+    <ui:composition template="/templates/page.xhtml">
+        <ui:param name="pageTitle" value="Assets - SosIT"/>
+        <ui:define name="main">
+            <b:panel title="Assets" collapsible="false">
+                <f:view>
+                    <f:metadata>
+                        <f:viewAction action="#{assetController.onload()}"/>
+                    </f:metadata>
+                </f:view>
+                <b:form>
+                    <b:panelGrid colSpans="3,9" size="sm">
+                        <b:formGroup>
+                            <b:selectOneMenu value="#{assetgroupController.selectedAssetgroup}" 
+                                             label="Filter on assetgroup"
+                                             onchange="AssetTableWidget.DataTable().search(this.value).draw();">
+                                <f:selectItem itemLabel="Select an assetgroup"/>
+                                <f:selectItems value="#{assetgroupController.allAssetgroups}"
+                                               var="assetgroup"
+                                               itemLabel="#{assetgroup.description}"
+                                               itemValue="#{assetgroup.description}"/>
+                            </b:selectOneMenu>
+                            <b:dateTimePicker label="Date"
+                                              mode="inline"
+                                              show-time="false"
+                                              onchange="AssetTableWidget.DataTable().search(this.value).draw();"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <b:dataTable value="#{assetController.allAssets}"
+                                         var="asset"
+                                         class="editableAssetTable"
+                                         widgetVar="AssetTableWidget"
+                                         fixedHeader="true"
+                                         responsive="false"
+                                         scroll-x="true"
+                                         columnVisibility="true">
+                                <b:dataTableColumn label="Actions">
+                                    <b:commandButton icon="edit" value="edit" 
+                                                     rendered="#{not assetController.isRowEditable(asset)}"
+                                                     ajax="true"
+                                                     update="@(.editableAssetTable)"
+                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.setEditRow(asset)"/>
+                                    <b:commandButton icon="refresh" value="cancel" look="warning"
+                                                     rendered="#{assetController.isRowEditable(asset)}"
+                                                     ajax="true"
+                                                     update="@(.editableAssetTable)"
+                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.cancelEditRow()"/>
+                                </b:dataTableColumn>
+                                <b:dataTableColumn value="#{asset.assetid}" order="asc"/>
+                                <b:dataTableColumn value="#{asset.companyid.name}" label="Company" />
+                                <b:dataTableColumn label="Assetgroup">
+                                    <h:outputText value="#{asset.assetgroupid.description}" rendered="#{not assetController.isRowEditable(asset)}" />
+                                    <b:selectOneMenu value="#{assetController.asset.assetgroupid}" 
+                                                     rendered="#{assetController.isRowEditable(asset)}">
+                                        <f:selectItems value="#{assetgroupController.allAssetgroups}"
+                                                       var="assetgroup"
+                                                       itemLabel="#{assetgroup.description}"
+                                                       itemValue="#{assetgroup}"/>
+                                    </b:selectOneMenu>
+                                </b:dataTableColumn>
+                                <b:dataTableColumn label="Name">
+                                    <h:outputText value="#{asset.name}" rendered="#{not assetController.isRowEditable(asset)}" />
+                                    <b:inputText value="#{assetController.asset.name}" rendered="#{assetController.isRowEditable(asset)}"/>
+                                </b:dataTableColumn>
+                                <b:dataTableColumn label="Description" >
+                                    <h:outputText value="#{asset.description}" rendered="#{not assetController.isRowEditable(asset)}" />
+                                    <b:inputText value="#{assetController.asset.description}" rendered="#{assetController.isRowEditable(asset)}"/>
+                                </b:dataTableColumn>
+                                <b:dataTableColumn value="#{asset.assetlocationid.description}" label="Location" />
+                                <b:dataTableColumn value="#{asset.assetmasterid.name}" label="Asset master"/>
+                                <b:dataTableColumn value="#{asset.purchasedate}" label="Date of Purchase" />
+                                <b:dataTableColumn value="#{asset.warranty}"/>
+                                <b:dataTableColumn value="#{asset.supportcontract}" label="Support Contract" />
+                                <b:dataTableColumn value="#{asset.value}"/>
+                            </b:dataTable>
+                            <b:commandButton value="save" icon="save" look="primary"
+                                             disabled="#{not assetController.editMode}"
+                                             ajax="true" auto-update="true"
                                              update="@(.editableAssetTable)"
-                                             onclick="ajax:asset.edit()" >
-                            </b:commandButton>
-                        </b:dataTableColumn>
-                    </b:dataTable>
-                </b:panelGrid>
-            </b:form>
-        </b:panel>
-    </ui:define>
-</ui:composition>
+                                             onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.saveAsset()"
+                                             />
+                            <b:button value="new asset" icon="plus" look="info"
+                                      outcome="newasset"/>
+                        </b:formGroup>
+                    </b:panelGrid>
+                </b:form>
+            </b:panel>
+        </ui:define>
+    </ui:composition>
 </html>
 

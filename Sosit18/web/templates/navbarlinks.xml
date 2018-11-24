@@ -17,7 +17,7 @@
     </list>
     <list name="Asset ">
         <link name="All assets" href="assets"/>
-        <link name="New asset" href=""/>
+        <link name="New asset" href="newasset"/>
         <link name="Asset group" href="assetgroup"/>
         <link name="Asset location" href="assetlocation"/>
     </list>>
