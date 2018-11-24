@@ -14,6 +14,10 @@ import javax.faces.render.RenderKitFactory;
 import javax.faces.render.Renderer;
 import net.bootsfaces.component.ComponentsEnum;
 
+/**
+ * Register the Bootsfaces renderers
+ * https://beyondjava.net/running-bootsfaces-on-glassfish-or-payara
+ */
 @ApplicationScoped
 @Named
 public class InitBootsfacesBean {
@@ -24,11 +28,9 @@ public class InitBootsfacesBean {
         initializeBootsfacesRenderers();
     }
 
-    /**
-     * Register the Bootsfaces renderers
-     * https://beyondjava.net/running-bootsfaces-on-glassfish-or-payara
-     */
     private void initializeBootsfacesRenderers() {
+        int componentsTotal = 0;
+        int renderersAddedCount = 0;
 
         // Loop through all of the Bootsfaces components
         for (ComponentsEnum value : ComponentsEnum.values()) {
@@ -51,6 +53,7 @@ public class InitBootsfacesBean {
             } else {
 
                 LOGGER.log(Level.INFO, "Init Bootsfaces: Processing component: {0}", className);
+                componentsTotal++;
 
                 try {
                     // See if we can instantiate the class
@@ -79,13 +82,15 @@ public class InitBootsfacesBean {
                     Renderer renderer = rendererClass.newInstance();
                     LOGGER.log(Level.INFO, "Init Bootsfaces: Registering renderer: {0}/{1}", new Object[]{rendererFamily, rendererType});
 
-                    // ****** THIS IS THE IMPORTANT CALL TO REGISTER THE RENDERER *********
                     addRenderer(rendererFamily, rendererType, renderer);
+                    // ****** THIS IS THE IMPORTANT CALL TO REGISTER THE RENDERER *********
+                    renderersAddedCount++;
                 } catch (Throwable e) {
                     LOGGER.log(Level.WARNING, "Init Bootsfaces: Unable to register renderer for component: " + className, e);
                 }
             }
         }
+        LOGGER.log(Level.INFO, "Init Bootsfaces: registered renderers/total components : {0}/{1}", new Object[]{renderersAddedCount, componentsTotal});
     }
 
     public void addRenderer(String family, String rendererType, Renderer renderer) {
