@@ -48,7 +48,7 @@ public class TicketController implements Serializable {
     }
     
     public List<Ticket> GetAllTickets(){
-        return this.ticketFacade.GetAllTickets();
+        return this.ticketFacade.findAll();
 
     }
     
@@ -91,6 +91,10 @@ public class TicketController implements Serializable {
         // wordt aangeroepen in ticketList
         this.ticket= new Ticket();
         int a = 1;
+    }
+    public void test() {
+    int a=1;
+    
     }
 
 }
