@@ -6,7 +6,6 @@
 package controller;
 
 import dao.CompanyFacade;
-import entity.Asset;
 import entity.Company;
 import java.io.Serializable;
 import java.util.List;
