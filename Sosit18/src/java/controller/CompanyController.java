@@ -6,6 +6,7 @@
 package controller;
 
 import dao.CompanyFacade;
+import entity.Asset;
 import entity.Company;
 import java.io.Serializable;
 import java.util.List;
@@ -26,6 +27,7 @@ public class CompanyController implements Serializable {
 
     @EJB
     private CompanyFacade companyFacade ;
+   
     /**
      * Creates a new instance of CompanyController
      */
@@ -60,6 +62,8 @@ public class CompanyController implements Serializable {
      return this.companyFacade.GetAllCompanies();            
     }
     
+   
+    
     public String create(){
         company = new Company();
         return "company?faces-redirect=true";
@@ -88,7 +92,7 @@ public class CompanyController implements Serializable {
             this.companyFacade.edit(company);
         }
         
-        
+        company = new Company();
         //  ?faces-redirect=true zorgt ervoor dat de browser url meevolgt
         return "companyList?faces-redirect=true";
     }
@@ -102,5 +106,4 @@ public class CompanyController implements Serializable {
     {
     return "companyList?faces-redirect=true";
     }
-
 }
