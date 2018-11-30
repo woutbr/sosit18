@@ -35,7 +35,8 @@ public class AssetController implements Serializable {
     }
 
     public List<Asset> getAllAssets() {
-        return this.assetFacade.findAll();
+        List<Asset> la = this.assetFacade.findAll();
+        return la;
     }
 
     public Asset findByID(BigDecimal id) {

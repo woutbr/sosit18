@@ -35,16 +35,16 @@
                             <b:dataTableColumn value="#{item.ticketid}" order="asc"/>
                             <b:dataTableColumn value="#{item.title}" />
                             <b:dataTableColumn value="#{item.description}" />
-                            <b:dataTableColumn value="">                                
-                                <b:commandButton icon="pencil" action="#{TicketController.edit(item)}" />  
+                            <b:dataTableColumn value="">
+                                <b:button icon="pencil" outcome="ticket">
+                                    <f:param name="TicketId" value="#{item.ticketid}"/>
+                                </b:button>
                                 <b:commandButton icon="remove" action="#{TicketController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
                             </b:dataTableColumn>
                         </b:dataTable>        
                     </b:panel>
                     <b:commandButton value="new" action="#{TicketController.create()}" />
-                    
 
-                    
                 </b:form>
             </f:view>
             

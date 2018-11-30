@@ -8,6 +8,10 @@
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Ticket"/>
         <ui:define name="main">
+            <f:metadata>
+                <f:viewParam name="TicketId"/>
+                <f:viewAction action="#{TicketController.FindById(TicketId)}" />
+            </f:metadata>
 
             
             <b:form>
@@ -41,10 +45,22 @@
 
                             <h:outputLabel>Asset</h:outputLabel>
                             
-                            <b:selectOneMenu></b:selectOneMenu>
+                            <b:selectOneMenu value="#{TicketController.ticket.assetid}">
+                                <f:selectItems value="#{assetController.allAssets}"
+                                               var="a" 
+                                               itemValue="#{a.assetid.toBigInteger()}" 
+                                               itemLabel="#{a.description}"/>
+                            </b:selectOneMenu>
 
                             <h:outputLabel>Severity</h:outputLabel>
-                            <b:selectOneMenu></b:selectOneMenu>
+                            <b:selectOneMenu value="#{TicketController.ticket.ticketseverityid}">
+                                <f:selectItems value="#{ticketseverityController.allTicketSeverity}"
+                                               var="ts" 
+                                               itemValue="#{ts}" 
+                                               itemLabel="#{ts.description}"
+                                               />
+                                
+                            </b:selectOneMenu>
 
                             <h:outputLabel>Urgency</h:outputLabel>
                             <b:selectOneMenu></b:selectOneMenu>

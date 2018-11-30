@@ -43,8 +43,14 @@ public class TicketController implements Serializable {
     }
     
     public void FindById(BigDecimal id){
+
+        if (id==null ) {
+            resetTicket();
+        }else{
+            ticket = this.ticketFacade.FindById(id);
+        }
         
-         ticket = this.ticketFacade.FindById(id);
+         
     }
     
     public List<Ticket> GetAllTickets(){
@@ -93,7 +99,8 @@ public class TicketController implements Serializable {
         int a = 1;
     }
     public void test() {
-    int a=1;
+        
+        int a=1;
     
     }
 
