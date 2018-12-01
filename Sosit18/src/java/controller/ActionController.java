@@ -6,12 +6,16 @@
 package controller;
 
 import dao.ActionFacade;
+import dao.TicketFacade;
 import entity.Action;
+import entity.Ticket;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.ejb.EJB;
+import java.util.List;
+
 
 /**
  *
@@ -30,7 +34,7 @@ public class ActionController implements Serializable {
         return action;
     }
     
-    public void setTicket(Action action) {
+    public void setAction(Action action) {
         this.action = action;
     }
     
@@ -38,13 +42,25 @@ public class ActionController implements Serializable {
     }
     
     public void FindById(BigDecimal id){
-        
-         action = this.actionFacade.FindById(id);
+        action = this.actionFacade.FindById(id);
     }
     
-    public String create(){
+    public String create(Ticket t){
+        action.setTicketid(t);
         this.actionFacade.create(action);
         return "action?faces-redirect=true";
     }
     
+    public List<Action> GetAllActions(){
+        return this.actionFacade.GetAllActions();
+
+    }
+    
+    public String cancel(){
+        return "actionList";
+    }
+    
+    public void resetAction(){
+        this.action = new Action();
+    } 
 }

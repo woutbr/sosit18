@@ -7,33 +7,35 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Index - SosIT"/>
+        <f:metadata>
+            <f:viewParam name="ticket" value="#{actionController.action.ticketid}"></f:viewParam>
+        </f:metadata>
         <ui:define name="main">
             <b:form>
+                
                 <b:panel title="Action" collapsible="false">
-                    <f:view>
-                        <f:metadata>
-                            <f:viewAction action="#{actionController.FindById(TicketController.ticket.ticketid)}"></f:viewAction>
-                        </f:metadata>
-                    </f:view>
+                    
+                    
 
-                    <h4>Action</h4>
                     <b:panelGrid colSpans="4,8">
                         <b:formGroup>
-                            <h:outputLabel value="User ###"/><br/>
-                            <h:outputLabel value="#{actionController.action.ticketid}"/><br/>
-                            <h:outputLabel value="#{actionController.action.actionid}"/><br/>
-                            <h:outputLabel value="#{actionController.action.creationdate}"/>
+                            <h:outputLabel id="useraccountid" value="User: #{actionController.action.useraccountid}" title="user"/><br/>
+                            <h:outputLabel id="ticketid" value="#{actionController.action.ticketid}" title="ticketid"/><br/>
+                            <h:outputLabel id="ticket-ticketid" value="Ticket: #{TicketController.ticket.ticketid}" title="ticketid"/><br/>
+                            <h:outputLabel id="creationdate" value="Created: #{actionController.action.creationdate}" title="creationdate"/>
                         </b:formGroup>
-
+                        
                         <b:formGroup>
-                            <b:dateTimePicker value="#{actionController.action.startdate}"
+                            <b:dateTimePicker id="startdate" 
+                                              value="#{actionController.action.startdate}"
                                               format="DD.MM.YYYY"
                                               label="Start Date"/>
-                            <b:dateTimePicker value="#{actionController.action.enddate}"
+                            <b:dateTimePicker id="enddate"
+                                              value="#{actionController.action.enddate}"
                                               format="DD.MM.YYYY"
                                               label="End Date"/>
                             <h4>Description</h4>
-                            <b:inputTextarea>#{actionController.action.description}</b:inputTextarea>
+                            <b:inputTextarea id="description" title="Description">#{actionController.action.description}</b:inputTextarea>
                         </b:formGroup>
                     </b:panelGrid>
                     <div class="text-center">
@@ -42,10 +44,8 @@
                     </div>
 
                 </b:panel>
-            </b:form>
-
-
-
+            
+        </b:form>
         </ui:define>
     </ui:composition>
 </html>

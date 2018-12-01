@@ -82,7 +82,4 @@ public class TicketController implements Serializable {
         // wordt aangeroepen in ticketList
         this.ticket= new Ticket();
     }
-
-    
-    
 }

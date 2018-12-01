@@ -32,7 +32,7 @@ public class TicketFacade extends AbstractFacade<Ticket> {
         super(Ticket.class);
     }
     
-        public Ticket FindById(BigDecimal id){
+    public Ticket FindById(BigDecimal id){
         Query q = this.em.createNamedQuery("Ticket.findByTicketid");
         q.setParameter("ticketid", id);
         Ticket t = (Ticket)q.getSingleResult();

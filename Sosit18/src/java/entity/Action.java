@@ -23,6 +23,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.text.DateFormat;
+
 
 /**
  *
@@ -80,6 +82,8 @@ public class Action implements Serializable {
 
     public Action(BigDecimal actionid, Date creationdate) {
         this.actionid = actionid;
+        Date dNow = new Date();
+        creationdate = dNow;
         this.creationdate = creationdate;
     }
 
@@ -169,7 +173,7 @@ public class Action implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Action[ actionid=" + actionid + " ]";
+        return "Action: " + actionid;
     }
     
 }

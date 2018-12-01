@@ -26,9 +26,9 @@
 
                             <f:facet name="header">
                                 <tr>
-                                    <th>Id</th>
+                                    <th>Ticket number</th>
                                     <th>Title</th>
-                                    <th>description</th>
+                                    <th>Description</th>
                                     <th></th>
                                 </tr>
                             </f:facet>
@@ -36,8 +36,8 @@
                             <b:dataTableColumn value="#{item.title}" />
                             <b:dataTableColumn value="#{item.description}" />
                             <b:dataTableColumn value="">                                
-                                <b:commandButton icon="pencil" action="#{TicketController.edit(item)}" />  
-                                <b:commandButton icon="remove" action="#{TicketController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
+                                <b:commandButton title="edit" style="margin-left: 1em" icon="pencil" action="#{TicketController.edit(item)}" />  
+                                <b:commandButton title="remove" style="margin-left: 1em" icon="remove" action="#{TicketController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
                             </b:dataTableColumn>
                         </b:dataTable>        
                     </b:panel>

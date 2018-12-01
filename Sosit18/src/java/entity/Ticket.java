@@ -270,7 +270,7 @@ public class Ticket implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Ticket[ ticketid=" + ticketid + " ]";
+        return "Ticket: " + ticketid;
     }
     
 }
