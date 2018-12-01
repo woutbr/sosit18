@@ -1,33 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui">
-          
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Asset location - SosIT"/>
         <ui:define name="main">
-            
             <b:form>
                 <b:panel title="Asset location" collapsible="false">
                     <h4><u>Add new asset location</u></h4>
-                    <b:panelGrid colSpans="6,6">
-                          <b:formGroup>
-                            <h:outputLabel>Asset location ID</h:outputLabel>
-                            <b:inputText disabled="true"></b:inputText>          
-                          </b:formGroup> 
-                    </b:panelGrid>
                     <h4><u>Description</u></h4>
-                    <b:inputTextarea></b:inputTextarea>
+                    <b:inputTextarea value="#{assetlocationController.assetlocation.description}"
+                                     id="inputassetlocationdesc"
+                                     required="true"
+                                     required-message="Please fill in an description."/>
+                    <b:message />
                     <div class="text-center">
-                        <b:commandButton value="Save" look="success" style="margin-right: 2em"></b:commandButton>
-                        <b:commandButton value="Cancel" look="warning" style="margin-left: 2em"></b:commandButton>
+                        <b:commandButton value="Save" look="success" icon="save" style="margin-right: 2em"
+                                         action="#{assetlocationController.createNewAssetlocation()}"/>
+                        <b:button value="Cancel" look="warning" style="margin-left: 2em"
+                                  outcome="assets"/>
                     </div>
                 </b:panel>
             </b:form>
