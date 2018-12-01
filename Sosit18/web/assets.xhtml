@@ -17,7 +17,7 @@
                 <b:form>
                     <b:panelGrid colSpans="3,9" size="sm">
                         <b:formGroup>
-                            <b:selectOneMenu value="#{assetgroupController.selectedAssetgroup}" 
+                            <b:selectOneMenu value="#{assetgroupController.assetgroup}" 
                                              label="Filter on assetgroup"
                                              onchange="AssetTableWidget.DataTable().search(this.value).draw();">
                                 <f:selectItem itemLabel="Select an assetgroup"/>
