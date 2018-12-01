@@ -21,7 +21,7 @@
                                              label="Filter on assetgroup"
                                              onchange="AssetTableWidget.DataTable().search(this.value).draw();">
                                 <f:selectItem itemLabel="Select an assetgroup"/>
-                                <f:selectItems value="#{assetgroupController.allAssetgroups}"
+                                <f:selectItems value="#{assetgroupController.listAllAssetgroups()}"
                                                var="assetgroup"
                                                itemLabel="#{assetgroup.description}"
                                                itemValue="#{assetgroup.description}"/>
@@ -32,7 +32,7 @@
                                               onchange="AssetTableWidget.DataTable().search(this.value).draw();"/>
                         </b:formGroup>
                         <b:formGroup>
-                            <b:dataTable value="#{assetController.allAssets}"
+                            <b:dataTable value="#{assetController.listAllAssets()}"
                                          var="asset"
                                          class="editableAssetTable"
                                          widgetVar="AssetTableWidget"
@@ -58,7 +58,7 @@
                                     <h:outputText value="#{asset.assetgroupid.description}" rendered="#{not assetController.isRowEditable(asset)}" />
                                     <b:selectOneMenu value="#{assetController.asset.assetgroupid}" 
                                                      rendered="#{assetController.isRowEditable(asset)}">
-                                        <f:selectItems value="#{assetgroupController.allAssetgroups}"
+                                        <f:selectItems value="#{assetgroupController.listAllAssetgroups()}"
                                                        var="assetgroup"
                                                        itemLabel="#{assetgroup.description}"
                                                        itemValue="#{assetgroup}"/>

@@ -19,7 +19,7 @@
                                              required="true" 
                                              required-message="Please select a SLA.">
                                 <f:selectItem itemLabel="Select a SLA"/>
-                                <f:selectItems value="#{slaController.allSlas}"
+                                <f:selectItems value="#{slaController.listAllSlas()}"
                                                var="sla"
                                                itemLabel="#{sla.title}"
                                                itemValue="#{sla}"/>

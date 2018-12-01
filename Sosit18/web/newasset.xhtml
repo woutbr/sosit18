@@ -34,7 +34,7 @@
                                          id="selectmasterasset"
                                          tooltip="Optional">
                             <f:selectItem itemLabel="No master asset"/>
-                            <f:selectItems value="#{assetController.allAssets}"
+                            <f:selectItems value="#{assetController.listAllAssets()}"
                                            var="assetmaster"
                                            itemLabel="#{assetmaster.name}"
                                            itemValue="#{assetmaster}"/>
@@ -46,7 +46,7 @@
                                          required="true" 
                                          required-message="Please select an assetgroup.">
                             <f:selectItem itemLabel="Select an assetgroup"/>
-                            <f:selectItems value="#{assetgroupController.allAssetgroups}"
+                            <f:selectItems value="#{assetgroupController.listAllAssetgroups()}"
                                            var="assetgroup"
                                            itemLabel="#{assetgroup.description}"
                                            itemValue="#{assetgroup}"/>

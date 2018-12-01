@@ -32,7 +32,7 @@ public class SlaController implements Serializable {
         this.sla = sla;
     }
 
-    public List<Sla> getAllSlas() {
+    public List<Sla> listAllSlas() {
         return this.slaFacade.findAll();
     }
     

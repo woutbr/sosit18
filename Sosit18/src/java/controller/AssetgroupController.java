@@ -33,7 +33,7 @@ public class AssetgroupController implements Serializable {
         this.assetgroup = assetgroup;
     }
 
-    public List<Assetgroup> getAllAssetgroups() {
+    public List<Assetgroup> listAllAssetgroups() {
         return this.assetgroupFacade.findAll();
     }
     
