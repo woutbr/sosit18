@@ -12,8 +12,7 @@
                 <f:viewParam name="TicketId"/>
                 <f:viewAction action="#{TicketController.FindById(TicketId)}" />
             </f:metadata>
-
-            
+      
             <b:form>
                 <b:panel title="Ticket " collapsible="false">
 
@@ -21,16 +20,22 @@
                     <b:panelGrid colSpans="4,8">
                         <b:formGroup>
                             <h:outputLabel>Ticket Id</h:outputLabel>
-                            <b:inputText value="#{TicketController.ticket.ticketid}"></b:inputText>
+                            <b:inputText value="#{TicketController.ticket.ticketid}"  readonly="true"></b:inputText>
                             <h:outputLabel>Bedrijf</h:outputLabel>
-                            <b:inputText></b:inputText>
-                            <h:outputLabel>user</h:outputLabel>
-                            <b:inputText></b:inputText>
+                            <b:inputText value="#{TicketController.ticket.useraccountid.companyid.name}" readonly="true" auto-update="true"/>
+                            
+                            <h:outputLabel >user</h:outputLabel>                         
+                            <b:selectOneMenu value="#{TicketController.ticket.useraccountid}">
+                                <f:selectItems value="#{userController.ListAllUsers()}" 
+                                               var="ua" 
+                                               itemValue="#{ua}" 
+                                               itemLabel="#{userController.FulName(ua)}"  />
+                               
+                            </b:selectOneMenu>
                             <h:outputLabel>Creatie datum</h:outputLabel>
-                            <b:inputText></b:inputText>
+                            <b:inputText  value="#{TicketController.ticket.creationdate}" readonly="true"></b:inputText>
                         </b:formGroup>
-
-                        
+          
                         <b:formGroup>
                             <h:outputLabel  >Titel</h:outputLabel>
                             <b:inputText value="#{TicketController.ticket.title}"></b:inputText>
@@ -61,18 +66,26 @@
                                                />
                                 
                             </b:selectOneMenu>
-
-                            <h:outputLabel>Urgency</h:outputLabel>
-                            <b:selectOneMenu></b:selectOneMenu>
+                                                        
+                            <h:outputLabel>Priority</h:outputLabel>
+                            <b:selectOneMenu value="#{TicketController.ticket.ticketpriorityid}">
+                                <f:selectItems value="#{ticketpriorityController.ListTicketpriority()}"
+                                               var="tp" 
+                                               itemValue="#{tp}" 
+                                               itemLabel="#{tp.description}"
+                                               />
+                                
+                            </b:selectOneMenu>
 
                         </b:formGroup>
                     </b:panelGrid>
+                    
                     <h4><u>Omschrijving</u></h4>
                     <b:inputTextarea value="#{TicketController.ticket.description}" ></b:inputTextarea>
                     <div class="text-center">
                         <b:commandButton value="Opslaan" look="success" style="margin-right: 2em" action="#{TicketController.save()}"></b:commandButton>
                         <b:commandButton value="Terug" look="warning" style="margin-left: 2em" action="#{TicketController.cancel()}"></b:commandButton>
-                        <b:commandButton value="test" action="#{TicketController.test()}"/>                       
+                       
                     </div>
 
                 </b:panel>

@@ -11,7 +11,11 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import dao.TicketFacade;
 import entity.Ticket;
+import entity.Useraccount;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 
@@ -66,7 +70,10 @@ public class TicketController implements Serializable {
  
         if (ticket.getTicketid()==null) {
             // een ticket dat nog geen nummer heeft moet een nieuw ticket zijn
+
+            ticket.setCreationdate(GetCurrentDate());
             this.ticketFacade.create(ticket);
+
         }else{
             // een bestaan ticket wordt enkel geupdate
             this.ticketFacade.edit(ticket);
@@ -96,12 +103,20 @@ public class TicketController implements Serializable {
     public void resetTicket(){
         // wordt aangeroepen in ticketList
         this.ticket= new Ticket();
+        ticket.setCreationdate(GetCurrentDate());
         int a = 1;
     }
     public void test() {
         
         int a=1;
-    
     }
+    
+    public Date GetCurrentDate(){
+        
+        LocalDate ld  = LocalDate.now();
+        Date      d   =java.sql.Date.valueOf(ld);
+        return d;
+    }
+    
 
 }
