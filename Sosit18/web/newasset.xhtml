@@ -11,8 +11,9 @@
             <b:panel title="New Asset" collapsible="false">
                 <b:form>
                     <b:panelGrid colSpans="2,5,5" size="xs">
-                        <h:outputLabel value="Company" for="@next"/>
-                        <b:selectOneMenu value="#{assetController.asset.companyid}" 
+                        <h:outputLabel value="Company" for="selectcompany"/>
+                        <b:selectOneMenu value="#{assetController.asset.companyid}"
+                                         id="selectcompany"
                                          required="false" 
                                          required-message="Please select a company.">
                             <f:selectItem itemLabel="Select a company"/>
@@ -22,54 +23,62 @@
                                            itemValue="#{company}"/>
                         </b:selectOneMenu>
                         <b:message />
-                        <h:outputLabel value="Name" for="@next"/>
+                        <h:outputLabel value="Name" for="inputassetname"/>
                         <b:inputText value="#{assetController.asset.name}"
+                                     id="inputassetname"
                                      required="true"
                                      required-message="Please fill in a name."/>
                         <b:message />
-                        <h:outputLabel value="Master asset" for="@next"/>
+                        <h:outputLabel value="Master asset" for="selectmasterasset"/>
                         <b:selectOneMenu value="#{assetController.asset.assetmasterid}"
+                                         id="selectmasterasset"
                                          tooltip="Optional">
                             <f:selectItem itemLabel="No master asset"/>
-                            <f:selectItems value="#{assetController.allAssets}"
+                            <f:selectItems value="#{assetController.listAllAssets()}"
                                            var="assetmaster"
                                            itemLabel="#{assetmaster.name}"
                                            itemValue="#{assetmaster}"/>
                         </b:selectOneMenu>
                         <b:message />
-                        <h:outputLabel value="Assetgroups" for="@next"/>
+                        <h:outputLabel value="Assetgroups" for="selectassetgroup"/>
                         <b:selectOneMenu value="#{assetController.asset.assetgroupid}" 
+                                         id="selectassetgroup"
                                          required="true" 
                                          required-message="Please select an assetgroup.">
                             <f:selectItem itemLabel="Select an assetgroup"/>
-                            <f:selectItems value="#{assetgroupController.allAssetgroups}"
+                            <f:selectItems value="#{assetgroupController.listAllAssetgroups()}"
                                            var="assetgroup"
                                            itemLabel="#{assetgroup.description}"
                                            itemValue="#{assetgroup}"/>
                         </b:selectOneMenu>
                         <b:message />
-                        <h:outputLabel value="Description" for="@next"/>
-                        <b:inputTextarea value="#{assetController.asset.description}"/>
+                        <h:outputLabel value="Description" for="inputassetdesc"/>
+                        <b:inputTextarea value="#{assetController.asset.description}"
+                                         id="inputassetdesc"/>
                         <b:message />
-                        <h:outputLabel value="Asset location" for="@next"/>
-                        <b:selectOneMenu value="#{assetController.asset.assetlocationid}">
+                        <h:outputLabel value="Asset location" for="selectassetlocation"/>
+                        <b:selectOneMenu value="#{assetController.asset.assetlocationid}"
+                                         id="selectassetlocation">
                             <f:selectItem itemLabel="No location"/>
-                            <f:selectItems value=""
+                            <f:selectItems value="#{assetlocationController.listAllAssetlocations()}"
                                            var="assetlocation"
                                            itemLabel="#{assetlocation.description}"
                                            itemValue="#{assetlocation}"/>
                         </b:selectOneMenu>
                         <b:message />
-                        <h:outputLabel value="Purchase date" for="@next"/>
+                        <h:outputLabel value="Purchase date" for="pickassetdate"/>
                         <b:datepicker value="#{assetController.asset.purchasedate}"
+                                      id="pickassetdate"
                                       tooltip="Pick the date of purchase."/>
                         <b:message />
-                        <h:outputLabel value="Warranty" for="@next"/>
+                        <h:outputLabel value="Warranty" for="inputassetwaranty"/>
                         <b:inputText value="#{assetController.asset.warranty}"
+                                     id="inputassetwaranty"
                                      converter-message="Please enter a number."/>
                         <b:message />
-                        <h:outputLabel value="Support contract" for="@next"/>
-                        <b:inputText value="#{assetController.asset.supportcontract}"/>
+                        <h:outputLabel value="Support contract" for="inputassetsupport"/>
+                        <b:inputText value="#{assetController.asset.supportcontract}"
+                                     id="inputassetsupport"/>
                         <b:message />
                         <b:commandButton value="save" icon="save" look="primary"
                                          action="#{assetController.createNewAsset()}" />

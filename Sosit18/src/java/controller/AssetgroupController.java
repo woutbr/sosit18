@@ -3,6 +3,7 @@ package controller;
 import dao.AssetgroupFacade;
 import entity.Assetgroup;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -18,21 +19,31 @@ public class AssetgroupController implements Serializable {
 
     @EJB
     private AssetgroupFacade assetgroupFacade;
-    private Assetgroup selectedAssetgroup = null;
+    private Assetgroup assetgroup = null;
 
     public AssetgroupController() {
+        this.assetgroup = new Assetgroup();
     }
 
-    public Assetgroup getSelectedAssetgroup() {
-        return selectedAssetgroup;
+    public Assetgroup getAssetgroup() {
+        return assetgroup;
     }
 
-    public void setSelectedAssetgroup(Assetgroup selectedAssetgroup) {
-        this.selectedAssetgroup = selectedAssetgroup;
+    public void setAssetgroup(Assetgroup assetgroup) {
+        this.assetgroup = assetgroup;
     }
 
-    public List<Assetgroup> getAllAssetgroups() {
+    public List<Assetgroup> listAllAssetgroups() {
         return this.assetgroupFacade.findAll();
+    }
+    
+    public Assetgroup findByID(BigDecimal id){
+        return this.assetgroupFacade.find(id);
+    }
+    
+    public String createNewAssetgroup(){
+        this.assetgroupFacade.edit(assetgroup);
+        return "assets?faces-redirect=true";
     }
 
 }

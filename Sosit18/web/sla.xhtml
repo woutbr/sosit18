@@ -1,37 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui">
-          
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="SLA - SosIT"/>
         <ui:define name="main">
-            
             <b:form>
                 <b:panel title="SLA" collapsible="false">
                     <h4><u>Add new SLA</u></h4>
                     <b:panelGrid colSpans="6,6">
-                          <b:formGroup>
-                            <h:outputLabel>SLA ID</h:outputLabel>
-                            <b:inputText disabled="true"></b:inputText>
-                            <h:outputLabel>Title</h:outputLabel>
-                            <b:inputText required="true"></b:inputText>
-                            <h:outputLabel>Response time</h:outputLabel>
-                            <b:inputText type="number"></b:inputText>
-                          </b:formGroup> 
-                   </b:panelGrid>
+                        <b:formGroup>
+                            <h:outputLabel value="Title" for="inputslatitle"/>
+                            <b:inputText value="#{slaController.sla.title}" 
+                                         id="inputslatitle"
+                                         required="true"
+                                         required-message="Please fill in a title."/>
+                            <b:message />
+                            <h:outputLabel value="Response time" for="inputslaresponse"/>
+                            <b:inputText value="#{slaController.sla.responsetime}"
+                                         id="inputslaresponse"
+                                         type="number"
+                                         required="true"
+                                         required-message="Please fill in a number."/>
+                            <b:message />
+                        </b:formGroup>
+                    </b:panelGrid>
                     <h4><u>Description</u></h4>
-                    <b:inputTextarea></b:inputTextarea>
+                    <b:inputTextarea value="#{slaController.sla.description}"
+                                     id="inputsladesc"/>
+                    <b:message />
                     <div class="text-center">
-                        <b:commandButton value="Save" look="success" style="margin-right: 2em"></b:commandButton>
-                        <b:commandButton value="Cancel" look="warning" style="margin-left: 2em"></b:commandButton>
+                        <b:commandButton value="Save" look="success" icon="save" style="margin-right: 2em"
+                                         action="#{slaController.createNewSla()}"/>
+                        <b:button value="Cancel" look="warning" style="margin-left: 2em"
+                                  outcome="assets"/>
                     </div>
                 </b:panel>
             </b:form>

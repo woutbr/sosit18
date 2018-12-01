@@ -34,7 +34,7 @@ public class AssetController implements Serializable {
         this.asset = asset;
     }
 
-    public List<Asset> getAllAssets() {
+    public List<Asset> listAllAssets() {
         return this.assetFacade.findAll();
     }
 
