@@ -33,7 +33,6 @@ public class AssetController implements Serializable {
     public void setAsset(Asset asset) {
         this.asset = asset;
     }
-
     public List<Asset> listAllAssets() {
         return this.assetFacade.findAll();
     }

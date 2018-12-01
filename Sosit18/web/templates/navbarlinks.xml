@@ -4,7 +4,7 @@
     <link name="Index" href="index"/>
     <list name="Ticket ">
         <link name="All tickets" href="ticketList"/>
-        <link name="New ticket" href="tickets"/>
+        <link name="New ticket" href="ticket"/>
         <link name="Ticket type" href="tickettype"/>
         <link name="Ticket status" href="ticketstatus"/>
         <link name="Ticket severity" href="ticketseverity"/>

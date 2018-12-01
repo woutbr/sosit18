@@ -46,6 +46,10 @@ public class UserController implements Serializable {
         return this.useraccountFacade.GetAllUsers();
     }
     
+    public List<Useraccount> ListAllUsers(){
+        return this.useraccountFacade.GetAllUsers();
+    }
+    
     public String cancel(){
         return "userlist?faces-redirect=true";
     }
@@ -72,5 +76,10 @@ public class UserController implements Serializable {
     
     public void resetUseraccount(){
         this.useraccount=new Useraccount();
+    }
+    
+    public String FulName(Useraccount user){
+        return user.getFirstname()+" "+user.getLastname();
+    
     }
 }
