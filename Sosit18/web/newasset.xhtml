@@ -60,7 +60,7 @@
                         <b:selectOneMenu value="#{assetController.asset.assetlocationid}"
                                          id="selectassetlocation">
                             <f:selectItem itemLabel="No location"/>
-                            <f:selectItems value=""
+                            <f:selectItems value="#{assetlocationController.listAllAssetlocations()}"
                                            var="assetlocation"
                                            itemLabel="#{assetlocation.description}"
                                            itemValue="#{assetlocation}"/>
