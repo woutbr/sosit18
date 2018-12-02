@@ -49,7 +49,9 @@
                     <div class="text-center">
                         <b:commandButton value="Opslaan" look="success" style="margin-right: 2em" action="#{TicketController.edit()}"></b:commandButton>
                         <b:commandButton value="Terug" look="warning" style="margin-left: 2em" action="#{TicketController.cancel()}"></b:commandButton>
-                        <b:button value="new action" style="margin-left: 2em" href="action.xhtml"><f:param value="#{actionController.create(TicketController.ticket)}" name="ticket"></f:param></b:button>
+                        <b:button value="new action" style="margin-left: 2em" outcome="action">
+                            <f:param value="#{TicketController.ticket.ticketid}" name="ticket"></f:param>
+                        </b:button>
                     </div>
                     
                     
