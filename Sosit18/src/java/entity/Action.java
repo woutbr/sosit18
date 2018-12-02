@@ -24,6 +24,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.text.DateFormat;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.SequenceGenerator;
 
 
 /**
@@ -48,6 +51,8 @@ public class Action implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
+    @SequenceGenerator(name="ACTION_SEQ",sequenceName="ACTION_SEQ",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "ACTION_SEQ")
     @Column(name = "ACTIONID")
     private BigDecimal actionid;
     @Size(max = 500)

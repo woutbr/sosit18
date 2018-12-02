@@ -13,6 +13,8 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.sql.Date;
 import javax.ejb.EJB;
 import java.util.List;
 
@@ -27,8 +29,11 @@ public class ActionController implements Serializable {
 
     @EJB
     private ActionFacade actionFacade;
+    @EJB
+    private TicketFacade ticketFacade;
     
     private Action action = new Action();
+    private Ticket ticket = new Ticket();
 
     public Action getAction() {
         return action;
@@ -44,11 +49,18 @@ public class ActionController implements Serializable {
     public void FindById(BigDecimal id){
         action = this.actionFacade.FindById(id);
     }
-    
-    public String create(Ticket t){
-        action.setTicketid(t);
+       
+    public String create(){
         this.actionFacade.create(action);
         return "action?faces-redirect=true";
+    }
+    
+    public void onload(BigDecimal ticketid){
+        LocalDate date = LocalDate.now();
+        Date today = Date.valueOf(date);
+        action.setCreationdate(today);
+        action.setTicketid(this.ticketFacade.FindById(ticketid));
+        
     }
     
     public List<Action> GetAllActions(){

@@ -270,7 +270,7 @@ public class Ticket implements Serializable {
 
     @Override
     public String toString() {
-        return "Ticket: " + ticketid;
+        return ticketid.toString();
     }
     
 }
