@@ -51,7 +51,7 @@
                             <h:outputLabel>Asset</h:outputLabel>
                             
                             <b:selectOneMenu value="#{TicketController.ticket.assetid}">
-                                <f:selectItems value="#{assetController.allAssets}"
+                                <f:selectItems value="#{assetController.listAllAssets()}"
                                                var="a" 
                                                itemValue="#{a.assetid.toBigInteger()}" 
                                                itemLabel="#{a.description}"/>
