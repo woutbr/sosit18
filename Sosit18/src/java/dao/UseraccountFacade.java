@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -35,6 +36,13 @@ public class UseraccountFacade extends AbstractFacade<Useraccount> {
     public Useraccount FindByUseraccountid(BigDecimal id){
         Query q = this.em.createNamedQuery("Useraccount.FindByUseraccountid");
         q.setParameter("Useraccountid", id);
+        Useraccount u = (Useraccount)q.getSingleResult();
+        return u;
+    }
+    
+    public Useraccount findByUsername(String username) throws NoResultException{
+        Query q = this.em.createNamedQuery("Useraccount.findByUsername");
+        q.setParameter("username", username);
         Useraccount u = (Useraccount)q.getSingleResult();
         return u;
     }

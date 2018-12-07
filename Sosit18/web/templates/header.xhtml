@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 <ui:composition>
     <b:navBar brand="SosIT" brandHref="index.xhtml" fixed="top" inverse="true">
         <b:navbarLinks>
@@ -17,6 +18,13 @@
                     </ui:repeat>
                 </b:dropMenu>
             </ui:repeat>
+            <b:dropMenu value="#{auth.useraccount.username}"
+                       rendered="#{auth.useraccount != null}">
+                <b:navLink value="Edit useraccount" href="useraccount.xhtml">
+                    <f:param name="useraccountid" value="#{auth.useraccount.useraccountid}"/>
+                </b:navLink>
+                <b:navLink value="logout" href="/logout"/>
+            </b:dropMenu>
         </b:navbarLinks>
     </b:navBar>
 </ui:composition>
