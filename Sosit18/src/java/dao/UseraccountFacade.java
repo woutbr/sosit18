@@ -46,9 +46,9 @@ public class UseraccountFacade extends AbstractFacade<Useraccount> {
         return l;
     }
     
-    public List<Useraccount> GetAllUsersByCompanyId(Company company){
+    public List<Useraccount> GetAllUsersByCompanyId(BigDecimal companyId){
         Query q = this.em.createNamedQuery("Useraccount.findByCompanyId");
-        q.setParameter("companyid", company);
+        q.setParameter("companyid", companyId);
         List<Useraccount> l = (List<Useraccount>)q.getResultList();
         return l;
     }

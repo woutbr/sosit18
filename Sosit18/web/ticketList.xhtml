@@ -22,28 +22,35 @@
                     <b:panel title="Ticket " collapsible="false">
                      <b:panelGrid colSpans='3,9'>
                           <b:formGroup style="background-color: aliceblue ; padding: 1em" id="FilterPanel">
-                                <h3>Filter</h3>
+                              <h3 class="text-center">Filter</h3>
                                 <b:label value="Status" 
                                          style="background-color: lightgray" />
                                 <b:selectOneMenu>
                                 </b:selectOneMenu>
+                                
                                 <b:label value="Company"
                                          style="background-color: lightgray"/>
-                                <b:selectOneMenu value="#{companyController.company}" id="company">
+                                <b:selectOneMenu value="#{companyController.company}" >
                                     <f:selectItems value="#{companyController.ListAllCompanies()}" 
-                                                   var="co" itemValue="#{co.companyid}" 
+                                                   var="co" 
+                                                   itemValue="#{co}" 
                                                    itemLabel="#{co.name}"/>
                                     <f:ajax render="FilterPanel"/>
                                 </b:selectOneMenu>
                                 <b:label value="User"
                                          style="background-color: lightgray"/>
                             <b:selectOneMenu value="#{TicketController.ticket.useraccountid}">
-                                <f:selectItems value="#{userController.ListAllUsersByCompany(company)}" 
+                                <f:selectItems value="#{userController.ListAllUsersByCompany(companyController.company)}" 
                                                var="ua" 
                                                itemValue="#{ua}" 
                                                itemLabel="#{ua.fullname}"/>
                                 <f:ajax id="FilterPanel"/>
-                            </b:selectOneMenu>    
+                            </b:selectOneMenu>
+                                <div class="text-center" style="margin-top: 1em">
+                                  <b:commandButton value="Filter"/>
+                                  <b:commandButton value="Clear"/>
+                                </div>
+                                
                             </b:formGroup>
                     <b:formGroup>
                        
@@ -72,11 +79,9 @@
                     </b:panelGrid>
                     </b:panel>
                     <b:commandButton value="new" action="#{TicketController.create()}" />
-                    <b:commandButton value="test" action="#{companyController.ListAllCompanies()}" />
-
+                    <b:commandButton value="test" action="#{userController.test(companyController.company)}" />
                 </b:form>
             </f:view>
-            
         </ui:define>
     </ui:composition>
 </html>

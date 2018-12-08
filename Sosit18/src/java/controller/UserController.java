@@ -25,7 +25,6 @@ public class UserController implements Serializable {
 
     @EJB
     private UseraccountFacade useraccountFacade;
-    
     private Useraccount useraccount = new Useraccount();
     
     public UserController() {
@@ -55,11 +54,17 @@ public class UserController implements Serializable {
         List<Useraccount> userlist;
         
         if(company!=null){
-            userlist = this.useraccountFacade.GetAllUsersByCompanyId(company);
+            userlist = this.useraccountFacade.GetAllUsersByCompanyId(company.getCompanyid());
         }else{
             userlist =ListAllUsers();
         }
         return userlist;
+    }
+    
+    public String test(Company co){
+        String s = " test";
+        return s;
+    
     }
     
     
