@@ -27,22 +27,24 @@ public class LoginController implements Serializable {
 
     @EJB
     private UseraccountFacade useraccountFacade;
-    @ManagedProperty("#{user}")
-    private Useraccount useraccount;
+    
+    @ManagedProperty(value="#{auth}")
+    private AuthBean authBean;
+    
     private String username;
     private String password;
 
     public LoginController() {
         this.clearUsernamePassword();
-        this.useraccount = null;
+        this.authBean = new AuthBean();
     }
 
-    public Useraccount getUseraccount() {
-        return useraccount;
+    public AuthBean getAuthBean() {
+        return authBean;
     }
 
-    public void setUseraccount(Useraccount useraccount) {
-        this.useraccount = useraccount;
+    public void UserBean(AuthBean useraccount) {
+        this.authBean = useraccount;
     }
 
     public String getUsername() {
@@ -73,7 +75,7 @@ public class LoginController implements Serializable {
      */
     public void login() throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
-        if (useraccount != null) {
+        if (this.authBean.getUser() != null) {
             FacesMessage loginErrorMessage = new FacesMessage("A user is still logged in.");
             context.addMessage(null, loginErrorMessage);
         } else {
@@ -83,9 +85,12 @@ public class LoginController implements Serializable {
 //               request.login(this.username, this.password);
             Useraccount foundUser = this.useraccountFacade.findByUsernamePassword(this.username, this.password);
             if (foundUser != null) {
-                externalContext.getSessionMap().put("user", foundUser);
+                this.authBean.setUser((foundUser));
+//                externalContext.getSessionMap().put("user", foundUser);
                 //User is accessible in JSF EL by #{user}
-                externalContext.redirect(this.originalURL(externalContext));
+//                String redirectUrl = context.getExternalContext().getRequestParameterMap().get("redirect");
+                String redirectUrl = this.originalURL(externalContext);
+                externalContext.redirect(redirectUrl);
             } else {
                 FacesMessage loginErrorMessage = new FacesMessage("Username or password are incorrect.");
                 context.addMessage(null, loginErrorMessage);
@@ -115,7 +120,7 @@ public class LoginController implements Serializable {
     public void logout() throws IOException {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         externalContext.invalidateSession();
-        this.useraccount = null;
+        this.authBean.clearUseraccount();
         externalContext.redirect(externalContext.getRequestContextPath() + "/login.xhtml");
     }
 }

@@ -17,15 +17,18 @@
                     </ui:repeat>
                 </b:dropMenu>
             </ui:repeat>
-            <b:dropMenu value="#{user.username}"
-                        rendered="#{user != null}">
+            <b:dropMenu value="#{auth.user.username}"
+                        rendered="#{auth.loggedIn}">
                 <b:navLink value="Edit useraccount" href="useraccount.xhtml">
-                    <f:param name="useraccountid" value="#{user.useraccountid}"/>
+                    <f:param name="useraccountid" value="#{auth.user.useraccountid}"/>
                 </b:navLink>
-                <b:commandLink value="Logout" action="#{loginController.logout()}"/>
+                <!--b:form>
+                    <b:commandLink value="Logout" action="#{loginController.logout()}"/>
+                </b:form-->
+                <b:navLink value="Logout" href="logout"/>
             </b:dropMenu>
             <b:navLink value="Login" outcome="login"
-                       rendered="#{user == null}"/>
+                       rendered="#{!auth.loggedIn}"/>
         </b:navbarLinks>
     </b:navBar>
 </ui:composition>
