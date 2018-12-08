@@ -6,7 +6,7 @@
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/page.xhtml">
-        <ui:param name="Login" value="Login - SosIT"/>
+        <ui:param name="pageTitle" value="Login - SosIT"/>
         <ui:define name="main">
             <h:form id="loginform">
 
@@ -14,21 +14,21 @@
 
                     <b:formGroup>
                         <h:outputLabel>Username:</h:outputLabel>
-                        <b:inputText value="#{auth.username}"
+                        <b:inputText value="#{loginController.username}"
                                      id="j_username"
                                      required="true"
                                      required-message="Please enter in a username."/>
                         <b:message/>
                         <h:outputLabel>Password:</h:outputLabel>
                         <b:inputSecret style="margin-bottom: 1em"
-                                       value="#{auth.password}"
+                                       value="#{loginController.password}"
                                      id="j_password"
                                      required="true"
                                      required-message="Please enter in a username."/>
                         <b:message/>
 
                         <b:commandButton value="Sign in" look="success" style="margin-bottom: 1em"
-                                         action="#{auth.login()}">
+                                         action="#{loginController.login()}">
                             <f:param name="redirect" value="#{requestScope['javax.servlet.forward.request_uri']}" />
                         </b:commandButton>
                         <b:messages global-only="true"/>

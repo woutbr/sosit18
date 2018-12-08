@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Performing user authentication in Java EE / JSF using j_security_check
+ * Performing user authentication in Java EE / JSF using j_security_check : answer by Vítor E. Silva Souza
  * https://stackoverflow.com/a/2997254
  *
  * @author woutbr@student.hik.be
