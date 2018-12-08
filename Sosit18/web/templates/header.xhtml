@@ -28,8 +28,12 @@
                 <b:navLink value="Logout" href="logout"/>
             </b:dropMenu>
             <b:navLink value="Login" outcome="login"
-                       rendered="#{!auth.loggedIn}"/>
+                       rendered="#{not auth.loggedIn}"/>
         </b:navbarLinks>
+        <b:form horizontal="true" style="margin: 1em 0 0 0; height: 36px; color: #fb0;">
+            <b:switch value="#{auth.debugMode}" caption="auth.debugMode" tooltip="Ignore the login check" ajax="true"
+                      onColor="warning" switchsize="mini"/>
+        </b:form>
     </b:navBar>
 </ui:composition>
 </html>

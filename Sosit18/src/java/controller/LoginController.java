@@ -27,7 +27,6 @@ public class LoginController implements Serializable {
 
     @EJB
     private UseraccountFacade useraccountFacade;
-
     @Inject
     private AuthBean authBean;
     

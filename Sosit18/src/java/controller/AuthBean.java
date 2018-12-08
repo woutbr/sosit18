@@ -13,6 +13,11 @@ import javax.inject.Named;
 public class AuthBean implements Serializable {
 
     private Useraccount user;
+    private boolean debugMode;
+
+    public AuthBean() {
+        this.debugMode = true;//For testing. Ignores the logincheck in LoginFilter
+    }
 
     public Useraccount getUser() {
         return user;
@@ -28,6 +33,14 @@ public class AuthBean implements Serializable {
     
     public boolean isLoggedIn(){
         return this.user != null;
+    }
+
+    public boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
     }
 
 }
