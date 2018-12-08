@@ -80,11 +80,7 @@ public class AuthBean implements Serializable {
     public boolean validateUsernamePassword() {
         if (this.username != null && this.password != null) {
             Useraccount foundUseraccount = null;
-            try {
-                foundUseraccount = this.useraccountFacade.findByUsername(this.username);
-            } catch (NoResultException nre) {
-                //No Useraccount found
-            }
+            foundUseraccount = this.useraccountFacade.findByUsername(this.username);
             if (foundUseraccount != null) {
                 String hashedPassword = this.hashPassword(this.password);
                 if (foundUseraccount.getPassword().equals(hashedPassword)) {
@@ -96,12 +92,16 @@ public class AuthBean implements Serializable {
         return false;
     }
 
+    /**
+     * If no user is logged in, validate the username and password.
+     * On succes, redirect to index. Else add an error message.
+     * @return A String representing a page.
+     */
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();
         if (useraccount != null) {
             FacesMessage loginErrorMessage = new FacesMessage("A user is still logged in.");
             context.addMessage(null, loginErrorMessage);
-            return "";
         } else {
             if (validateUsernamePassword()) {
                 this.clearUsernamePassword();
@@ -118,8 +118,8 @@ public class AuthBean implements Serializable {
             } else {
                 FacesMessage loginErrorMessage = new FacesMessage("Username or password are incorrect.");
                 context.addMessage(null, loginErrorMessage);
-                return "";
             }
         }
+        return "";
     }
 }

@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -40,10 +39,16 @@ public class UseraccountFacade extends AbstractFacade<Useraccount> {
         return u;
     }
     
-    public Useraccount findByUsername(String username) throws NoResultException{
+    /**
+     * Finds a Useraccount with the given username. 
+     * If no user is found, null is returned
+     * @param username
+     * @return A Useraccount with the given username or null if not found.
+     */
+    public Useraccount findByUsername(String username){
         Query q = this.em.createNamedQuery("Useraccount.findByUsername");
         q.setParameter("username", username);
-        Useraccount u = (Useraccount)q.getSingleResult();
+        Useraccount u = (Useraccount)q.getResultList().stream().findFirst().orElse(null);
         return u;
     }
     
