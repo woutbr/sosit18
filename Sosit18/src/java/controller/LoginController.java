@@ -121,6 +121,10 @@ public class LoginController implements Serializable {
         return originalURL;
     }
 
+    /**
+     * Momenteel wordt LogoutServlet gebruikt.
+     * @throws IOException 
+     */
     public void logout() throws IOException {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         externalContext.invalidateSession();
