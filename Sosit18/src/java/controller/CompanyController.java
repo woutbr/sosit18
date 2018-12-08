@@ -9,11 +9,14 @@ import dao.CompanyFacade;
 import entity.Company;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
+import oracle.net.aso.e;
+import static oracle.sql.NUMBER.e;
 
 /**
  *
@@ -70,9 +73,17 @@ public class CompanyController implements Serializable {
     }
     
     public String erase(Company c){
+        try{
         this.companyFacade.remove(c);
-        return "companyList?faces-redirect=true";    
+        return "companyList?faces-redirect=true";}
+        catch(java.sql.sqlintegrityconstraintviolationexception e)
+        {
+        
+        }
     }
+    
+    /*Internal Exception: java.sql.SQLIntegrityConstraintViolationException: ORA-02292: integrity constraint (CVO_GROEP_1.USERACCOUNT_COMPANY_FK) violated - child record found
+*/
     
        
     public String edit(Company c){
@@ -97,10 +108,10 @@ public class CompanyController implements Serializable {
         return "companyList?faces-redirect=true";
     }
     
-    public String GoTo(Company c){
+   /* public String GoTo(Company c){
        this.company = c;
      return "company?faces-redirect=true";
-     }
+     } */
     
     public String cancel()
     {
@@ -113,9 +124,5 @@ public class CompanyController implements Serializable {
         
         }
     
-    /* public void resetCompany(){
-        // wordt aangeroepen in ticketList
-        this.company= new Company();
-                int a = 1;
-    } */
+    
 }
