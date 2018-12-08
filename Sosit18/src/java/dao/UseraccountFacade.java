@@ -5,6 +5,7 @@
  */
 package dao;
 
+import entity.Company;
 import entity.Useraccount;
 import java.math.BigDecimal;
 import java.util.List;
@@ -41,6 +42,13 @@ public class UseraccountFacade extends AbstractFacade<Useraccount> {
     
     public List<Useraccount> GetAllUsers(){
         Query q = this.em.createNamedQuery("Useraccount.findAll");
+        List<Useraccount> l = (List<Useraccount>)q.getResultList();
+        return l;
+    }
+    
+    public List<Useraccount> GetAllUsersByCompanyId(Company company){
+        Query q = this.em.createNamedQuery("Useraccount.findByCompanyId");
+        q.setParameter("companyid", company);
         List<Useraccount> l = (List<Useraccount>)q.getResultList();
         return l;
     }

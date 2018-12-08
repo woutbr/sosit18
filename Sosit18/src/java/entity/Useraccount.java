@@ -20,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -42,7 +43,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Useraccount.findByEmail", query = "SELECT u FROM Useraccount u WHERE u.email = :email")
     , @NamedQuery(name = "Useraccount.findByPhone", query = "SELECT u FROM Useraccount u WHERE u.phone = :phone")
     , @NamedQuery(name = "Useraccount.findBySex", query = "SELECT u FROM Useraccount u WHERE u.sex = :sex")
-    , @NamedQuery(name = "Useraccount.findByVersion", query = "SELECT u FROM Useraccount u WHERE u.version = :version")})
+    , @NamedQuery(name = "Useraccount.findByVersion", query = "SELECT u FROM Useraccount u WHERE u.version = :version")
+    , @NamedQuery(name = "Useraccount.findByCompanyId", query = "SELECT u FROM Useraccount u WHERE u.companyid = :companyid")})
+
 public class Useraccount implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -93,6 +96,9 @@ public class Useraccount implements Serializable {
     private Collection<Ticket> ticketCollection;
     @OneToMany(mappedBy = "useraccountid")
     private Collection<Ticket> ticketCollection1;
+    @Transient
+    private String Fullname;
+  
 
     public Useraccount() {
     }
@@ -204,6 +210,11 @@ public class Useraccount implements Serializable {
     public void setCompanyid(Company companyid) {
         this.companyid = companyid;
     }
+
+    public String getFullname() {
+        return this.firstname+" "+this.lastname;
+    }
+    
 
     @XmlTransient
     public Collection<Action> getActionCollection() {

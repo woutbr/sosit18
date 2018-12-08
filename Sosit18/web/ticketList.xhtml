@@ -16,13 +16,39 @@
                     Waneer TicketController.create() wordt aangeroepen  vertrekken we van een nieuw ticket;
                     -->
                     <f:viewAction action="#{TicketController.resetTicket()}"></f:viewAction>
-
-
                 </f:metadata>
                 <b:form>
+
                     <b:panel title="Ticket " collapsible="false">
-                        
-                        <b:dataTable value="#{TicketController.GetAllTickets()}" var="item">
+                     <b:panelGrid colSpans='3,9'>
+                          <b:formGroup style="background-color: aliceblue ; padding: 1em" id="FilterPanel">
+                                <h3>Filter</h3>
+                                <b:label value="Status" 
+                                         style="background-color: lightgray" />
+                                <b:selectOneMenu>
+                                </b:selectOneMenu>
+                                <b:label value="Company"
+                                         style="background-color: lightgray"/>
+                                <b:selectOneMenu value="#{companyController.company}" id="company">
+                                    <f:selectItems value="#{companyController.ListAllCompanies()}" 
+                                                   var="co" itemValue="#{co.companyid}" 
+                                                   itemLabel="#{co.name}"/>
+                                    <f:ajax render="FilterPanel"/>
+                                </b:selectOneMenu>
+                                <b:label value="User"
+                                         style="background-color: lightgray"/>
+                            <b:selectOneMenu value="#{TicketController.ticket.useraccountid}">
+                                <f:selectItems value="#{userController.ListAllUsersByCompany(company)}" 
+                                               var="ua" 
+                                               itemValue="#{ua}" 
+                                               itemLabel="#{ua.fullname}"/>
+                                <f:ajax id="FilterPanel"/>
+                            </b:selectOneMenu>    
+                            </b:formGroup>
+                    <b:formGroup>
+                       
+                        <b:dataTable value="#{TicketController.GetAllTickets()}" 
+                                     var="item" save-state="false">
 
                             <f:facet name="header">
                                 <tr>
@@ -32,7 +58,7 @@
                                     <th></th>
                                 </tr>
                             </f:facet>
-                            <b:dataTableColumn value="#{item.ticketid}" order="asc"/>
+                            <b:dataTableColumn value="#{item.ticketid}" order="asc" />
                             <b:dataTableColumn value="#{item.title}" />
                             <b:dataTableColumn value="#{item.description}" />
                             <b:dataTableColumn value="">
@@ -41,9 +67,12 @@
                                 </b:button>
                                 <b:commandButton icon="remove" action="#{TicketController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
                             </b:dataTableColumn>
-                        </b:dataTable>        
+                        </b:dataTable>  
+                    </b:formGroup>
+                    </b:panelGrid>
                     </b:panel>
                     <b:commandButton value="new" action="#{TicketController.create()}" />
+                    <b:commandButton value="test" action="#{companyController.ListAllCompanies()}" />
 
                 </b:form>
             </f:view>

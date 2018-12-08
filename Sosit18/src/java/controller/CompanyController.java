@@ -26,6 +26,7 @@ public class CompanyController implements Serializable {
 
     @EJB
     private CompanyFacade companyFacade ;
+    private Company company = new Company();
    
     /**
      * Creates a new instance of CompanyController
@@ -33,7 +34,7 @@ public class CompanyController implements Serializable {
     public CompanyController() {
     }
     
-     private Company company = new Company();
+
 
     public Company getCompany() {
         return company;
@@ -54,18 +55,26 @@ public class CompanyController implements Serializable {
     }
     
    
-    
+    public List<Company> ListAllCompanies()
+    {
+       List<Company> companylist =this.companyFacade.GetAllCompanies();
+       return companylist;
+       
+    }
     
     public List<Company> GetAllCompanies()
     {
      return this.companyFacade.GetAllCompanies();            
     }
     
-   
-    
     public String create(){
         company = new Company();
         return "company?faces-redirect=true";
+    }
+    
+    public String test(){
+        String s = "test";
+        return s;
     }
     
     public String erase(Company c){
@@ -105,4 +114,7 @@ public class CompanyController implements Serializable {
     {
     return "companyList?faces-redirect=true";
     }
+    
+
+    
 }
