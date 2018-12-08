@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.function.Predicate;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -257,5 +258,43 @@ public class Useraccount implements Serializable {
     public String toString() {
         return "entity.Useraccount[ useraccountid=" + useraccountid + " ]";
     }
+
+    /**
+     * Search through useraccountroleCollection, through roleid and 
+     * finally permissionCollection, for a Permission for 
+     * which permMethod tests positive.
+     * @param permMethod A method which has a Permission as a parameter
+     * and returns a boolean.
+     * @return True when a Permission has been found that returns true.
+     */
+    private boolean searchPermissions(Predicate<Permission> permMethod) {
+        for (Useraccountrole useraccountrole : useraccountroleCollection) {
+            for (Permission p : useraccountrole.getRoleid().getPermissionCollection()) {
+                if (permMethod.test(p)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean getCanedit() {
+        return this.searchPermissions(p -> p.getCanedit() > 0);
+    }
+
+    public boolean getCanread() {
+        return this.searchPermissions(p -> p.getCanread() > 0);
+    }
+
+    public boolean getCaninsert() {
+        return this.searchPermissions(p -> p.getCaninsert() > 0);
+    }
+
+    public boolean getCandelete() {
+        return this.searchPermissions(p -> p.getCandelete() > 0);
+    }
     
+    public boolean hasRole(Role r){
+        return useraccountroleCollection.stream().anyMatch((useraccountrole) -> (useraccountrole.getRoleid().equals(r)));
+    }
 }

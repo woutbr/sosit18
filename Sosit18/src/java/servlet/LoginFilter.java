@@ -25,7 +25,6 @@ import javax.servlet.http.HttpSession;
  *
  * @author woutbr@student.hik.be
  */
-//For Debugging, change the urlPatterns from "/*" to something else like "/test"
 @WebFilter(filterName = "LoginFilter", urlPatterns = {"/*"})
 public class LoginFilter implements Filter {
 

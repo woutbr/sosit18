@@ -19,6 +19,14 @@ public class AuthBean implements Serializable {
         this.debugMode = true;//For testing. Ignores the logincheck in LoginFilter
     }
 
+    public boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
+    }
+
     public Useraccount getUser() {
         return user;
     }
@@ -34,13 +42,21 @@ public class AuthBean implements Serializable {
     public boolean isLoggedIn(){
         return this.user != null;
     }
-
-    public boolean isDebugMode() {
-        return debugMode;
+    
+    public boolean canEdit(){
+        return this.user.getCanedit();
     }
-
-    public void setDebugMode(boolean debugMode) {
-        this.debugMode = debugMode;
+    
+    public boolean canRead(){
+        return this.user.getCanread();
+    }
+    
+    public boolean canInsert(){
+        return this.user.getCaninsert();
+    }
+    
+    public boolean canDelete(){
+        return this.user.getCandelete();
     }
 
 }
