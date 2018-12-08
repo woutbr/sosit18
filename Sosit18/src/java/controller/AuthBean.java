@@ -8,7 +8,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.persistence.NoResultException;
+import javax.servlet.http.HttpSession;
 
 /**
  * Source: How to handle authentication/authorization with users in a database?
@@ -93,8 +93,9 @@ public class AuthBean implements Serializable {
     }
 
     /**
-     * If no user is logged in, validate the username and password.
-     * On succes, redirect to index. Else add an error message.
+     * If no user is logged in, validate the username and password. On succes,
+     * redirect to index. Else add an error message.
+     *
      * @return A String representing a page.
      */
     public String login() {
@@ -105,9 +106,12 @@ public class AuthBean implements Serializable {
         } else {
             if (validateUsernamePassword()) {
                 this.clearUsernamePassword();
+                HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+                session.setAttribute("user", this.useraccount);
                 //https://stackoverflow.com/a/8024427
                 //When user is redirected to the loginpage, 
                 //the following code can send the user on its original way;
+                //TODO Redirect is altijd null
 //                String redirect = context.getExternalContext().getRequestParameterMap().get("redirect");
 //                if(redirect != null && redirect != "null"){
 //                    System.out.println("redirect from login:"+redirect);
