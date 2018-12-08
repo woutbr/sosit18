@@ -31,19 +31,25 @@ and open the template in the editor.
                             <b:inputText value="#{userController.useraccount.firstname}" ></b:inputText>
                             <h:outputLabel >Last name</h:outputLabel>
                             <b:inputText value="#{userController.useraccount.lastname}"></b:inputText>
-                            <h:outputLabel>Sex</h:outputLabel>
-                            <b:selectOneMenu></b:selectOneMenu>
+                            <h:outputLabel>Gender</h:outputLabel>
+                            <b:panelGrid size="sm" columns="4">
+                            <b:radiobutton value="#{radiobuttonBean.javaVersion}" itemLabel="Male" itemValue="M" required="true" />
+                            <b:radiobutton value="#{radiobuttonBean.javaVersion}" itemLabel="Female" itemValue="F" />
+                            </b:panelGrid>
                         </b:formGroup>
                         
                         <b:formGroup>
                             <h:outputLabel>Username</h:outputLabel>
                             <b:inputText value="#{userController.useraccount.username}"></b:inputText>
                             <h:outputLabel>Password</h:outputLabel>
-                            <b:inputText type="password" value="#{userController.useraccount.password}"></b:inputText>
+                            <b:inputText type="password" value="#{userController.useraccount.password}" ></b:inputText>
                             
                             <h:outputLabel>Account role</h:outputLabel>
-                            <b:selectOneMenu value="">   
-                            </b:selectOneMenu>
+                            <b:panelGrid size="sm" columns="4">
+                            <b:radiobutton value="#{radiobuttonBean.javaVersion}" itemLabel="User" itemValue="1"/>
+                            <b:radiobutton value="#{radiobuttonBean.javaVersion}" itemLabel="Supporter" itemValue="2"/>
+                            <b:radiobutton value="#{radiobuttonBean.javaVersion}" itemLabel="Admin" itemValue="3"/>
+                            </b:panelGrid>
                         </b:formGroup>
                         
                     </b:panelGrid>

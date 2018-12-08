@@ -22,7 +22,7 @@
                 <b:form>
                     <b:panel title="User list" collapsible="false">
                         
-                        <b:dataTable value="#{userController.GetAllUsers()}" var="item">
+                        <b:dataTable value="#{userController.GetAllUsers()}" var="item" columnVisibility="true">
 
                             <f:facet name="header">
                                 <tr>
@@ -38,16 +38,19 @@
                             </f:facet>
                             <b:dataTableColumn value="#{item.useraccountid}" order="asc"/>
                             <b:dataTableColumn value="#{item.username}" />
-                            <b:dataTableColumn value="#{item.companyid}"/>
+                            <b:dataTableColumn value="#{item.companyid.name}"/>
                             <b:dataTableColumn value="#{item.firstname}" />
                             <b:dataTableColumn value="#{item.lastname}" />
                             <b:dataTableColumn value="#{item.phone}" />
                             <b:dataTableColumn value="#{item.email}" />
                             <b:dataTableColumn value="">                                
-                                <b:commandButton icon="pencil" action="#{userController.edit(item)}" />  
+                                <b:button icon="pencil" outcome="useraccount">
+                                    <f:param name="UseraccountId" value="#{item.useraccountid}"></f:param> 
+                                </b:button>
                                 <b:commandButton icon="remove" action="#{userController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
-                            </b:dataTableColumn>
-                        </b:dataTable>        
+                            </b:dataTableColumn>                          
+                        </b:dataTable>  
+                        
                     </b:panel>
                     <b:commandButton value="New" action="#{userController.create()}"/>
                               
