@@ -76,7 +76,7 @@ public class CompanyController implements Serializable {
         try{
         this.companyFacade.remove(c);
         return "companyList?faces-redirect=true";}
-        catch(java.sql.sqlintegrityconstraintviolationexception e)
+        catch(SQLIntegrityConstraintViolationException e)
         {
         
         }
