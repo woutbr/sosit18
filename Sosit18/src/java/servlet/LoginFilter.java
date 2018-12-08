@@ -50,18 +50,9 @@ public class LoginFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         String loginURL = request.getContextPath() + "/login.xhtml";
-        String path = request.getRequestURI().substring(request.getContextPath().length()).replaceAll("[/]+$", "");
 
-        boolean debugMode = this.authBean.isDebugMode();
-        boolean loggedIn = this.authBean.isLoggedIn();
-        boolean loginRequest = request.getRequestURI().equals(loginURL);
-        boolean resourceRequest = request.getRequestURI().startsWith(request.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER + "/");
-        boolean ajaxRequest = "partial/ajax".equals(request.getHeader("Faces-Request"));
-        boolean allowedPath = ALLOWED_PATHS.contains(path);
-        //TODO Check for role
-
-        if (debugMode || loggedIn || loginRequest || resourceRequest || allowedPath) {
-            if (!resourceRequest) { // Prevent browser from caching restricted resources. See also https://stackoverflow.com/q/4194207/157882
+        if (this.isRequestAllowed(request, loginURL)) {
+            if (!isResourceRequest(request)) { // Prevent browser from caching restricted resources. See also https://stackoverflow.com/q/4194207/157882
                 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
                 response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
                 response.setDateHeader("Expires", 0); // Proxies.
@@ -69,7 +60,7 @@ public class LoginFilter implements Filter {
 
             chain.doFilter(request, response); // So, just continue request.
 
-        } else if (ajaxRequest) {
+        } else if (isAjaxRequest(request)) {
             response.setContentType("text/xml");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().printf(AJAX_REDIRECT_XML, loginURL); // So, return special XML response instructing JSF ajax to send a redirect.
@@ -78,6 +69,26 @@ public class LoginFilter implements Filter {
             response.sendRedirect(loginURL); // So, just perform standard synchronous redirect.
 
         }
+    }
+    
+    private boolean isRequestAllowed(HttpServletRequest request, String loginURL){
+        boolean debugMode = this.authBean.isDebugMode();
+        boolean loggedIn = this.authBean.isLoggedIn();
+        boolean loginRequest = request.getRequestURI().equals(loginURL);
+        
+        String path = request.getRequestURI().substring(request.getContextPath().length()).replaceAll("[/]+$", "");
+        boolean allowedPath = ALLOWED_PATHS.contains(path);
+        //TODO Check for role
+        
+        return debugMode || loggedIn || loginRequest || isResourceRequest(request) || allowedPath;
+    }
+    
+    private boolean isResourceRequest(HttpServletRequest request){
+        return request.getRequestURI().startsWith(request.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER + "/");
+    }
+    
+    private boolean isAjaxRequest(HttpServletRequest request){
+        return "partial/ajax".equals(request.getHeader("Faces-Request"));
     }
 
     @Override
