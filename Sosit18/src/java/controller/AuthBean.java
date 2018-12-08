@@ -22,12 +22,12 @@ public class AuthBean implements Serializable {
         this.user = user;
     }
     
-    public void clearUseraccount() {
+    public void clearUser() {
         this.user = null;
     }
     
     public boolean isLoggedIn(){
-        return user != null;
+        return this.user != null;
     }
 
 }

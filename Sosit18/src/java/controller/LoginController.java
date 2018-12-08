@@ -7,9 +7,9 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
 
@@ -27,8 +27,8 @@ public class LoginController implements Serializable {
 
     @EJB
     private UseraccountFacade useraccountFacade;
-    
-    @ManagedProperty(value="#{auth}")
+
+    @Inject
     private AuthBean authBean;
     
     private String username;
@@ -36,7 +36,6 @@ public class LoginController implements Serializable {
 
     public LoginController() {
         this.clearUsernamePassword();
-        this.authBean = new AuthBean();
     }
 
     public AuthBean getAuthBean() {
@@ -89,7 +88,7 @@ public class LoginController implements Serializable {
 //                externalContext.getSessionMap().put("user", foundUser);
                 //User is accessible in JSF EL by #{user}
 //                String redirectUrl = context.getExternalContext().getRequestParameterMap().get("redirect");
-                String redirectUrl = this.originalURL(externalContext);
+                String redirectUrl = LoginController.originalURL(externalContext);
                 externalContext.redirect(redirectUrl);
             } else {
                 FacesMessage loginErrorMessage = new FacesMessage("Username or password are incorrect.");
@@ -102,7 +101,12 @@ public class LoginController implements Serializable {
         }
     }
 
-    public String originalURL(ExternalContext externalContext) {
+    /**
+     * Get the original request URI and any possible query string.
+     * @param externalContext Can be found by FacesContext.getCurrentInstance().getExternalContext();
+     * @return An URL as a String
+     */
+    static public String originalURL(ExternalContext externalContext) {
         String originalURL = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
 
         if (originalURL == null) {
@@ -120,7 +124,7 @@ public class LoginController implements Serializable {
     public void logout() throws IOException {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         externalContext.invalidateSession();
-        this.authBean.clearUseraccount();
+        this.authBean.clearUser();
         externalContext.redirect(externalContext.getRequestContextPath() + "/login.xhtml");
     }
 }
