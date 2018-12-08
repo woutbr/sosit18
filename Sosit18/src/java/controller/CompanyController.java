@@ -73,13 +73,10 @@ public class CompanyController implements Serializable {
     }
     
     public String erase(Company c){
-        try{
-        this.companyFacade.remove(c);
-        return "companyList?faces-redirect=true";}
-        catch(SQLIntegrityConstraintViolationException e)
-        {
         
-        }
+        this.companyFacade.remove(c);
+        return "companyList?faces-redirect=true";
+       
     }
     
     /*Internal Exception: java.sql.SQLIntegrityConstraintViolationException: ORA-02292: integrity constraint (CVO_GROEP_1.USERACCOUNT_COMPANY_FK) violated - child record found
