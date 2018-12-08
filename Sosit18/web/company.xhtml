@@ -3,11 +3,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
           
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Company - SosIT"/>
         <ui:define name="main">
+            <f:metadata>
+                <f:viewParam name="CompanyId"/>
+                <f:viewAction action="#{companyController.FindById(CompanyId)}" />
+            </f:metadata>
             
             <b:form>
                 <b:panel title="Company" collapsible="false">
@@ -33,19 +38,62 @@
                                 value="#{companyController.company.postalcode}"></b:inputText>
                             <h:outputLabel>Place</h:outputLabel>
                             <b:inputText value="#{companyController.company.place}"></b:inputText>
-                            <h:outputLabel>Assets</h:outputLabel>
-                            <b:selectOneMenu style="margin-bottom: 1em"></b:selectOneMenu>
-                           
+                                                     
                             
-                            <b:commandLink value="Asset aanmaken" look="success" href="asset.xhtml" />
+                            
                             
                             
                           </b:formGroup>                          
                           
                       </b:panelGrid>
 
-                    <h4><u>Description</u></h4>
-                    <b:inputTextarea></b:inputTextarea>
+                      <b:dataTable value="#{companyController.company.assetCollection}"
+                                         var="asset"
+                                         class="editableAssetTable"
+                                         widgetVar="AssetTableWidget"
+                                         fixedHeader="true"
+                                         responsive="false"
+                                         scroll-x="true"
+                                         columnVisibility="true">
+                                <b:dataTableColumn label="Actions">
+                                    <b:commandButton icon="edit" value="edit" 
+                                                     rendered="#{not assetController.isRowEditable(asset)}"
+                                                     ajax="true"
+                                                     update="@(.editableAssetTable)"
+                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.setEditRow(asset)"/>
+                                    <b:commandButton icon="refresh" value="cancel" look="warning"
+                                                     rendered="#{assetController.isRowEditable(asset)}"
+                                                     ajax="true"
+                                                     update="@(.editableAssetTable)"
+                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.cancelEditRow()"/>
+                                </b:dataTableColumn>
+                                <b:dataTableColumn value="#{asset.assetid}" order="asc"/>
+                                <b:dataTableColumn value="#{asset.companyid.name}" label="Company" />
+                                <b:dataTableColumn label="Assetgroup">
+                                    <h:outputText value="#{asset.assetgroupid.description}" rendered="#{not assetController.isRowEditable(asset)}" />
+                                    <b:selectOneMenu value="#{assetController.asset.assetgroupid}" 
+                                                     rendered="#{assetController.isRowEditable(asset)}">
+                                        <f:selectItems value="#{assetgroupController.allAssetgroups}"
+                                                       var="assetgroup"
+                                                       itemLabel="#{assetgroup.description}"
+                                                       itemValue="#{assetgroup}"/>
+                                    </b:selectOneMenu>
+                                </b:dataTableColumn>
+                                <b:dataTableColumn label="Name">
+                                    <h:outputText value="#{asset.name}" rendered="#{not assetController.isRowEditable(asset)}" />
+                                    <b:inputText value="#{assetController.asset.name}" rendered="#{assetController.isRowEditable(asset)}"/>
+                                </b:dataTableColumn>
+                                <b:dataTableColumn label="Description" >
+                                    <h:outputText value="#{asset.description}" rendered="#{not assetController.isRowEditable(asset)}" />
+                                    <b:inputText value="#{assetController.asset.description}" rendered="#{assetController.isRowEditable(asset)}"/>
+                                </b:dataTableColumn>
+                                <b:dataTableColumn value="#{asset.assetlocationid.description}" label="Location" />
+                                <b:dataTableColumn value="#{asset.assetmasterid.name}" label="Asset master"/>
+                                <b:dataTableColumn value="#{asset.purchasedate}" label="Date of Purchase" />
+                                <b:dataTableColumn value="#{asset.warranty}"/>
+                                <b:dataTableColumn value="#{asset.supportcontract}" label="Support Contract" />
+                                <b:dataTableColumn value="#{asset.value}"/>
+                            </b:dataTable>
                     
                      <div class="text-center">
                         <b:commandButton value="Save" look="success" style="margin-right: 2em" action="#{companyController.save()}"></b:commandButton>

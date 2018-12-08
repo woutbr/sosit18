@@ -8,6 +8,7 @@ package controller;
 import dao.CompanyFacade;
 import entity.Company;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -25,7 +26,7 @@ import javax.enterprise.context.SessionScoped;
 public class CompanyController implements Serializable {
 
     @EJB
-    private CompanyFacade companyFacade ;
+    private CompanyFacade companyFacade ;  
    
     /**
      * Creates a new instance of CompanyController
@@ -105,4 +106,16 @@ public class CompanyController implements Serializable {
     {
     return "companyList?faces-redirect=true";
     }
+    
+    public void FindById(BigDecimal id){
+        
+        company = this.companyFacade.FindById(id);
+        
+        }
+    
+    /* public void resetCompany(){
+        // wordt aangeroepen in ticketList
+        this.company= new Company();
+                int a = 1;
+    } */
 }
