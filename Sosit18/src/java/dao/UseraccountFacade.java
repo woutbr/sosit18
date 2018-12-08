@@ -63,16 +63,11 @@ public class UseraccountFacade extends AbstractFacade<Useraccount> {
      * or null if not found.
      */
     public Useraccount findByUsernamePassword(String username, String password) {
-        Useraccount u = this.findByUsername(username);
-        if (u != null) {
-            String hashedPassword = this.hashPassword(password);
-            if (u.getPassword().equals(hashedPassword)) {
-                return u;
-            }
-        }
-        //Tegen timing attacks, hash het password
-        this.hashPassword(password);
-        return null;
+        Query q = this.em.createNamedQuery("Useraccount.findByUsernamePassword");
+        q.setParameter("username", username);
+        q.setParameter("password", this.hashPassword(password));
+        Useraccount u = (Useraccount) q.getResultList().stream().findFirst().orElse(null);
+        return u;
     }
 
     /**
