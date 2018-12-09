@@ -86,7 +86,7 @@
                                 <b:dataTableColumn value="#{asset.assetlocationid.description}" label="Location" />
                                 <b:dataTableColumn value="#{asset.assetmasterid.name}" label="Asset master"/>
                                 <b:dataTableColumn label="Date of Purchase" 
-                                                   data-order="#{asset.purchasedate.toGMTString()}" data-type="date">
+                                                   data-order="#{asset.purchasedate.getTime()}" data-type="numeric">
                                     <h:outputText value="#{asset.purchasedate}">
                                         <f:convertDateTime pattern="dd/MM/yyyy" />
                                     </h:outputText>	
