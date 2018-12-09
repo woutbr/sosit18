@@ -47,7 +47,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Asset.findByWarranty", query = "SELECT a FROM Asset a WHERE a.warranty = :warranty")
     , @NamedQuery(name = "Asset.findBySupportcontract", query = "SELECT a FROM Asset a WHERE a.supportcontract = :supportcontract")
     , @NamedQuery(name = "Asset.findByValue", query = "SELECT a FROM Asset a WHERE a.value = :value")
-    , @NamedQuery(name = "Asset.findByVersion", query = "SELECT a FROM Asset a WHERE a.version = :version")})
+    , @NamedQuery(name = "Asset.findByVersion", query = "SELECT a FROM Asset a WHERE a.version = :version")
+    , @NamedQuery(name = "Asset.findByCompany", query = "SELECT a FROM Asset a WHERE a.companyid = :companyid")})
 public class Asset implements Serializable {
 
     private static final long serialVersionUID = 1L;

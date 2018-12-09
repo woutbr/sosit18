@@ -2,6 +2,7 @@ package controller;
 
 import dao.AssetFacade;
 import entity.Asset;
+import entity.Company;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -33,8 +34,13 @@ public class AssetController implements Serializable {
     public void setAsset(Asset asset) {
         this.asset = asset;
     }
+    
     public List<Asset> listAllAssets() {
         return this.assetFacade.findAll();
+    }
+    
+    public List<Asset> findAssetsByCompany(Company c) {
+        return this.assetFacade.findAssetsByCompany(c);
     }
 
     public Asset findByID(BigDecimal id) {

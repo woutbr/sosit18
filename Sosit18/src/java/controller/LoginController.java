@@ -66,10 +66,10 @@ public class LoginController implements Serializable {
     }
 
     /**
-     * If no user is logged in, validate the username and password. On succes,
-     * redirect. Else add an error message.
+     * If no user is logged in, validate the username and password. 
+     * On succes, redirect. Else add an error message.
      *
-     * @throws IOException If the redirect can be executed.
+     * @throws IOException If the redirect can't be executed.
      */
     public void login() throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -78,9 +78,6 @@ public class LoginController implements Serializable {
             context.addMessage(null, loginErrorMessage);
         } else {
             ExternalContext externalContext = context.getExternalContext();
-//          HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
-//          try {
-//               request.login(this.username, this.password);
             Useraccount foundUser = this.useraccountFacade.findByUsernamePassword(this.username, this.password);
             if (foundUser != null) {
                 this.authBean.setUser((foundUser));
@@ -93,15 +90,12 @@ public class LoginController implements Serializable {
                 FacesMessage loginErrorMessage = new FacesMessage("Username or password are incorrect.");
                 context.addMessage(null, loginErrorMessage);
             }
-//          } catch (ServletException e) {
-                // Handle unknown username/password in request.login().
-//              context.addMessage(null, new FacesMessage("Username or password are incorrect."));
-//          }
         }
     }
 
     /**
      * Get the original request URI and any possible query string.
+     * https://stackoverflow.com/a/2207147
      * @param externalContext Can be found by FacesContext.getCurrentInstance().getExternalContext();
      * @return An URL as a String
      */
