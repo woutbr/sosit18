@@ -59,7 +59,11 @@ public class TicketController implements Serializable {
     
     public List<Ticket> GetAllTickets(){
         return this.ticketFacade.findAll();
-
+    }
+    
+    public List<Ticket> GetfilteredTickets(TicketFilterBean ticketfilter){
+        return this.ticketFacade.GetfilteredTickets(ticketfilter);
+        
     }
     
     public String cancel(){

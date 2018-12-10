@@ -20,17 +20,25 @@
                 <b:form>
 
                     <b:panel title="Ticket " collapsible="false">
-                     <b:panelGrid colSpans='3,9'>
+                     <b:panelGrid colSpans='3,9' >
                           <b:formGroup style="background-color: aliceblue ; padding: 1em" id="FilterPanel">
                               <h3 class="text-center">Filter</h3>
+                              
                                 <b:label value="Status" 
                                          style="background-color: lightgray" />
-                                <b:selectOneMenu>
+                                <b:selectOneMenu value="#{ticketFilterBean.ticketstatus}">
+                                    <f:selectItem itemValue="#{null}"/>
+                                    <f:selectItems value="#{ticketstatusController.ListAllTicketstatus()}" 
+                                                   var="ts" 
+                                                   itemValue="#{ts}" 
+                                                   itemLabel="#{ts.description}"/>
+                                    <f:ajax render="FilterPanel"/>
                                 </b:selectOneMenu>
                                 
                                 <b:label value="Company"
                                          style="background-color: lightgray"/>
-                                <b:selectOneMenu value="#{companyController.company}" >
+                                <b:selectOneMenu value="#{ticketFilterBean.company}" >
+                                    <f:selectItem itemValue="#{null}"/>
                                     <f:selectItems value="#{companyController.ListAllCompanies()}" 
                                                    var="co" 
                                                    itemValue="#{co}" 
@@ -39,8 +47,9 @@
                                 </b:selectOneMenu>
                                 <b:label value="User"
                                          style="background-color: lightgray"/>
-                            <b:selectOneMenu value="#{TicketController.ticket.useraccountid}">
-                                <f:selectItems value="#{userController.ListAllUsersByCompany(companyController.company)}" 
+                                <b:selectOneMenu value="#{ticketFilterBean.useraccount}">
+                                <f:selectItem itemValue="#{null}"/>
+                                <f:selectItems value="#{userController.ListAllUsersByCompany(ticketFilterBean.company)}" 
                                                var="ua" 
                                                itemValue="#{ua}" 
                                                itemLabel="#{ua.fullname}"/>
@@ -48,13 +57,13 @@
                             </b:selectOneMenu>
                                 <div class="text-center" style="margin-top: 1em">
                                   <b:commandButton value="Filter"/>
-                                  <b:commandButton value="Clear"/>
+                                  <b:commandButton value="Clear" action="#{ticketFilterBean.ClearFilter()}"/>
                                 </div>
                                 
                             </b:formGroup>
                     <b:formGroup>
                        
-                        <b:dataTable value="#{TicketController.GetAllTickets()}" 
+                        <b:dataTable value="#{TicketController.GetfilteredTickets(ticketFilterBean)}" 
                                      var="item" save-state="false">
 
                             <f:facet name="header">

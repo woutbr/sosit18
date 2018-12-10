@@ -5,6 +5,7 @@
  */
 package dao;
 
+import controller.TicketFilterBean;
 import entity.Ticket;
 import java.math.BigDecimal;
 import java.util.List;
@@ -43,6 +44,20 @@ public class TicketFacade extends AbstractFacade<Ticket> {
         Query q = this.em.createNamedQuery("Ticket.findAll");
         List<Ticket> l = (List<Ticket>)q.getResultList();
         return l;
+    }
+    
+    public List<Ticket> GetfilteredTickets(TicketFilterBean ticketfilter){
+        if (ticketfilter.getTicketstatus()!=null) {
+            Query q = this.em.createNamedQuery("Ticket.findByfilter");
+            q.setParameter("ticketstatusid", ticketfilter.getTicketstatus());
+            q.setParameter("useraccountid", ticketfilter.getUseraccount());
+            List<Ticket> l = (List<Ticket>)q.getResultList();
+            return l;
+        }else{
+            return this.GetAllTickets();
+
+        }
+
     }
 
     

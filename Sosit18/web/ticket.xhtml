@@ -38,6 +38,14 @@
                             </b:selectOneMenu>
                             <h:outputLabel>Creatie datum</h:outputLabel>
                             <b:inputText  value="#{TicketController.ticket.creationdate}" readonly="true"></b:inputText>
+                            <h:outputLabel>Status</h:outputLabel>
+                            <b:selectOneMenu value="#{TicketController.ticket.ticketstatusid}">
+                                <f:selectItems value="#{ticketstatusController.ListAllTicketstatus()}" 
+                                                var="ts" 
+                                                itemValue="#{ts}" 
+                                                itemLabel="#{ts.description}" />
+                            
+                            </b:selectOneMenu>
                         </b:formGroup>
           
                         <b:formGroup>
@@ -87,8 +95,9 @@
                     <h4><u>Omschrijving</u></h4>
                     <b:inputTextarea value="#{TicketController.ticket.description}" ></b:inputTextarea>
                     <div class="text-center">
-                        <b:commandButton value="Opslaan" look="success" style="margin-right: 2em" action="#{TicketController.save()}"></b:commandButton>
-                        <b:commandButton value="Terug" look="warning" style="margin-left: 2em" action="#{TicketController.cancel()}"></b:commandButton>
+                        <b:commandButton value="Save" look="success" style="margin-right: 2em" action="#{TicketController.save()}"></b:commandButton>
+                        <b:commandButton value="Cancel" look="warning" style="margin-left: 2em" action="#{TicketController.cancel()}"></b:commandButton>
+                        <b:commandButton action="#{ticketstatusController.ListAllTicketstatus()}">test</b:commandButton>
                        
                     </div>
 
