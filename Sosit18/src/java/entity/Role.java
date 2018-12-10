@@ -68,6 +68,11 @@ public class Role implements Serializable {
         this.description = description;
     }
 
+    public Role(String description) {
+        this.roleid = BigDecimal.ONE;
+        this.description = description;
+    }
+
     public BigDecimal getRoleid() {
         return roleid;
     }
@@ -124,15 +129,12 @@ public class Role implements Serializable {
             return false;
         }
         Role other = (Role) object;
-        if ((this.roleid == null && other.roleid != null) || (this.roleid != null && !this.roleid.equals(other.roleid))) {
-            return false;
-        }
-        return true;
+        return this.description.equals(other.description);
     }
 
     @Override
     public String toString() {
-        return "entity.Role[ roleid=" + roleid + " ]";
+        return "entity.Role[ description=" + description + " ]";
     }
     
 }

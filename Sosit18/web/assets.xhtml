@@ -17,7 +17,7 @@
                 <b:form>
                     <b:panelGrid colSpans="3,9" size="sm">
                         <b:formGroup>
-                            <b:selectOneMenu value="#{auth.loggedIn ? auth.user.companyid.name : companyController.company.name}" 
+                            <b:selectOneMenu value="#{auth.gewoneUser ? auth.user.companyid.name : companyController.company.name}" 
                                              disabled="#{auth.loggedIn}"
                                              label="Filter on company"
                                              onchange="AssetTableWidget.DataTable().search(this.value).draw();">
@@ -41,7 +41,7 @@
                                               onblur="AssetTableWidget.DataTable().search(this.value).draw();"/>
                         </b:formGroup>
                         <b:formGroup>
-                            <b:dataTable value="#{auth.loggedIn ? assetController.findAssetsByCompany(auth.user.companyid) : assetController.listAllAssets()}"
+                            <b:dataTable value="#{auth.gewoneUser ? assetController.findAssetsByCompany(auth.user.companyid) : assetController.listAllAssets()}"
                                          var="asset"
                                          class="editableAssetTable"
                                          widgetVar="AssetTableWidget"

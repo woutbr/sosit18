@@ -1,5 +1,6 @@
 package controller;
 
+import entity.Role;
 import entity.Useraccount;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
@@ -64,4 +65,27 @@ public class AuthBean implements Serializable {
         return this.user.getCandelete();
     }
 
+    /**
+     * Heeft de ingelogde UserAccount een Admin rol.
+     * @return true als de user een Admin rol heeft.
+     */
+    public boolean isAdmin(){
+        return this.isLoggedIn() && this.user.hasRole(new Role("Admin"));
+    }
+
+    /**
+     * Heeft de ingelogde UserAccount een Supporter rol.
+     * @return true als de user een Supporter rol heeft.
+     */
+    public boolean isSupporter(){
+        return this.isLoggedIn() && this.user.hasRole(new Role("Supporter"));
+    }
+
+    /**
+     * Heeft de ingelogde UserAccount een User rol.
+     * @return true als de user een User rol heeft.
+     */
+    public boolean isGewoneUser(){
+        return this.isLoggedIn() && this.user.hasRole(new Role("User"));
+    }
 }
