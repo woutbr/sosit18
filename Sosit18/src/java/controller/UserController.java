@@ -18,6 +18,7 @@ import javax.ejb.EJB;
  *
  * @author c1042286
  */
+
 @Named(value = "userController")
 @SessionScoped
 public class UserController implements Serializable {
@@ -27,8 +28,6 @@ public class UserController implements Serializable {
     
     private Useraccount useraccount = new Useraccount();
     
-    public UserController() {
-    }
 
     public Useraccount getUseraccount() {
         return useraccount;
@@ -38,18 +37,25 @@ public class UserController implements Serializable {
         this.useraccount = useraccount;
     }
     
+        public UserController() {
+    }
+    
     public void FindByUseraccountid (BigDecimal id){
-        useraccount = this.useraccountFacade.FindByUseraccountid(id);
+        if(id==null){
+            resetUseraccount();
+        }else{
+              useraccount = this.useraccountFacade.FindByUseraccountid(id);
+        }
     }
     
     public List<Useraccount> GetAllUsers(){
-        return this.useraccountFacade.GetAllUsers();
+        return this.useraccountFacade.findAll();
     }
     
     public List<Useraccount> ListAllUsers(){
-        return this.useraccountFacade.GetAllUsers();
+        return this.useraccountFacade.findAll();
     }
-    
+       
     public String cancel(){
         return "userlist?faces-redirect=true";
     }
@@ -65,7 +71,7 @@ public class UserController implements Serializable {
     }
     
     public String create(){
-        this.useraccountFacade.create(useraccount);
+        useraccount = new Useraccount();
         return "useraccount?faces-redirect=true";
     }
     
@@ -78,8 +84,17 @@ public class UserController implements Serializable {
         this.useraccount=new Useraccount();
     }
     
-    public String FulName(Useraccount user){
-        return user.getFirstname()+" "+user.getLastname();
-    
+    public String save(){
+ 
+        if (useraccount.getUseraccountid()==null) {
+            // een ticket dat nog geen nummer heeft moet een nieuw ticket zijn
+            this.useraccountFacade.create(useraccount);
+        }else{
+            // een bestaand ticket wordt enkel geupdate
+            this.useraccountFacade.edit(useraccount);
+        }
+        
+        //  ?faces-redirect=true zorgt ervoor dat de browser url meevolgt
+        return "userlist?faces-redirect=true";
     }
 }
