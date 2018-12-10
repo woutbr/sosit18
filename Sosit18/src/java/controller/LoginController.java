@@ -73,7 +73,7 @@ public class LoginController implements Serializable {
      */
     public void login() throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
-        if (this.authBean.getUser() != null) {
+        if (this.authBean.isLoggedIn()) {
             FacesMessage loginErrorMessage = new FacesMessage("A user is still logged in.");
             context.addMessage(null, loginErrorMessage);
         } else {
