@@ -6,6 +6,8 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 /**
+ * This managed bean holds the currently logged in user.
+ * It can also be asked if a user has a certain Role or permission.
  * @author woutbr@student.hik.be
  */
 @Named(value = "auth")
@@ -39,6 +41,9 @@ public class AuthBean implements Serializable {
         this.user = null;
     }
     
+    /**
+     * Returns true when auth.user is not null.
+     */
     public boolean isLoggedIn(){
         return this.user != null;
     }

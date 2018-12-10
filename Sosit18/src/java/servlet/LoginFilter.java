@@ -38,7 +38,7 @@ public class LoginFilter implements Filter {
 
     private static final String AJAX_REDIRECT_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><partial-response><redirect url=\"%s\"></redirect></partial-response>";
     private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(
-            Arrays.asList("", "/index.xhtml", "/login.xhtml", "/logout.xhtml")));
+            Arrays.asList("", "/index.xhtml", "/login.xhtml", "/logout")));
 
     /**
      * How implement a login filter in JSF? : answer BalusC

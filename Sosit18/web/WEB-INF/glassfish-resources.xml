@@ -7,7 +7,7 @@
         <property name="databaseName" value="XE"/>
         <property name="User" value="cvo_groep_1"/>
         <property name="Password" value="1234"/>
-        <property name="URL" value="jdbc:oracle:thin:@89.40.9.78:1521:XE"/>
+        <property name="URL" value="jdbc:oracle:thin:@itf-oracledb01.thomasmore.be:1521:XE"/>
         <property name="driverClass" value="oracle.jdbc.OracleDriver"/>
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="java:app/Db_SosIT" object-type="user" pool-name="oracle-thin_XE_cvo_groep_1Pool"/>

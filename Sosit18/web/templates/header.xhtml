@@ -7,6 +7,7 @@
 <ui:composition>
     <b:navBar brand="SosIT" brandHref="index.xhtml" fixed="top" inverse="true">
         <b:navbarLinks>
+            <!--TODO controle op role: <ui:include src="/WEB-INF/header{auth.isAdmin() ? 'Admin' : 'User'}.xhtml" />-->
             <ui:repeat value="#{NavBarController.links.subItems}" var="item" >
                 <b:navLink rendered="#{item.class.simpleName == 'MenuLink'}"
                     value="#{item.name}" href="#{item.href}.xhtml"></b:navLink>
