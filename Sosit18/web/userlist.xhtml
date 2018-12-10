@@ -15,10 +15,9 @@
                     ResetTicket maak steeds een nieuw ticket object bij aanroepen van deze pagina.
                     Waneer TicketController.create() wordt aangeroepen  vertrekken we van een nieuw ticket;
                     -->
-                    <f:viewAction action="#{userController.resetUseraccount()}"></f:viewAction>
-
-
+                    <f:viewAction action="#{userController.resetUseraccount()}"></f:viewAction>  
                 </f:metadata>
+                
                 <b:form>
                     <b:panel title="User list" collapsible="false">
                         
@@ -45,7 +44,7 @@
                             <b:dataTableColumn value="#{item.email}" />
                             <b:dataTableColumn value="">                                
                                 <b:button icon="pencil" outcome="useraccount">
-                                    <f:param name="UseraccountId" value="#{item.useraccountid}"></f:param> 
+                                    <f:param name="useraccountid" value="#{item.useraccountid}"></f:param> 
                                 </b:button>
                                 <b:commandButton icon="remove" action="#{userController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
                             </b:dataTableColumn>                          

@@ -14,7 +14,10 @@ and open the template in the editor.
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="User account - SosIT"/>
         <ui:define name="main">
-           
+        <f:metadata>
+                    <f:viewParam name="useraccountid"></f:viewParam>
+                    <f:viewAction action="#{userController.FindByUseraccountid(useraccountid)}"></f:viewAction>      
+        </f:metadata>
             <b:form>
                
                 <b:panel title="User account" collapsible="false">
@@ -33,8 +36,8 @@ and open the template in the editor.
                             <b:inputText value="#{userController.useraccount.lastname}"></b:inputText>
                             <h:outputLabel>Gender</h:outputLabel>
                             <b:panelGrid size="sm" columns="4">
-                            <b:radiobutton value="#{radiobuttonBean.javaVersion}" itemLabel="Male" itemValue="M" required="true" />
-                            <b:radiobutton value="#{radiobuttonBean.javaVersion}" itemLabel="Female" itemValue="F" />
+                            <b:radiobutton value="#{userController.useraccount.sex}" itemLabel="Male" itemValue="true" required="true" />
+                            <b:radiobutton value="#{userController.useraccount.sex}" itemLabel="Female" itemValue="false" />
                             </b:panelGrid>
                         </b:formGroup>
                         
@@ -45,11 +48,11 @@ and open the template in the editor.
                             <b:inputText type="password" value="#{userController.useraccount.password}" ></b:inputText>
                             
                             <h:outputLabel>Account role</h:outputLabel>
-                            <b:panelGrid size="sm" columns="4">
+<!--                            <b:panelGrid size="sm" columns="4">
                             <b:radiobutton value="#{radiobuttonBean.javaVersion}" itemLabel="User" itemValue="1"/>
                             <b:radiobutton value="#{radiobuttonBean.javaVersion}" itemLabel="Supporter" itemValue="2"/>
                             <b:radiobutton value="#{radiobuttonBean.javaVersion}" itemLabel="Admin" itemValue="3"/>
-                            </b:panelGrid>
+                            </b:panelGrid>-->
                         </b:formGroup>
                         
                     </b:panelGrid>
