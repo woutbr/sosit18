@@ -55,8 +55,6 @@ public class Company implements Serializable {
     //@NotNull
     @Column(name = "COMPANYID")
     private BigDecimal companyid;
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 250)
     @Column(name = "NAME")
     private String name;

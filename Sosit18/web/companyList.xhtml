@@ -9,8 +9,10 @@
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Companylist"/>
         <ui:define name="main">
+           
             
             <f:view>
+                
                
                 <b:form>
                     <b:panel title="Company " collapsible="false">
@@ -42,12 +44,12 @@
                                  <b:button icon="pencil" outcome="company">
                                     <f:param name="CompanyId" value="#{item.companyid}"/>
                                 </b:button>
-                                <b:commandButton icon="remove" action="#{companyController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
+                                <b:commandButton icon="remove" disabled="#{!companyController.canDeleteCompany(item)}" action="#{companyController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
                             </b:dataTableColumn>
                         </b:dataTable>        
                     </b:panel>
                     
-                    <b:commandButton value="New" look="warning" action="#{companyController.create()}"></b:commandButton>
+                    <b:commandButton value="New" look="warning" action="#{companyController.New()}"></b:commandButton>
                                       
                 </b:form>
             </f:view>
