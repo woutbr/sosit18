@@ -41,7 +41,7 @@
                                               onblur="AssetTableWidget.DataTable().search(this.value).draw();"/>
                         </b:formGroup>
                         <b:formGroup>
-                            <b:dataTable value="#{auth.gewoneUser ? assetController.findAssetsByCompany(auth.user.companyid) : assetController.listAllAssets()}"
+                            <b:dataTable value="#{auth.gewoneUser ? assetController.findAssetsByCompany(auth.user.companyid) : assetController.listAll()}"
                                          var="asset"
                                          class="editableAssetTable"
                                          widgetVar="AssetTableWidget"

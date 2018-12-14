@@ -1,10 +1,11 @@
 package controller;
 
+import controller.Roles.AssetAdminFacadeDecider;
+import controller.Roles.RoleFacadeDecider;
 import dao.AbstractFacade;
 import dao.AssetFacade;
 import entity.Asset;
 import entity.Company;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
@@ -25,7 +26,24 @@ public class AssetController extends AbstractController<Asset>{
     private boolean editMode = false;
 
     public AssetController() {
+        this.chooseRoleFacadeDecider();
         this.asset = new Asset();
+    }
+    
+    private void chooseRoleFacadeDecider(){
+        RoleFacadeDecider<Asset> roleFacadeDecider = null;
+        if(this.authBean.isLoggedIn()){
+            if(this.authBean.isAdmin()){
+                roleFacadeDecider = new AssetAdminFacadeDecider();
+            }else if(this.authBean.isSupporter()){
+                roleFacadeDecider = new AssetAdminFacadeDecider();
+            }else if(this.authBean.isGewoneUser()){
+                roleFacadeDecider = new AssetAdminFacadeDecider();
+            }
+        }else{
+            //TODO Niet ingelogd, throw error
+        }
+        this.setRoleFacadeDecider(roleFacadeDecider);
     }
 
     @Override
@@ -41,18 +59,8 @@ public class AssetController extends AbstractController<Asset>{
         this.asset = asset;
     }
     
-    public List<Asset> listAllAssets() {
-//        return this.assetFacade.findAll();
-        return super.listAll();
-    }
-    
     public List<Asset> findAssetsByCompany(Company c) {
         return this.assetFacade.findAssetsByCompany(c);
-    }
-
-    public Asset findByID(BigDecimal id) {
-//        return this.assetFacade.find(id);
-        return super.findByID(id);
     }
 
     public void onload() {
