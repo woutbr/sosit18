@@ -22,7 +22,7 @@ import javax.persistence.Query;
 public class TicketFacade extends AbstractFacade<Ticket> {
 
     @PersistenceContext(unitName = "Sosit18PU")
-    private EntityManager em;
+    public EntityManager em;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -47,18 +47,52 @@ public class TicketFacade extends AbstractFacade<Ticket> {
     }
     
     public List<Ticket> GetfilteredTickets(TicketFilterBean ticketfilter){
-        if (ticketfilter.getTicketstatus()!=null) {
-            Query q = this.em.createNamedQuery("Ticket.findByfilter");
-            q.setParameter("ticketstatusid", ticketfilter.getTicketstatus());
-            q.setParameter("useraccountid", ticketfilter.getUseraccount());
-            List<Ticket> l = (List<Ticket>)q.getResultList();
-            return l;
-        }else{
-            return this.GetAllTickets();
-
+        //if (ticketfilter.getTicketstatus()!=null) {
+        //    Query q = this.em.createNamedQuery("Ticket.findByfilter");
+        //    q.setParameter("ticketstatusid", ticketfilter.getTicketstatus());
+        //    q.setParameter("useraccountid", ticketfilter.getUseraccount());
+        //    List<Ticket> l = (List<Ticket>)q.getResultList();
+        //    return l;
+        //}else{
+        //    return this.GetAllTickets();
+        //}
+        
+        String queryParameter = "";
+        if (ticketfilter.getTicketstatus().getTicketstatusid()!=null) {
+            queryParameter=addQueryParameter(queryParameter,"TICKETSTATUSID",ticketfilter.getTicketstatus().getTicketstatusid());
         }
-
+        if (ticketfilter.getCompany().getCompanyid()!=null) {
+            queryParameter=addQueryParameter(queryParameter,"",ticketfilter.getCompany().getCompanyid());
+        }
+        if (ticketfilter.getUseraccount().getUseraccountid()!=null) {
+            queryParameter=addQueryParameter(queryParameter,"USERACCOUNTID",ticketfilter.getUseraccount().getUseraccountid());
+        }
+        String sqlstring="SELECT * FROM TICKET" + queryParameter;
+        Query q = this.em.createNativeQuery(sqlstring);
+        List<Ticket> l = (List<Ticket>)q.getResultList();
+        return  l;
     }
+    
 
     
+    private String addQueryParameter(String queryParameter, String qfield,BigDecimal qvalue ){
+        if (!queryParameter.equals("")) {
+            queryParameter +=" and ";
+        }else{
+            queryParameter +=" where ";
+        }
+        queryParameter+= qfield + "=" + qvalue;
+        return qvalue.toString() ;
+    }
+    
+    public List<Ticket> test(){
+        String sqlstring = "SELECT * FROM TICKET WHERE TICKETSTATUSID=2 ";
+        Query q = this.em.createNativeQuery(sqlstring);
+        List<Ticket> l = (List<Ticket>)q.getResultList();
+        return l;
+    
+    
+    }
+
+   
 }

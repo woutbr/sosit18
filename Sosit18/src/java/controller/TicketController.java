@@ -15,8 +15,10 @@ import entity.Useraccount;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 
 /**
@@ -28,11 +30,20 @@ import java.util.List;
 @SessionScoped
 public class TicketController implements Serializable {
 
-
     @EJB
     private TicketFacade ticketFacade;
     
     private Ticket ticket = new Ticket();
+    private List<Ticket> ticketList = new ArrayList<>();
+
+    public List<Ticket> getTicketList() {
+        return ticketList;
+    }
+
+    public void setTicketList(List<Ticket> ticketList) {
+        this.ticketList = ticketList;
+    }
+    
 
     public Ticket getTicket() {
         return ticket;
@@ -42,19 +53,17 @@ public class TicketController implements Serializable {
         this.ticket = ticket;
     }
 
-
     public TicketController() {
+
+
     }
     
     public void FindById(BigDecimal id){
-
         if (id==null ) {
             resetTicket();
         }else{
             ticket = this.ticketFacade.FindById(id);
         }
-        
-         
     }
     
     public List<Ticket> GetAllTickets(){
@@ -62,8 +71,12 @@ public class TicketController implements Serializable {
     }
     
     public List<Ticket> GetfilteredTickets(TicketFilterBean ticketfilter){
-        return this.ticketFacade.GetfilteredTickets(ticketfilter);
-        
+        if (ticketfilter!=null) {
+            return this.ticketFacade.GetfilteredTickets(ticketfilter);   
+        }else{
+            return GetAllTickets();
+        }
+            
     }
     
     public String cancel(){
@@ -110,16 +123,24 @@ public class TicketController implements Serializable {
         ticket.setCreationdate(GetCurrentDate());
         int a = 1;
     }
-    public void test() {
-        
-        int a=1;
-    }
-    
+
     public Date GetCurrentDate(){
-        
         LocalDate ld  = LocalDate.now();
         Date      d   =java.sql.Date.valueOf(ld);
         return d;
     }
+    
+    public void test(){
+        int a =1;
+    }
+    
+    public void loadTicketList(){
+        List<Ticket> l=this.ticketFacade.test();
+        ticketList=l;
+    }
+    
+
+    
+    
     
 }

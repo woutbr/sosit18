@@ -59,4 +59,9 @@ public class TicketFilterBean implements Serializable {
         this.setUseraccount(null);
     }
     
+    public void test(){
+        String S = "";
+    
+    }
+    
 }

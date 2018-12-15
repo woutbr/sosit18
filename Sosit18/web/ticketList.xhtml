@@ -21,18 +21,17 @@
 
                     <b:panel title="Ticket " collapsible="false">
                      <b:panelGrid colSpans='3,9' >
-                          <b:formGroup style="background-color: aliceblue ; padding: 1em" id="FilterPanel">
+                         <b:formGroup style="background-color: aliceblue ; padding: 1em" id="fgfilter">
                               <h3 class="text-center">Filter</h3>
-                              
                                 <b:label value="Status" 
                                          style="background-color: lightgray" />
-                                <b:selectOneMenu value="#{ticketFilterBean.ticketstatus}">
+                                <b:selectOneMenu value="#{ticketFilterBean.ticketstatus}"  >
                                     <f:selectItem itemValue="#{null}"/>
                                     <f:selectItems value="#{ticketstatusController.ListAllTicketstatus()}" 
                                                    var="ts" 
                                                    itemValue="#{ts}" 
                                                    itemLabel="#{ts.description}"/>
-                                    <f:ajax render="FilterPanel"/>
+                                    <f:ajax render="fgfilter"/>
                                 </b:selectOneMenu>
                                 
                                 <b:label value="Company"
@@ -43,29 +42,33 @@
                                                    var="co" 
                                                    itemValue="#{co}" 
                                                    itemLabel="#{co.name}"/>
-                                    <f:ajax render="FilterPanel"/>
+                                    <f:ajax render="fgfilter"/>
                                 </b:selectOneMenu>
                                 <b:label value="User"
                                          style="background-color: lightgray"/>
-                                <b:selectOneMenu value="#{ticketFilterBean.useraccount}">
+                                <b:selectOneMenu value="#{ticketFilterBean.useraccount}" id="iduser">
                                 <f:selectItem itemValue="#{null}"/>
                                 <f:selectItems value="#{userController.ListAllUsersByCompany(ticketFilterBean.company)}" 
                                                var="ua" 
                                                itemValue="#{ua}" 
                                                itemLabel="#{ua.fullname}"/>
-                                <f:ajax id="FilterPanel"/>
+                                <f:ajax render="fgfilter"/>
                             </b:selectOneMenu>
                                 <div class="text-center" style="margin-top: 1em">
                                   <b:commandButton value="Filter"/>
                                   <b:commandButton value="Clear" action="#{ticketFilterBean.ClearFilter()}"/>
+                                  <b:commandButton value="test" action="#{TicketController.test()}"/>
+                                  <b:commandButton value="load" 
+                                                   onclick="ajax:TicketController.loadTicketList()" 
+                                                   oncomplete="javascript:location.reload()"/>
                                 </div>
                                 
-                            </b:formGroup>
+                            </b:formGroup>                         
                     <b:formGroup>
                        
-                        <b:dataTable value="#{TicketController.GetfilteredTickets(ticketFilterBean)}" 
-                                     var="item" save-state="false">
-
+                        <b:dataTable value="#{TicketController.ticketList}" 
+                                     var="item" save-state="false" 
+                                     id="ticketTable">
                             <f:facet name="header">
                                 <tr>
                                     <th>Id</th>
