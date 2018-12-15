@@ -7,29 +7,23 @@
 <ui:composition>
     <b:navBar brand="SosIT" brandHref="index.xhtml" fixed="top" inverse="true">
         <b:navbarLinks>
-            <!--TODO controle op role: <ui:include src="/WEB-INF/header{auth.isAdmin() ? 'Admin' : 'User'}.xhtml" />-->
-            <ui:repeat value="#{navBarBean.links}" var="item" >
+            <ui:repeat value="#{navBarBean.links.children}" var="item" >
                 <b:navLink rendered="#{item.class.simpleName == 'MenuLink'}"
                     value="#{item.name}" href="#{item.href}.xhtml"></b:navLink>
                 <b:dropMenu rendered="#{item.class.simpleName == 'MenuList'}"
                     value="#{item.name}">
-                    <ui:repeat value="#{item}" var="subItem" >
-                        <b:navLink value="#{subItem.name}" href="#{subItem.href}.xhtml"></b:navLink>
+                    <ui:repeat value="#{item.children}" var="subItem" >
+                        <b:navLink value="#{subItem.name}" outcome="#{subItem.href}"></b:navLink>
                     </ui:repeat>
                 </b:dropMenu>
             </ui:repeat>
         </b:navbarLinks>
-        <b:form horizontal="true" style="margin: 1em 0 0 0; height: 36px; color: #fb0;">
-            <b:switch value="#{auth.debugMode}" caption="auth.debugMode" tooltip="Ignore the login check" ajax="true"
-                      onColor="warning" switchsize="mini"/>
-        </b:form>
         <b:navbarLinks pull="right">
-            <b:dropMenu value="#{auth.user.username}"
-                        rendered="#{auth.loggedIn}">
+            <b:dropMenu value="#{auth.user.username}" rendered="#{auth.loggedIn}">
                 <b:navLink value="Admin" rendered="#{auth.admin}"/>
                 <b:navLink value="Supporter" rendered="#{auth.supporter}"/>
                 <b:navLink value="Gewone user" rendered="#{auth.gewoneUser}"/>
-                <b:navLink value="Edit useraccount" href="useraccount.xhtml">
+                <b:navLink value="Edit useraccount" outcome="useraccount">
                     <f:param name="useraccountid" value="#{auth.user.useraccountid}"/>
                 </b:navLink>
                 <!--b:form>
@@ -40,6 +34,10 @@
             <b:navLink value="Login" outcome="login"
                        rendered="#{not auth.loggedIn}"/>
         </b:navbarLinks>
+        <b:form horizontal="true" style="margin: 1em 0 0 0; height: 36px; color: #fb0;" >
+            <b:switch value="#{auth.debugMode}" caption="auth.debugMode" tooltip="Ignore the login check" ajax="true"
+                      onColor="warning" switchsize="mini"/>
+        </b:form>
     </b:navBar>
 </ui:composition>
 </html>
