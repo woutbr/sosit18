@@ -58,7 +58,7 @@ public class CompanyController implements Serializable {
         this.companyFacade = companyFacade;
     }
 
-    public List<Company> GetAllCompanies() {
+    public List<Company> listAllCompanies() {
         return this.companyFacade.GetAllCompanies();
     }
 
