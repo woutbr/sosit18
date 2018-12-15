@@ -9,17 +9,15 @@
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Companylist"/>
         <ui:define name="main">
+           
+            
             <f:view>
-                <f:metadata>
-                    
                 
-
-
-                </f:metadata>
+               
                 <b:form>
                     <b:panel title="Company " collapsible="false">
                         
-                        <b:dataTable value="#{companyController.GetAllCompanies()}" var="item">
+                        <b:dataTable value="#{companyController.listAllCompanies()}" var="item">
 
                             <f:facet name="header">
                                 <tr>
@@ -43,17 +41,16 @@
                             <b:dataTableColumn value="#{item.vat}" />
                             <b:dataTableColumn value="#{item.version}" />
                             <b:dataTableColumn value="">                                
-                                <b:commandButton icon="pencil" action="#{companyController.GoTo(item)}" />  
-                                <b:commandButton icon="remove" action="#{companyController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
+                                 <b:button icon="pencil" outcome="company">
+                                    <f:param name="CompanyId" value="#{item.companyid}"/>
+                                </b:button>
+                                <b:commandButton icon="remove" disabled="#{!companyController.canDeleteCompany(item)}" action="#{companyController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
                             </b:dataTableColumn>
                         </b:dataTable>        
                     </b:panel>
-                     <b:commandButton value="New" look="warning" action="#{companyController.create()}"></b:commandButton>
                     
-
-
-
-                    
+                    <b:commandButton value="New" look="warning" action="#{companyController.New()}"></b:commandButton>
+                                      
                 </b:form>
             </f:view>
             

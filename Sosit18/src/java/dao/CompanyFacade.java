@@ -6,6 +6,7 @@
 package dao;
 
 import entity.Company;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -36,4 +37,14 @@ public class CompanyFacade extends AbstractFacade<Company> {
         List<Company> l = (List<Company>)q.getResultList();
         return l;
     }
+    
+    public Company FindById(BigDecimal id){
+        Query q = this.em.createNamedQuery("Company.findByCompanyid");
+        q.setParameter("companyid", id);
+        Company c = (Company)q.getSingleResult();
+        return c;
+    }
+    
 }
+
+    
