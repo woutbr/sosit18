@@ -22,7 +22,7 @@
                                              label="Filter on company"
                                              onchange="AssetTableWidget.DataTable().search(this.value).draw();">
                                 <f:selectItem itemLabel="Select a company"/>
-                                <f:selectItems value="#{companyController.GetAllCompanies()}"
+                                <f:selectItems value="#{companyController.listAllCompanies()}"
                                                var="company"
                                                itemLabel="#{company.name}"
                                                itemValue="#{company.name}"/>

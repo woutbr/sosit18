@@ -224,10 +224,6 @@ public class Useraccount implements Serializable {
         this.companyid = companyid;
     }
 
-    public String getFullname() {
-        return this.firstname+" "+this.lastname;
-    }
-    
 
     @XmlTransient
     public Collection<Action> getActionCollection() {

@@ -29,7 +29,7 @@ and open the template in the editor.
                             <b:inputText value="#{userController.useraccount.useraccountid}" disabled="true"></b:inputText>
                             <h:outputLabel>Company</h:outputLabel>
                             <b:selectOneMenu value="#{companyController.company}">
-                            <f:selectItems value="#{companyController.GetAllCompanies()}" var="company" itemValue="#{useraccount.companyid}" itemLabel="#{company.name}"/>               
+                            <f:selectItems value="#{companyController.listAllCompanies()}" var="company" itemValue="#{useraccount.companyid}" itemLabel="#{company.name}"/>               
                             </b:selectOneMenu>
                             <h:outputLabel>First name</h:outputLabel>
                             <b:inputText value="#{userController.useraccount.firstname}" ></b:inputText>

@@ -58,7 +58,7 @@ public class UserController implements Serializable {
         if(company!=null){
             userlist = this.useraccountFacade.GetAllUsersByCompanyId(company.getCompanyid());
         }else{
-            userlist =ListAllUsers();
+            userlist =findAllUsers();
         }
         return userlist;
     }
