@@ -21,9 +21,11 @@
                       <b:panelGrid colSpans="6,6">
                           <b:formGroup>
                             <h:outputLabel>Company ID</h:outputLabel>
+                           
                             <b:inputText value="#{companyController.company.companyid}"></b:inputText>
                             <h:outputLabel>Name</h:outputLabel>
-                            <b:inputText value="#{companyController.company.name}"></b:inputText>
+                            <b:inputText value="#{companyController.company.name}" required="true" required-message="Please fill in a companyname!"                                       
+                            ></b:inputText>                                                   
                             <h:outputLabel>VAT</h:outputLabel>
                             <b:inputText value="#{companyController.company.vat}"></b:inputText>                              
                           </b:formGroup>  
@@ -97,7 +99,7 @@
                     
                      <div class="text-center">
                         <b:commandButton value="Save" look="success" style="margin-right: 2em" action="#{companyController.save()}"></b:commandButton>
-                        <b:commandButton value="Cancel" look="warning" style="margin-left: 2em" action="#{companyController.cancel()}"></b:commandButton>
+                        <b:button value="cancel" look="warning" outcome="companyList"/>
                     </div>
                     
     

@@ -17,6 +17,7 @@ import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.showMessageDialog;
 import oracle.net.aso.e;
 import static oracle.sql.NUMBER.e;
 
@@ -73,8 +74,8 @@ public class CompanyController implements Serializable {
 
         return true;
     }
-
-    public String erase(Company c) {
+    
+     public String erase(Company c) {
         this.companyFacade.remove(c);
         return "companyList?faces-redirect=true";
     }
@@ -90,11 +91,13 @@ public class CompanyController implements Serializable {
         if (company.getCompanyid() == null) {
             // een company dat nog geen nummer heeft moet een nieuw ticket zijn
             this.companyFacade.create(company);
-            company = new Company();
+                  
+            /*company = new Company();*/
         } else {
             // een bestaand ticket wordt enkel geupdate
             this.companyFacade.edit(company);
         }
+        
 
         company = new Company();
         //  ?faces-redirect=true zorgt ervoor dat de browser url meevolgt
