@@ -15,8 +15,10 @@ import entity.Useraccount;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 
 /**
@@ -28,11 +30,20 @@ import java.util.List;
 @SessionScoped
 public class TicketController implements Serializable {
 
-
     @EJB
     private TicketFacade ticketFacade;
     
     private Ticket ticket = new Ticket();
+    private List<Ticket> ticketList = new ArrayList<>();
+
+    public List<Ticket> getTicketList() {
+        return ticketList;
+    }
+
+    public void setTicketList(List<Ticket> ticketList) {
+        this.ticketList = ticketList;
+    }
+    
 
     public Ticket getTicket() {
         return ticket;
@@ -42,24 +53,30 @@ public class TicketController implements Serializable {
         this.ticket = ticket;
     }
 
-
     public TicketController() {
+
+
     }
     
-    public void FindById(BigDecimal id){
-
+    public void findById(BigDecimal id){
         if (id==null ) {
             resetTicket();
         }else{
             ticket = this.ticketFacade.FindById(id);
         }
-        
-         
     }
     
-    public List<Ticket> GetAllTickets(){
+    public List<Ticket> findAllTickets(){
         return this.ticketFacade.findAll();
-
+    }
+    
+    public List<Ticket> findFilteredTickets(TicketFilterBean ticketfilter){
+        if (ticketfilter!=null) {
+            return this.ticketFacade.GetfilteredTickets(ticketfilter);   
+        }else{
+            return findAllTickets();
+        }
+            
     }
     
     public String cancel(){
@@ -71,7 +88,7 @@ public class TicketController implements Serializable {
         if (ticket.getTicketid()==null) {
             // een ticket dat nog geen nummer heeft moet een nieuw ticket zijn
 
-            ticket.setCreationdate(GetCurrentDate());
+            ticket.setCreationdate(findCurrentDate());
             this.ticketFacade.create(ticket);
 
         }else{
@@ -103,20 +120,21 @@ public class TicketController implements Serializable {
     public void resetTicket(){
         // wordt aangeroepen in ticketList
         this.ticket= new Ticket();
-        ticket.setCreationdate(GetCurrentDate());
+        ticket.setCreationdate(findCurrentDate());
         int a = 1;
     }
-    public void test() {
-        
-        int a=1;
-    }
-    
-    public Date GetCurrentDate(){
-        
+
+    public Date findCurrentDate(){
         LocalDate ld  = LocalDate.now();
         Date      d   =java.sql.Date.valueOf(ld);
         return d;
     }
     
-
+    public void test(){
+        int a =1;
+    }
+    
+    public void loadTicketList(){
+        ticketList=findFilteredTickets(null);
+    }        
 }

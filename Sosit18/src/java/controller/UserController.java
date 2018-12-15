@@ -6,6 +6,7 @@
 package controller;
 
 import dao.UseraccountFacade;
+import entity.Company;
 import entity.Useraccount;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -25,7 +26,6 @@ public class UserController implements Serializable {
 
     @EJB
     private UseraccountFacade useraccountFacade;
-    
     private Useraccount useraccount = new Useraccount();
     
 
@@ -51,7 +51,24 @@ public class UserController implements Serializable {
     public List<Useraccount> findAllUsers(){
         return this.useraccountFacade.findAll();
     }
-       
+    
+    public List<Useraccount> ListAllUsersByCompany(Company company){
+        List<Useraccount> userlist;
+        
+        if(company!=null){
+            userlist = this.useraccountFacade.GetAllUsersByCompanyId(company.getCompanyid());
+        }else{
+            userlist =ListAllUsers();
+        }
+        return userlist;
+    }
+    
+    public String test(Company co){
+        String s = " test";
+        return s;
+    
+    }
+  
     public String cancel(){
         int a = 1;
         return "userlist?faces-redirect=true";
