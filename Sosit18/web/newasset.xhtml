@@ -17,7 +17,7 @@
                                          required="false" 
                                          required-message="Please select a company.">
                             <f:selectItem itemLabel="Select a company"/>
-                            <f:selectItems value=""
+                            <f:selectItems value="#{companyController.GetAllCompanies()}"
                                            var="company"
                                            itemLabel="#{company.name}"
                                            itemValue="#{company}"/>
@@ -43,7 +43,7 @@
                         <h:outputLabel value="Assetgroups" for="selectassetgroup"/>
                         <b:selectOneMenu value="#{assetController.asset.assetgroupid}" 
                                          id="selectassetgroup"
-                                         required="true" 
+                                         required="false" 
                                          required-message="Please select an assetgroup.">
                             <f:selectItem itemLabel="Select an assetgroup"/>
                             <f:selectItems value="#{assetgroupController.listAllAssetgroups()}"

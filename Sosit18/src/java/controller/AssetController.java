@@ -1,8 +1,9 @@
 package controller;
 
+import dao.AbstractFacade;
 import dao.AssetFacade;
 import entity.Asset;
-import java.io.Serializable;
+import entity.Company;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
@@ -14,7 +15,7 @@ import javax.inject.Named;
  */
 @Named(value = "assetController")
 @SessionScoped
-public class AssetController implements Serializable {
+public class AssetController extends AbstractController<Asset>{
 
     @EJB
     private AssetFacade assetFacade;
@@ -26,6 +27,11 @@ public class AssetController implements Serializable {
         this.asset = new Asset();
     }
 
+    @Override
+    protected AbstractFacade<Asset> getFacade() {
+        return this.assetFacade;
+    }
+
     public Asset getAsset() {
         return asset;
     }
@@ -33,12 +39,9 @@ public class AssetController implements Serializable {
     public void setAsset(Asset asset) {
         this.asset = asset;
     }
-    public List<Asset> listAllAssets() {
-        return this.assetFacade.findAll();
-    }
-
-    public Asset findByID(BigDecimal id) {
-        return this.assetFacade.find(id);
+    
+    public List<Asset> findAssetsByCompany(Company c) {
+        return this.assetFacade.findAssetsByCompany(c);
     }
 
     public void onload() {
