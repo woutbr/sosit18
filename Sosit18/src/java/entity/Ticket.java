@@ -46,7 +46,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Ticket.findByCreationdate", query = "SELECT t FROM Ticket t WHERE t.creationdate = :creationdate")
     , @NamedQuery(name = "Ticket.findByCloseddate", query = "SELECT t FROM Ticket t WHERE t.closeddate = :closeddate")
     , @NamedQuery(name = "Ticket.findByAssetid", query = "SELECT t FROM Ticket t WHERE t.assetid = :assetid")
-    , @NamedQuery(name = "Ticket.findByVersion", query = "SELECT t FROM Ticket t WHERE t.version = :version")})
+    , @NamedQuery(name = "Ticket.findByVersion", query = "SELECT t FROM Ticket t WHERE t.version = :version")
+     ,@NamedQuery(name = "Ticket.findByfilter", query = "SELECT t FROM Ticket t WHERE t.ticketstatusid = :ticketstatusid and t.useraccountid =:useraccountid")})
 public class Ticket implements Serializable {
 
     private static final long serialVersionUID = 1L;

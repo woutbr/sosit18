@@ -32,15 +32,14 @@ import static oracle.sql.NUMBER.e;
 public class CompanyController implements Serializable {
 
     @EJB
-    private CompanyFacade companyFacade;
-
+    private CompanyFacade companyFacade ;
+    private Company company = new Company();
+  
     /**
      * Creates a new instance of CompanyController
      */
     public CompanyController() {
     }
-
-    private Company company = new Company();
 
     public Company getCompany() {
         return company;
@@ -118,6 +117,4 @@ public class CompanyController implements Serializable {
         company = this.companyFacade.FindById(id);
         }
     }
-    
-
 }
