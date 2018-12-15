@@ -18,7 +18,7 @@
                     <b:panelGrid colSpans="3,9" size="sm">
                         <b:formGroup>
                             <b:selectOneMenu value="#{auth.gewoneUser ? auth.user.companyid.name : companyController.company.name}" 
-                                             disabled="#{auth.loggedIn}"
+                                             disabled="#{auth.gewoneUser}"
                                              label="Filter on company"
                                              onchange="AssetTableWidget.DataTable().search(this.value).draw();">
                                 <f:selectItem itemLabel="Select a company"/>
@@ -97,12 +97,14 @@
                             </b:dataTable>
                             <b:commandButton value="save" icon="save" look="primary"
                                              disabled="#{not assetController.editMode}"
+                                             rendered="#{auth.supporter or auth.admin}"
                                              ajax="true" auto-update="true"
                                              update="@(.editableAssetTable)"
                                              onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.saveAsset()"
                                              />
                             <b:button value="new asset" icon="plus" look="info"
-                                      outcome="newasset"/>
+                                      outcome="newasset"
+                                      rendered="#{auth.supporter or auth.admin}"/>
                         </b:formGroup>
                     </b:panelGrid>
                 </b:form>

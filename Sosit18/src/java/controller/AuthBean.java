@@ -7,7 +7,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 /**
- * This managed bean holds the currently logged in user.
+ * This managed bean holds the currently logged in Useraccount.
  * It can also be asked if a user has a certain Role or permission.
  * @author woutbr@student.hik.be
  */
@@ -38,35 +38,51 @@ public class AuthBean implements Serializable {
         this.user = user;
     }
     
+    /**
+     * Zet het user object op null.
+     * Zo geeft isLoggedIn false terug.
+     */
     public void clearUser() {
         this.user = null;
     }
     
     /**
-     * Returns true when auth.user is not null.
+     * Geeft true wanneer auth.user niet null is.
      */
     public boolean isLoggedIn(){
         return this.user != null;
     }
     
+    /**
+     * Is een UserAccount ingelogd en heeft het een Permission met canedit.
+     */
     public boolean canEdit(){
-        return this.user.getCanedit();
+        return this.isLoggedIn() && this.user.getCanedit();
     }
     
+    /**
+     * Is een UserAccount ingelogd en heeft het een Permission met canread.
+     */
     public boolean canRead(){
-        return this.user.getCanread();
+        return this.isLoggedIn() && this.user.getCanread();
     }
     
+    /**
+     * Is een UserAccount ingelogd en heeft het een Permission met caninsert.
+     */
     public boolean canInsert(){
-        return this.user.getCaninsert();
+        return this.isLoggedIn() && this.user.getCaninsert();
     }
     
+    /**
+     * Is een UserAccount ingelogd en heeft het een Permission met candelete.
+     */
     public boolean canDelete(){
-        return this.user.getCandelete();
+        return this.isLoggedIn() && this.user.getCandelete();
     }
 
     /**
-     * Heeft de ingelogde UserAccount een Admin rol.
+     * Is een UserAccount ingelogd en heeft een Admin rol.
      * @return true als de user een Admin rol heeft.
      */
     public boolean isAdmin(){
@@ -74,7 +90,7 @@ public class AuthBean implements Serializable {
     }
 
     /**
-     * Heeft de ingelogde UserAccount een Supporter rol.
+     * Is een UserAccount ingelogd en heeft een Supporter rol.
      * @return true als de user een Supporter rol heeft.
      */
     public boolean isSupporter(){
@@ -82,7 +98,7 @@ public class AuthBean implements Serializable {
     }
 
     /**
-     * Heeft de ingelogde UserAccount een User rol.
+     * Is een UserAccount ingelogd en heeft een User rol.
      * @return true als de user een User rol heeft.
      */
     public boolean isGewoneUser(){

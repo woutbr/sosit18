@@ -20,6 +20,9 @@
             </ui:repeat>
             <b:dropMenu value="#{auth.user.username}"
                         rendered="#{auth.loggedIn}">
+                <b:navLink value="Admin" rendered="#{auth.admin}"/>
+                <b:navLink value="Supporter" rendered="#{auth.supporter}"/>
+                <b:navLink value="Gewone user" rendered="#{auth.gewoneUser}"/>
                 <b:navLink value="Edit useraccount" href="useraccount.xhtml">
                     <f:param name="useraccountid" value="#{auth.user.useraccountid}"/>
                 </b:navLink>

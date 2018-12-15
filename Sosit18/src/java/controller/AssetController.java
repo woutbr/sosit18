@@ -1,7 +1,5 @@
 package controller;
 
-import controller.Roles.AssetAdminFacadeDecider;
-import controller.Roles.RoleFacadeDecider;
 import dao.AbstractFacade;
 import dao.AssetFacade;
 import entity.Asset;
@@ -26,24 +24,7 @@ public class AssetController extends AbstractController<Asset>{
     private boolean editMode = false;
 
     public AssetController() {
-        this.chooseRoleFacadeDecider();
         this.asset = new Asset();
-    }
-    
-    private void chooseRoleFacadeDecider(){
-        RoleFacadeDecider<Asset> roleFacadeDecider = null;
-        if(this.authBean.isLoggedIn()){
-            if(this.authBean.isAdmin()){
-                roleFacadeDecider = new AssetAdminFacadeDecider();
-            }else if(this.authBean.isSupporter()){
-                roleFacadeDecider = new AssetAdminFacadeDecider();
-            }else if(this.authBean.isGewoneUser()){
-                roleFacadeDecider = new AssetAdminFacadeDecider();
-            }
-        }else{
-            //TODO Niet ingelogd, throw error
-        }
-        this.setRoleFacadeDecider(roleFacadeDecider);
     }
 
     @Override
