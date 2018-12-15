@@ -29,7 +29,7 @@
                             
                             <h:outputLabel >user</h:outputLabel>                         
                             <b:selectOneMenu value="#{TicketController.ticket.useraccountid}">
-                                <f:selectItems value="#{userController.ListAllUsers()}" 
+                                <f:selectItems value="#{userController.findAllUsers()}" 
                                                var="ua" 
                                                itemValue="#{ua}" 
                                                itemLabel="#{ua.fullname}"/>
@@ -63,7 +63,7 @@
                             <h:outputLabel>Asset</h:outputLabel>
                             
                             <b:selectOneMenu value="#{TicketController.ticket.assetid}">
-                                <f:selectItems value="#{assetController.listAllAssets()}"
+                                <f:selectItems value="#{assetController.listAll()}"
                                                var="a" 
                                                itemValue="#{a.assetid.toBigInteger()}" 
                                                itemLabel="#{a.description}"/>

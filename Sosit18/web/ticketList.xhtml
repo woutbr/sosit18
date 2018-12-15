@@ -39,7 +39,7 @@
                                          style="background-color: lightgray"/>
                                 <b:selectOneMenu value="#{ticketFilterBean.company}" >
                                     <f:selectItem itemValue="#{null}"/>
-                                    <f:selectItems value="#{companyController.ListAllCompanies()}" 
+                                    <f:selectItems value="#{companyController.listAllCompanies()}" 
                                                    var="co" 
                                                    itemValue="#{co}" 
                                                    itemLabel="#{co.name}"/>

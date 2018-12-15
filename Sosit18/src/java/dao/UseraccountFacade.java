@@ -63,7 +63,8 @@ public class UseraccountFacade extends AbstractFacade<Useraccount> {
         q.setParameter("username", username);
         q.setParameter("password", this.hashPassword(password));
         Useraccount u = (Useraccount) q.getResultList().stream().findFirst().orElse(null);
-
+        return u;
+    }
     
     public Useraccount FindByUseraccountId(BigDecimal id){
         Query q = this.em.createNamedQuery("Useraccount.findByUseraccountid");
