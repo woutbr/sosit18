@@ -46,17 +46,12 @@ public class Company implements Serializable {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Id
-      
+    @Id      
     @SequenceGenerator(name="COMPANY_SEQ",sequenceName="COMPANY_SEQ",allocationSize=1)
     @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "COMPANY_SEQ")
     
-    //@Basic(optional = false)
-    //@NotNull
     @Column(name = "COMPANYID")
     private BigDecimal companyid;
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 250)
     @Column(name = "NAME")
     private String name;
@@ -200,5 +195,7 @@ public class Company implements Serializable {
     public String toString() {
         return "entity.Company[ companyid=" + companyid + " ]";
     }
+
+    
     
 }

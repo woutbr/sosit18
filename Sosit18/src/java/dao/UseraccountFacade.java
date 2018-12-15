@@ -5,6 +5,7 @@
  */
 package dao;
 
+import entity.Company;
 import entity.Useraccount;
 import java.math.BigDecimal;
 import java.util.List;
@@ -32,12 +33,7 @@ public class UseraccountFacade extends AbstractFacade<Useraccount> {
         super(Useraccount.class);
     }
 
-    public Useraccount FindByUseraccountid(BigDecimal id) {
-        Query q = this.em.createNamedQuery("Useraccount.FindByUseraccountid");
-        q.setParameter("Useraccountid", id);
-        Useraccount u = (Useraccount) q.getSingleResult();
-        return u;
-    }
+
 
     /**
      * Finds a Useraccount with the given username. If no user is found, null is
@@ -67,6 +63,13 @@ public class UseraccountFacade extends AbstractFacade<Useraccount> {
         q.setParameter("username", username);
         q.setParameter("password", this.hashPassword(password));
         Useraccount u = (Useraccount) q.getResultList().stream().findFirst().orElse(null);
+
+    
+    public Useraccount FindByUseraccountId(BigDecimal id){
+        Query q = this.em.createNamedQuery("Useraccount.findByUseraccountid");
+        q.setParameter("useraccountid", id);
+        Useraccount u = (Useraccount)q.getSingleResult();
+
         return u;
     }
 
@@ -83,6 +86,13 @@ public class UseraccountFacade extends AbstractFacade<Useraccount> {
     public List<Useraccount> GetAllUsers() {
         Query q = this.em.createNamedQuery("Useraccount.findAll");
         List<Useraccount> l = (List<Useraccount>) q.getResultList();
+        return l;
+    }
+    
+    public List<Useraccount> GetAllUsersByCompanyId(BigDecimal companyId){
+        Query q = this.em.createNamedQuery("Useraccount.findByCompanyId");
+        q.setParameter("companyid", companyId);
+        List<Useraccount> l = (List<Useraccount>)q.getResultList();
         return l;
     }
 }

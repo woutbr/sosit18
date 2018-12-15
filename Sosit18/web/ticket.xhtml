@@ -10,11 +10,12 @@
         <ui:define name="main">
             <f:metadata>
                 <f:viewParam name="TicketId"/>
-                <f:viewAction action="#{TicketController.FindById(TicketId)}" />
+                <f:viewAction action="#{TicketController.findById(TicketId)}" />
             </f:metadata>
       
             <b:form>
-                <b:panel title="Ticket " collapsible="false">
+
+                <b:panel title="Ticket " collapsible="false" id="mainPanel">
 
                     <h4><u>Algemene informatie</u></h4>
                     <b:panelGrid colSpans="4,8">
@@ -22,18 +23,29 @@
                             <h:outputLabel>Ticket Id</h:outputLabel>
                             <b:inputText value="#{TicketController.ticket.ticketid}"  readonly="true"></b:inputText>
                             <h:outputLabel>Bedrijf</h:outputLabel>
-                            <b:inputText value="#{TicketController.ticket.useraccountid.companyid.name}" readonly="true" auto-update="true"/>
+                            <b:inputText value="#{TicketController.ticket.useraccountid.companyid.name}" 
+                                         id="name"
+                                         readonly="true" auto-update="true"/>
                             
                             <h:outputLabel >user</h:outputLabel>                         
                             <b:selectOneMenu value="#{TicketController.ticket.useraccountid}">
                                 <f:selectItems value="#{userController.ListAllUsers()}" 
                                                var="ua" 
                                                itemValue="#{ua}" 
-                                               itemLabel="#{userController.FulName(ua)}"  />
+                                               itemLabel="#{ua.fullname}"/>
+                                <f:ajax id="mainPanel"/>
                                
                             </b:selectOneMenu>
                             <h:outputLabel>Creatie datum</h:outputLabel>
                             <b:inputText  value="#{TicketController.ticket.creationdate}" readonly="true"></b:inputText>
+                            <h:outputLabel>Status</h:outputLabel>
+                            <b:selectOneMenu value="#{TicketController.ticket.ticketstatusid}">
+                                <f:selectItems value="#{ticketstatusController.ListAllTicketstatus()}" 
+                                                var="ts" 
+                                                itemValue="#{ts}" 
+                                                itemLabel="#{ts.description}" />
+                            
+                            </b:selectOneMenu>
                         </b:formGroup>
           
                         <b:formGroup>
@@ -51,7 +63,7 @@
                             <h:outputLabel>Asset</h:outputLabel>
                             
                             <b:selectOneMenu value="#{TicketController.ticket.assetid}">
-                                <f:selectItems value="#{assetController.allAssets}"
+                                <f:selectItems value="#{assetController.listAllAssets()}"
                                                var="a" 
                                                itemValue="#{a.assetid.toBigInteger()}" 
                                                itemLabel="#{a.description}"/>
@@ -83,8 +95,9 @@
                     <h4><u>Omschrijving</u></h4>
                     <b:inputTextarea value="#{TicketController.ticket.description}" ></b:inputTextarea>
                     <div class="text-center">
-                        <b:commandButton value="Opslaan" look="success" style="margin-right: 2em" action="#{TicketController.save()}"></b:commandButton>
-                        <b:commandButton value="Terug" look="warning" style="margin-left: 2em" action="#{TicketController.cancel()}"></b:commandButton>
+                        <b:commandButton value="Save" look="success" style="margin-right: 2em" action="#{TicketController.save()}"></b:commandButton>
+                        <b:commandButton value="Cancel" look="warning" style="margin-left: 2em" action="#{TicketController.cancel()}"></b:commandButton>
+                        <b:commandButton action="#{ticketstatusController.ListAllTicketstatus()}">test</b:commandButton>
                        
                     </div>
 
