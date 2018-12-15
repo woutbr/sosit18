@@ -15,7 +15,8 @@
                     ResetTicket maak steeds een nieuw ticket object bij aanroepen van deze pagina.
                     Waneer TicketController.create() wordt aangeroepen  vertrekken we van een nieuw ticket;
                     -->
-                    <f:viewAction action="#{TicketController.resetTicket()}"></f:viewAction>
+                    <f:viewAction action="#{TicketController.resetTicket()}"></f:viewAction>+
+                    <f:viewAction action="#{TicketController.loadTicketList()}"></f:viewAction>
                 </f:metadata>
                 <b:form>
 
@@ -56,11 +57,8 @@
                             </b:selectOneMenu>
                                 <div class="text-center" style="margin-top: 1em">
                                   <b:commandButton value="Filter"/>
-                                  <b:commandButton value="Clear" action="#{ticketFilterBean.ClearFilter()}"/>
-                                  <b:commandButton value="test" action="#{TicketController.test()}"/>
-                                  <b:commandButton value="load" 
-                                                   onclick="ajax:TicketController.loadTicketList()" 
-                                                   oncomplete="javascript:location.reload()"/>
+                                  <b:commandButton value="Clear"/>
+
                                 </div>
                                 
                             </b:formGroup>                         
