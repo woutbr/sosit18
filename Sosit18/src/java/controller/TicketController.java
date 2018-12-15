@@ -58,7 +58,7 @@ public class TicketController implements Serializable {
 
     }
     
-    public void FindById(BigDecimal id){
+    public void findById(BigDecimal id){
         if (id==null ) {
             resetTicket();
         }else{
@@ -66,15 +66,15 @@ public class TicketController implements Serializable {
         }
     }
     
-    public List<Ticket> GetAllTickets(){
+    public List<Ticket> findAllTickets(){
         return this.ticketFacade.findAll();
     }
     
-    public List<Ticket> GetfilteredTickets(TicketFilterBean ticketfilter){
+    public List<Ticket> findFilteredTickets(TicketFilterBean ticketfilter){
         if (ticketfilter!=null) {
             return this.ticketFacade.GetfilteredTickets(ticketfilter);   
         }else{
-            return GetAllTickets();
+            return findAllTickets();
         }
             
     }
@@ -88,7 +88,7 @@ public class TicketController implements Serializable {
         if (ticket.getTicketid()==null) {
             // een ticket dat nog geen nummer heeft moet een nieuw ticket zijn
 
-            ticket.setCreationdate(GetCurrentDate());
+            ticket.setCreationdate(findCurrentDate());
             this.ticketFacade.create(ticket);
 
         }else{
@@ -120,11 +120,11 @@ public class TicketController implements Serializable {
     public void resetTicket(){
         // wordt aangeroepen in ticketList
         this.ticket= new Ticket();
-        ticket.setCreationdate(GetCurrentDate());
+        ticket.setCreationdate(findCurrentDate());
         int a = 1;
     }
 
-    public Date GetCurrentDate(){
+    public Date findCurrentDate(){
         LocalDate ld  = LocalDate.now();
         Date      d   =java.sql.Date.valueOf(ld);
         return d;
@@ -135,12 +135,6 @@ public class TicketController implements Serializable {
     }
     
     public void loadTicketList(){
-        List<Ticket> l=this.ticketFacade.test();
-        ticketList=l;
-    }
-    
-
-    
-    
-    
+        ticketList=findFilteredTickets(null);
+    }        
 }

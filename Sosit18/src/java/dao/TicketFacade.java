@@ -22,7 +22,7 @@ import javax.persistence.Query;
 public class TicketFacade extends AbstractFacade<Ticket> {
 
     @PersistenceContext(unitName = "Sosit18PU")
-    public EntityManager em;
+    private EntityManager em;
 
     @Override
     protected EntityManager getEntityManager() {
