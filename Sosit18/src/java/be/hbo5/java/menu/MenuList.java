@@ -1,45 +1,46 @@
 package be.hbo5.java.menu;
 
-import com.sun.el.ValueExpressionLiteral;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.faces.component.FacesComponent;
-import net.bootsfaces.component.dropMenu.DropMenu;
 
 /**
  * @author woutbr@student.hik.be
  */
-@FacesComponent(createTag = true, tagName = "menuList", namespace = "https://github.com/woutbr/sosit18")
-public class MenuList extends DropMenu implements Iterable<MenuItem> {
+public class MenuList extends MenuItem implements Iterable<MenuItem> {
 
-    private List<MenuItem> subItems;
+    private List<MenuItem> children;
 
     public MenuList(String name) {
-        this.setValueExpression("value", new ValueExpressionLiteral(name, String.class));
+        super(name);
     }
 
-    public List<MenuItem> getSubItems() {
-        return subItems;
+    public void setChildren(List<MenuItem> children) {
+        this.children = children;
     }
 
-    public void setSubItems(List<MenuItem> subItems) {
-        this.subItems = subItems;
+    public List<MenuItem> getChildren() {
+        return children;
+    }
+
+    @Override
+    public String toString() {
+        return "MenuList{" + "name=" + getName() + ", children.size=" + children.size() + '}';
     }
 
     public int size() {
-        return this.subItems.size();
+        return this.children.size();
     }
 
     public void add(MenuItem subItem) {
-        if (this.subItems == null) {
-            this.subItems = new ArrayList<MenuItem>();
+        if (this.children == null) {
+            this.children = new ArrayList<MenuItem>();
         }
-        this.subItems.add(subItem);
+        this.children.add(subItem);
     }
 
     public MenuItem get(int i) {
-        return this.subItems.get(i);
+        return this.children.get(i);
     }
 
     @Override
@@ -58,7 +59,9 @@ public class MenuList extends DropMenu implements Iterable<MenuItem> {
 
         @Override
         public MenuItem next() {
-            return get(index);
+            int i = index;
+            index++;
+            return get(i);
         }
 
     }
