@@ -14,7 +14,7 @@
                 <b:form>
                     <b:panel title="User list" collapsible="false">
                         
-                        <b:dataTable value="#{userController.GetAllUsers()}" var="item" columnVisibility="true">
+                        <b:dataTable value="#{userController.findAllUsers()}" var="item" columnVisibility="true">
 
                             <f:facet name="header">
                                 <tr>
@@ -37,7 +37,7 @@
                             <b:dataTableColumn value="#{item.email}" />
                             <b:dataTableColumn value="">                                
                                 <b:button icon="pencil" outcome="useraccount">
-                                    <f:param name="Useraccountid" value="#{item.useraccountid}"/>
+                                    <f:param name="UseraccountId" value="#{item.useraccountid}"/>
                                 </b:button>
                                 <b:commandButton icon="remove" action="#{userController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
                             </b:dataTableColumn>                          

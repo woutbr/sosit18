@@ -37,33 +37,30 @@ public class UserController implements Serializable {
         this.useraccount = useraccount;
     }
     
-        public UserController() {
+    public UserController() {
     }
     
-    public void FindByUseraccountid (BigDecimal id){
-        if(id==null){
+    public void findByUseraccountId (BigDecimal id){
+        if (id==null) {
             resetUseraccount();
         }else{
-              useraccount = this.useraccountFacade.FindByUseraccountid(id);
-        }
+            useraccount = this.useraccountFacade.FindByUseraccountId(id);
+        } 
     }
     
-    public List<Useraccount> GetAllUsers(){
-        return this.useraccountFacade.findAll();
-    }
-    
-    public List<Useraccount> ListAllUsers(){
+    public List<Useraccount> findAllUsers(){
         return this.useraccountFacade.findAll();
     }
        
     public String cancel(){
+        int a = 1;
         return "userlist?faces-redirect=true";
     }
     
-    public String edit(){
-        this.useraccountFacade.edit(useraccount);
-        return "userlist?faces-redirect=true";
-    }
+//    public String edit(){
+//        this.useraccountFacade.edit(useraccount);
+//        return "userlist?faces-redirect=true";
+//    }
     
     public String edit(Useraccount u){
         this.useraccount=u;
