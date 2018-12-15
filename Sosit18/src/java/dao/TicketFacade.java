@@ -73,7 +73,6 @@ public class TicketFacade extends AbstractFacade<Ticket> {
         return  l;
     }
     
-
     
     private String addQueryParameter(String queryParameter, String qfield,BigDecimal qvalue ){
         if (!queryParameter.equals("")) {

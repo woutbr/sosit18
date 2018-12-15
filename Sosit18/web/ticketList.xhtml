@@ -15,8 +15,12 @@
                     ResetTicket maak steeds een nieuw ticket object bij aanroepen van deze pagina.
                     Waneer TicketController.create() wordt aangeroepen  vertrekken we van een nieuw ticket;
                     -->
+                    <f:viewParam name="ticketstatusid"/>
+                    <f:viewParam name="companyid"/>
+                    <f:viewParam name="useraccountid"/>
                     <f:viewAction action="#{TicketController.resetTicket()}"></f:viewAction>+
-                    <f:viewAction action="#{TicketController.loadTicketList()}"></f:viewAction>
+                    <f:viewAction action="#{TicketController.loadTicketList(ticketstatusid,companyid,useraccountid)}"></f:viewAction>
+
                 </f:metadata>
                 <b:form>
 
@@ -56,9 +60,12 @@
                                 <f:ajax render="fgfilter"/>
                             </b:selectOneMenu>
                                 <div class="text-center" style="margin-top: 1em">
-                                  <b:commandButton value="Filter"/>
+                                    <b:button value="Filter" outcome="ticketList">
+                                        <f:param name="ticketstatusid" value="#{ticketFilterBean.ticketstatus.ticketstatusid}"/>
+                                        <f:param name="companyid" value="#{ticketFilterBean.company.companyid}"/>
+                                        <f:param name="useraccountid" value="#{ticketFilterBean.useraccount.useraccountid}"/>
+                                    </b:button>
                                   <b:commandButton value="Clear"/>
-
                                 </div>
                                 
                             </b:formGroup>                         

@@ -79,6 +79,16 @@ public class TicketController implements Serializable {
             
     }
     
+        public void loadTicketList(BigDecimal ticketstatusid, BigDecimal companyid, BigDecimal useraccountid){
+        if (ticketstatusid==null &&companyid == null && useraccountid==null) {
+            ticketList=findFilteredTickets(null);
+        }else{
+        
+        
+        }
+        
+    }  
+    
     public String cancel(){
         return "ticketList?faces-redirect=true";
     }
@@ -134,7 +144,5 @@ public class TicketController implements Serializable {
         int a =1;
     }
     
-    public void loadTicketList(){
-        ticketList=findFilteredTickets(null);
-    }        
+
 }
