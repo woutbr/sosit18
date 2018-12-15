@@ -2,6 +2,7 @@ package be.hbo5.java.xml;
 
 import be.hbo5.java.menu.MenuLink;
 import be.hbo5.java.menu.MenuList;
+import net.bootsfaces.component.navLink.NavLink;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -25,6 +26,10 @@ public final class LinksXmlReader {
         NamedNodeMap nodeAttr = linkNode.getAttributes();
         MenuLink menuLink = new MenuLink(nodeAttr.getNamedItem("name").getNodeValue(),
                 nodeAttr.getNamedItem("href").getNodeValue());
+        //TODO NavLink return ipv MenuLink
+        NavLink navLink = new NavLink();
+        navLink.setValue(nodeAttr.getNamedItem("name").getNodeValue());
+        navLink.setHref(nodeAttr.getNamedItem("href").getNodeValue());
         return menuLink;
     }
     

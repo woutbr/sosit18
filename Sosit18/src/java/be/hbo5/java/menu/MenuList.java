@@ -1,18 +1,22 @@
 package be.hbo5.java.menu;
 
+import com.sun.el.ValueExpressionLiteral;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.faces.component.FacesComponent;
+import net.bootsfaces.component.dropMenu.DropMenu;
 
 /**
  * @author woutbr@student.hik.be
  */
-public class MenuList extends MenuItem implements Iterable<MenuItem> {
+@FacesComponent(createTag = true, tagName = "menuList", namespace = "https://github.com/woutbr/sosit18")
+public class MenuList extends DropMenu implements Iterable<MenuItem> {
 
     private List<MenuItem> subItems;
 
     public MenuList(String name) {
-        super(name);
+        this.setValueExpression("value", new ValueExpressionLiteral(name, String.class));
     }
 
     public List<MenuItem> getSubItems() {
