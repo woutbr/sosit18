@@ -33,9 +33,9 @@ public class UseraccountFacade extends AbstractFacade<Useraccount> {
         super(Useraccount.class);
     }
     
-    public Useraccount FindByUseraccountid(BigDecimal id){
-        Query q = this.em.createNamedQuery("Useraccount.FindByUseraccountid");
-        q.setParameter("Useraccountid", id);
+    public Useraccount FindByUseraccountId(BigDecimal id){
+        Query q = this.em.createNamedQuery("Useraccount.findByUseraccountid");
+        q.setParameter("useraccountid", id);
         Useraccount u = (Useraccount)q.getSingleResult();
         return u;
     }

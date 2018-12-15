@@ -12,34 +12,50 @@ and open the template in the editor.
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     
     <ui:composition template="/templates/page.xhtml">
-        <ui:param name="pageTitle" value="User account - SosIT"/>
+        <ui:param name="pageTitle" value="Useraccount"/>
         <ui:define name="main">
-           
+        <f:metadata>
+                    <f:viewParam name="UseraccountId"/>
+                    <f:viewAction action="#{userController.findByUseraccountId(UseraccountId)}"/>     
+        </f:metadata>
+            
             <b:form>
                
-                <b:panel title="User account" collapsible="false">
+                <b:panel title="Useraccount" collapsible="false">
                     <h4><u>General information</u></h4>
                     <b:panelGrid colSpans="6,6">
                         <b:formGroup>
                             <h:outputLabel>User account ID</h:outputLabel>
-                            <b:inputText value="#{userController.useraccount.useraccountid}"></b:inputText>
-    
-                            <h:outputLabel>Company ID</h:outputLabel>
-                            <b:selectOneMenu></b:selectOneMenu>
+                            <b:inputText value="#{userController.useraccount.useraccountid}" disabled="true"></b:inputText>
+                            <h:outputLabel>Company</h:outputLabel>
+                            <b:selectOneMenu value="#{companyController.company}">
+                            <f:selectItems value="#{companyController.GetAllCompanies()}" var="company" itemValue="#{useraccount.companyid}" itemLabel="#{company.name}"/>               
+                            </b:selectOneMenu>
                             <h:outputLabel>First name</h:outputLabel>
                             <b:inputText value="#{userController.useraccount.firstname}" ></b:inputText>
                             <h:outputLabel >Last name</h:outputLabel>
                             <b:inputText value="#{userController.useraccount.lastname}"></b:inputText>
-                            <h:outputLabel>Sex</h:outputLabel>
-                            <b:selectOneMenu></b:selectOneMenu>
+                            <h:outputLabel>Gender</h:outputLabel>
+                            <b:panelGrid size="sm" columns="4">
+                            <b:radiobutton value="#{userController.useraccount.sex}" itemLabel="Male" itemValue="M" />
+                            <b:radiobutton value="#{userController.useraccount.sex}" itemLabel="Female" itemValue="F" />
+                            </b:panelGrid>
                         </b:formGroup>
                         
                         <b:formGroup>
                             <h:outputLabel>Username</h:outputLabel>
                             <b:inputText value="#{userController.useraccount.username}"></b:inputText>
                             <h:outputLabel>Password</h:outputLabel>
-                            <b:inputText type="password" value="#{userController.useraccount.password}"></b:inputText>
+                            <b:inputText type="password" value="#{userController.useraccount.password}" ></b:inputText>
+                            
+                            <h:outputLabel>Account role</h:outputLabel>
+<!--                            <b:panelGrid size="sm" columns="4">
+                            <b:radiobutton itemLabel="User" itemValue="1"/>
+                            <b:radiobutton itemLabel="Supporter" itemValue="2"/>
+                            <b:radiobutton itemLabel="Admin" itemValue="3"/>
+                            </b:panelGrid>-->
                         </b:formGroup>
+                        
                     </b:panelGrid>
                     
                     <h4><u>Contact information</u></h4>
@@ -55,7 +71,7 @@ and open the template in the editor.
                     
                     <div class="text-center">
                         <b:commandButton value="Save" look="success" style="margin-right: 2em" action="#{userController.save()}"></b:commandButton>
-                        <b:commandButton value="Delete" look="warning" style="margin-left: 2em" action="#{userController.cancel()}"></b:commandButton>
+                        <b:button value="Cancel" look="warning" outcome="userlist"/>
                     </div>
     
                 </b:panel>

@@ -19,6 +19,7 @@ import javax.ejb.EJB;
  *
  * @author c1042286
  */
+
 @Named(value = "userController")
 @SessionScoped
 public class UserController implements Serializable {
@@ -27,8 +28,6 @@ public class UserController implements Serializable {
     private UseraccountFacade useraccountFacade;
     private Useraccount useraccount = new Useraccount();
     
-    public UserController() {
-    }
 
     public Useraccount getUseraccount() {
         return useraccount;
@@ -38,16 +37,19 @@ public class UserController implements Serializable {
         this.useraccount = useraccount;
     }
     
-    public void FindByUseraccountid (BigDecimal id){
-        useraccount = this.useraccountFacade.FindByUseraccountid(id);
+    public UserController() {
     }
     
-    public List<Useraccount> GetAllUsers(){
-        return this.useraccountFacade.GetAllUsers();
+    public void findByUseraccountId (BigDecimal id){
+        if (id==null) {
+            resetUseraccount();
+        }else{
+            useraccount = this.useraccountFacade.FindByUseraccountId(id);
+        } 
     }
     
-    public List<Useraccount> ListAllUsers(){
-        return this.useraccountFacade.GetAllUsers();
+    public List<Useraccount> findAllUsers(){
+        return this.useraccountFacade.findAll();
     }
     
     public List<Useraccount> ListAllUsersByCompany(Company company){
@@ -66,17 +68,16 @@ public class UserController implements Serializable {
         return s;
     
     }
-    
-    
-    
+  
     public String cancel(){
+        int a = 1;
         return "userlist?faces-redirect=true";
     }
     
-    public String edit(){
-        this.useraccountFacade.edit(useraccount);
-        return "userlist?faces-redirect=true";
-    }
+//    public String edit(){
+//        this.useraccountFacade.edit(useraccount);
+//        return "userlist?faces-redirect=true";
+//    }
     
     public String edit(Useraccount u){
         this.useraccount=u;
@@ -84,7 +85,7 @@ public class UserController implements Serializable {
     }
     
     public String create(){
-        this.useraccountFacade.create(useraccount);
+        useraccount = new Useraccount();
         return "useraccount?faces-redirect=true";
     }
     
@@ -97,4 +98,17 @@ public class UserController implements Serializable {
         this.useraccount=new Useraccount();
     }
     
+    public String save(){
+ 
+        if (useraccount.getUseraccountid()==null) {
+            // een ticket dat nog geen nummer heeft moet een nieuw ticket zijn
+            this.useraccountFacade.create(useraccount);
+        }else{
+            // een bestaand ticket wordt enkel geupdate
+            this.useraccountFacade.edit(useraccount);
+        }
+        
+        //  ?faces-redirect=true zorgt ervoor dat de browser url meevolgt
+        return "userlist?faces-redirect=true";
+    }
 }
