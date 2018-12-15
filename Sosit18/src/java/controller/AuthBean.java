@@ -3,12 +3,14 @@ package controller;
 import entity.Role;
 import entity.Useraccount;
 import java.io.Serializable;
+import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 /**
- * This managed bean holds the currently logged in Useraccount.
- * It can also be asked if a user has a certain Role or permission.
+ * This managed bean holds the currently logged in Useraccount. It can also be
+ * asked if a user has a certain Role or permission.
+ *
  * @author woutbr@student.hik.be
  */
 @Named(value = "auth")
@@ -37,71 +39,77 @@ public class AuthBean implements Serializable {
     public void setUser(Useraccount user) {
         this.user = user;
     }
-    
+
     /**
-     * Zet het user object op null.
-     * Zo geeft isLoggedIn false terug.
+     * Zet het user object op null. Zo geeft isLoggedIn false terug.
      */
     public void clearUser() {
         this.user = null;
     }
-    
+
     /**
      * Geeft true wanneer auth.user niet null is.
      */
-    public boolean isLoggedIn(){
+    public boolean isLoggedIn() {
         return this.user != null;
     }
-    
+
     /**
      * Is een UserAccount ingelogd en heeft het een Permission met canedit.
      */
-    public boolean canEdit(){
+    public boolean canEdit() {
         return this.isLoggedIn() && this.user.getCanedit();
     }
-    
+
     /**
      * Is een UserAccount ingelogd en heeft het een Permission met canread.
      */
-    public boolean canRead(){
+    public boolean canRead() {
         return this.isLoggedIn() && this.user.getCanread();
     }
-    
+
     /**
      * Is een UserAccount ingelogd en heeft het een Permission met caninsert.
      */
-    public boolean canInsert(){
+    public boolean canInsert() {
         return this.isLoggedIn() && this.user.getCaninsert();
     }
-    
+
     /**
      * Is een UserAccount ingelogd en heeft het een Permission met candelete.
      */
-    public boolean canDelete(){
+    public boolean canDelete() {
         return this.isLoggedIn() && this.user.getCandelete();
     }
 
     /**
      * Is een UserAccount ingelogd en heeft een Admin rol.
+     *
      * @return true als de user een Admin rol heeft.
      */
-    public boolean isAdmin(){
+    public boolean isAdmin() {
         return this.isLoggedIn() && this.user.hasRole(new Role("Admin"));
     }
 
     /**
      * Is een UserAccount ingelogd en heeft een Supporter rol.
+     *
      * @return true als de user een Supporter rol heeft.
      */
-    public boolean isSupporter(){
+    public boolean isSupporter() {
         return this.isLoggedIn() && this.user.hasRole(new Role("Supporter"));
     }
 
     /**
      * Is een UserAccount ingelogd en heeft een User rol.
+     *
      * @return true als de user een User rol heeft.
      */
-    public boolean isGewoneUser(){
+    public boolean isGewoneUser() {
         return this.isLoggedIn() && this.user.hasRole(new Role("User"));
+    }
+
+    public boolean hasAtLeastOneRole(List<String> roles) {
+        return this.isLoggedIn() && roles.stream().anyMatch((role) -> this.user.hasRole(new Role(role)));
     }
 }

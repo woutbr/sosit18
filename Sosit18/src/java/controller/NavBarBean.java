@@ -1,6 +1,6 @@
 package controller;
 
-import be.hbo5.java.menu.HeaderNavBarLinks;
+//import be.hbo5.java.menu.HeaderNavBarLinks;
 import be.hbo5.java.menu.MenuItem;
 import be.hbo5.java.menu.MenuLink;
 import be.hbo5.java.menu.MenuList;
@@ -12,6 +12,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import net.bootsfaces.component.dropMenu.DropMenu;
 import net.bootsfaces.component.navBarLinks.NavBarLinks;
@@ -27,6 +28,9 @@ import net.bootsfaces.component.navLink.NavLink;
 @Named(value = "navBarBean")
 @SessionScoped
 public class NavBarBean implements Serializable {
+    
+    @Inject
+    private AuthBean authBean;
 
     private final MenuList links;
 //    private HeaderNavBarLinks navBarMenu;
@@ -40,6 +44,15 @@ public class NavBarBean implements Serializable {
 
     public MenuList getLinks() {
         return links;
+    }
+    
+    public boolean canDisplayMenuItem(MenuItem menuitem){
+        if(authBean.isDebugMode() || menuitem.getRoles().isEmpty()){
+            //Als we in debugMode zijn, toon de menuitem altijd.
+            //Als de menuitem geen roles heeft, toon het altijd.
+            return true;
+        }
+        return authBean.hasAtLeastOneRole(menuitem.getRoles());
     }
 
 //    public NavBarLinks getNavBarMenu() {

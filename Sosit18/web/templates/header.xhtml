@@ -3,19 +3,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:my="http://xmlns.jcp.org/jsf/composite/mycomponents">
 <ui:composition>
     <b:navBar brand="SosIT" brandHref="index.xhtml" fixed="top" inverse="true">
         <b:navbarLinks>
             <ui:repeat value="#{navBarBean.links.children}" var="item" >
-                <b:navLink rendered="#{item.class.simpleName == 'MenuLink'}"
-                    value="#{item.name}" href="#{item.href}.xhtml"></b:navLink>
-                <b:dropMenu rendered="#{item.class.simpleName == 'MenuList'}"
-                    value="#{item.name}">
-                    <ui:repeat value="#{item.children}" var="subItem" >
-                        <b:navLink value="#{subItem.name}" outcome="#{subItem.href}"></b:navLink>
-                    </ui:repeat>
-                </b:dropMenu>
+                <b:navLink rendered="#{item.class.simpleName == 'MenuLink' and navBarBean.canDisplayMenuItem(item)}"
+                    value="#{item.name}" outcome="#{item.outcome}"/>
+                <my:customDropMenu menulist="#{item}" 
+                                   rendered="#{item.class.simpleName == 'MenuList' and navBarBean.canDisplayMenuItem(item)}"/>
             </ui:repeat>
         </b:navbarLinks>
         <b:navbarLinks pull="right">
@@ -34,7 +31,7 @@
             <b:navLink value="Login" outcome="login"
                        rendered="#{not auth.loggedIn}"/>
         </b:navbarLinks>
-        <b:form horizontal="true" style="margin: 1em 0 0 0; height: 36px; color: #fb0;" >
+        <b:form horizontal="true" style="margin: 1em 1em 0; height: 36px; color: #fb0; float: right;" >
             <b:switch value="#{auth.debugMode}" caption="auth.debugMode" tooltip="Ignore the login check" ajax="true"
                       onColor="warning" switchsize="mini"/>
         </b:form>

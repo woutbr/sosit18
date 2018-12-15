@@ -11,8 +11,8 @@ public class MenuList extends MenuItem implements Iterable<MenuItem> {
 
     private List<MenuItem> children;
 
-    public MenuList(String name) {
-        super(name);
+    public MenuList(String name, String roles) {
+        super(name, roles);
     }
 
     public void setChildren(List<MenuItem> children) {
@@ -25,7 +25,7 @@ public class MenuList extends MenuItem implements Iterable<MenuItem> {
 
     @Override
     public String toString() {
-        return "MenuList{" + "name=" + getName() + ", children.size=" + children.size() + '}';
+        return "MenuList{" + "name=" + getName() + ", roles=" + getRoles() + ", children.size=" + children.size() + '}';
     }
 
     public int size() {

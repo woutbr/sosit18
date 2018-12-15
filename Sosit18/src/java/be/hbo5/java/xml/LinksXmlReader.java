@@ -10,26 +10,33 @@ import org.w3c.dom.Node;
  * @author woutbr@student.hik.be
  */
 public final class LinksXmlReader {
-    
+
+    private static final String XML_ATTRIBUTE_NAME = "name";
+    private static final String XML_ATTRIBUTE_ROLES = "roles";
+    private static final String XML_ATTRIBUTE_LINK = "outcome";
+
     private LinksXmlReader() {
     }
-    
+
     public static MenuList readLinksFromXmlFile(String pathname) {
         Document doc = XmlReader.readXmlFile(pathname);
         Node root = doc.getDocumentElement();
         MenuList menu = createMenuListFromNode(root);
         return menu;
     }
-    
+
     private static MenuLink createMenuLinkFromNode(Node linkNode) {
         NamedNodeMap nodeAttr = linkNode.getAttributes();
-        MenuLink menuLink = new MenuLink(nodeAttr.getNamedItem("name").getNodeValue(),
-                nodeAttr.getNamedItem("href").getNodeValue());
+        MenuLink menuLink = new MenuLink(getAttributeValue(nodeAttr, XML_ATTRIBUTE_NAME),
+                getAttributeValue(nodeAttr, XML_ATTRIBUTE_ROLES),
+                getAttributeValue(nodeAttr, XML_ATTRIBUTE_LINK));
         return menuLink;
     }
-    
+
     private static MenuList createMenuListFromNode(Node listNode) {
-        MenuList menuList = new MenuList(listNode.getAttributes().getNamedItem("name").getNodeValue());
+        NamedNodeMap nodeAttr = listNode.getAttributes();
+        MenuList menuList = new MenuList(getAttributeValue(nodeAttr, XML_ATTRIBUTE_NAME),
+                getAttributeValue(nodeAttr, XML_ATTRIBUTE_ROLES));
         for (Node n : XmlUtil.asList(listNode.getChildNodes())) {
             switch (n.getNodeName()) {
                 case "link":
@@ -41,5 +48,14 @@ public final class LinksXmlReader {
             }
         }
         return menuList;
+    }
+
+    private static String getAttributeValue(NamedNodeMap attributes, String name) {
+        Node attr = attributes.getNamedItem(name);
+        String value = "";
+        if (attr != null) {
+            value = attr.getNodeValue();
+        }
+        return value;
     }
 }
