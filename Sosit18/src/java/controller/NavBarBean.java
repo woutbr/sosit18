@@ -6,14 +6,20 @@ import be.hbo5.java.menu.MenuLink;
 import be.hbo5.java.menu.MenuList;
 import be.hbo5.java.xml.LinksXmlReader;
 import com.sun.el.ValueExpressionLiteral;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
 import net.bootsfaces.component.dropMenu.DropMenu;
 import net.bootsfaces.component.navBarLinks.NavBarLinks;
 import net.bootsfaces.component.navLink.NavLink;
@@ -28,26 +34,43 @@ import net.bootsfaces.component.navLink.NavLink;
 @Named(value = "navBarBean")
 @SessionScoped
 public class NavBarBean implements Serializable {
-    
+
     @Inject
     private AuthBean authBean;
 
-    private final MenuList links;
+    private MenuList links;
 //    private HeaderNavBarLinks navBarMenu;
 
-    public NavBarBean() {
-        ExternalContext ext = FacesContext.getCurrentInstance().getExternalContext();
-        String linksXmlPath = ext.getRealPath("/templates/navbarlinks.xml");
-        this.links = LinksXmlReader.readLinksFromXmlFile(linksXmlPath);
-//        this.renderNavBarMenu();
+    public NavBarBean() throws Exception {
+        String path = "/navbarlinks.xml";
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        System.out.println("classLoader: " + classLoader);
+        InputStream navbarlinksXmlStream = classLoader.getResourceAsStream(path);
+//        ExternalContext ext = FacesContext.getCurrentInstance().getExternalContext();
+//        ServletContext servletContext = (ServletContext) ext.getContext();
+//        String realPath = servletContext.getRealPath(path);
+//        InputStream navbarlinksXmlStream = servletContext.getResourceAsStream(path);
+
+//        System.out.println("realPath: " + realPath);
+        System.out.println("NavBarBean: " + navbarlinksXmlStream);
+
+        if (navbarlinksXmlStream == null) {
+            throw new Exception();
+        }
+
+//        String linksXmlPath = ext.getRealPath("/templates/navbarlinks.xml");
+//        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+//        InputStream navbarlinksXmlStream = classloader.getResourceAsStream("Web-INF/classes/controller/navbarlinks.xml");
+        this.links = LinksXmlReader.readLinksFromXmlFile(navbarlinksXmlStream);
+//            this.renderNavBarMenu();
     }
 
     public MenuList getLinks() {
         return links;
     }
-    
-    public boolean canDisplayMenuItem(MenuItem menuitem){
-        if(authBean.isDebugMode() || menuitem.getRoles().isEmpty()){
+
+    public boolean canDisplayMenuItem(MenuItem menuitem) {
+        if (authBean.isDebugMode() || menuitem.getRoles().isEmpty()) {
             //Als we in debugMode zijn, toon de menuitem altijd.
             //Als de menuitem geen roles heeft, toon het altijd.
             return true;
@@ -58,7 +81,6 @@ public class NavBarBean implements Serializable {
 //    public NavBarLinks getNavBarMenu() {
 //        return navBarMenu;
 //    }
-
     /**
      * Create a BootsFaces NavBarLinks from the links in the MenuList variable.
      */
@@ -73,7 +95,6 @@ public class NavBarBean implements Serializable {
 //            }
 //        }
 //    }
-
 //    private NavLink createNavLinkFromMenuLink(MenuLink menulink) {
 //        NavLink navLink = new NavLink();
 //        navLink.setValue(menulink.getName());
@@ -96,5 +117,4 @@ public class NavBarBean implements Serializable {
 //        System.out.println(dropmenu);
 //        return dropmenu;
 //    }
-
 }

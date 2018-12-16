@@ -2,6 +2,8 @@ package be.hbo5.java.xml;
 
 import be.hbo5.java.menu.MenuLink;
 import be.hbo5.java.menu.MenuList;
+import java.io.InputStream;
+import java.net.URI;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -18,8 +20,8 @@ public final class LinksXmlReader {
     private LinksXmlReader() {
     }
 
-    public static MenuList readLinksFromXmlFile(String pathname) {
-        Document doc = XmlReader.readXmlFile(pathname);
+    public static MenuList readLinksFromXmlFile(InputStream inputstream) {
+        Document doc = XmlReader.readXmlFile(inputstream);
         Node root = doc.getDocumentElement();
         MenuList menu = createMenuListFromNode(root);
         return menu;
