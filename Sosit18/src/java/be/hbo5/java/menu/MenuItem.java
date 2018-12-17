@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author woutbr@student.hik.be
  */
-public abstract class MenuItem implements Serializable{
+public abstract class MenuItem implements Serializable {
 
     private String name;
     private List<String> roles;
@@ -41,6 +41,20 @@ public abstract class MenuItem implements Serializable{
     @Override
     public String toString() {
         return "MenuItem{" + "name=" + name + ", roles=" + getRoles() + '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof MenuItem)) {
+            return false;
+        }
+        MenuItem other = (MenuItem) obj;
+        return !((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name)));
+    }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode() + 53;
     }
 
 }

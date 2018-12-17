@@ -108,7 +108,13 @@ public class AuthBean implements Serializable {
     public boolean isGewoneUser() {
         return this.isLoggedIn() && this.user.hasRole(new Role("User"));
     }
-
+    
+    /**
+     * Is een UserAccount ingelogd en heeft het minstens één van de gegeven rollen.
+     * 
+     * @param roles Rollen welke vergeleken worden
+     * @return true als de user één van de rollen heeft.
+     */
     public boolean hasAtLeastOneRole(List<String> roles) {
         return this.isLoggedIn() && roles.stream().anyMatch((role) -> this.user.hasRole(new Role(role)));
     }

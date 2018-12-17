@@ -28,13 +28,42 @@ public class MenuList extends MenuItem implements Iterable<MenuItem> {
         return "MenuList{" + "name=" + getName() + ", roles=" + getRoles() + ", children.size=" + children.size() + '}';
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof MenuList)) {
+            return false;
+        }
+        MenuList other = (MenuList) obj;
+        return !((this.getName() == null && other.getName() != null) || (this.getName() != null && !this.getName().equals(other.getName())));
+    }
+    
+    /**
+     * Adds all it children which aren't a MenuList to the given List.
+     * Also add all the children of sub MenuList's.
+     * @param listOfItems List to which MenuItem's have to be added.
+     */
+    public void flattenList(List<MenuItem> listOfItems) {
+        for (MenuItem mi : this) {
+            if (MenuList.class.isInstance(mi)) {
+                ((MenuList)mi).flattenList(listOfItems);
+            }else{
+                listOfItems.add(mi);
+            }
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getName().hashCode() + 53;
+    }
+
     public int size() {
         return this.children.size();
     }
 
     public void add(MenuItem subItem) {
         if (this.children == null) {
-            this.children = new ArrayList<MenuItem>();
+            this.children = new ArrayList<>();
         }
         this.children.add(subItem);
     }

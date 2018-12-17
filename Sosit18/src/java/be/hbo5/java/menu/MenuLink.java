@@ -23,4 +23,18 @@ public class MenuLink extends MenuItem{
     public String toString() {
         return "MenuLink{" + "name=" + getName() + ", outcome=" + outcome + ", roles=" + getRoles() + '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof MenuLink)) {
+            return false;
+        }
+        MenuLink other = (MenuLink) obj;
+        return !((this.outcome == null && other.outcome != null) || (this.outcome != null && !this.outcome.equals(other.outcome)));
+    }
+
+    @Override
+    public int hashCode() {
+        return this.outcome.hashCode() + 53;
+    }
 }

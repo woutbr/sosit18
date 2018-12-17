@@ -2,13 +2,13 @@ package servlet;
 
 import be.hbo5.java.menu.MenuItem;
 import be.hbo5.java.menu.MenuLink;
-import be.hbo5.java.menu.MenuList;
 import controller.AuthBean;
 import controller.NavBarBean;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.faces.application.ResourceHandler;
 import javax.inject.Inject;
@@ -91,32 +91,30 @@ public class LoginFilter implements Filter {
     }
 
     private boolean isRoleAllowed(HttpServletRequest request, String path) {
-        MenuList items = this.navBarBean.getLinks();
+//        MenuList items = this.navBarBean.getLinks();
         //TODO Create list of links without needing to walk it everytime.
-        MenuLink link = walkUntilFound(items, request, path);
+//        MenuLink link = walkUntilFound(items, request, path);
+    
+        MenuLink link = this.findMatchingMenuItem(this.navBarBean.getLinksAsList(), path);
         return link != null && this.authBean.hasAtLeastOneRole(link.getRoles());
     }
     
+    
     /**
-     * Search for a MenuLink with an outcome equal to the current request path.
+     * Search for a MenuLink in the given List 
+     * with an outcome equal to the current request path.
+     * @param items List of MenuItems
      * @return null if no MenuLink has been found.
      */
-    private MenuLink walkUntilFound(MenuList items, HttpServletRequest request, String path) {
-        MenuLink link = null;
-        for (MenuItem mi : items) {
-            if (MenuLink.class.isInstance(mi)) {
-                String completePath = request.getContextPath() + "/" +((MenuLink) mi).getOutcome();
-                if(completePath.equals(path)){
-                    return (MenuLink) mi;
-                }
-            } else if (MenuList.class.isInstance(mi)) {
-                link = walkUntilFound((MenuList) mi, request, path);
-                if(link != null){
-                    return link;
-                }
+    private MenuLink findMatchingMenuItem(List<MenuItem> items, String path) {
+        //Remove first slash and xhtml extension
+        path = path.replaceAll("^[/]?|.xhtml$", "");
+        for(MenuItem mi : items){
+            if(MenuLink.class.isInstance(mi) && ((MenuLink)mi).getOutcome().equals(path)){
+                return (MenuLink)mi;
             }
         }
-        return link;
+        return null;
     }
 
     private boolean isResourceRequest(HttpServletRequest request) {

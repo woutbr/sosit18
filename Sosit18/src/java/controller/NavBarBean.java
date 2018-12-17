@@ -30,6 +30,7 @@ public class NavBarBean implements Serializable {
     private AuthBean authBean;
 
     private final MenuList links;
+    private List<MenuItem> listOfMenuItems;
 
     public NavBarBean() throws SAXException, IOException {
         //DEBUG Print the files on the classpath
@@ -51,15 +52,26 @@ public class NavBarBean implements Serializable {
     }
 
     public MenuList getLinks() {
-        return links;
+        return this.links;
+    }
+    
+    /**
+     * Returns all the MenuLink's in links as a List.
+     */
+    public List<MenuItem> getLinksAsList(){
+        if(this.listOfMenuItems == null){
+            List<MenuItem> list = new ArrayList<>();
+            this.links.flattenList(list);
+            this.listOfMenuItems = list;
+        }
+        return this.listOfMenuItems;
     }
 
     /**
      * Can the given MenuItem be displayed for the current user.
-     *
      * @param menuitem MenuItem for which to check
-     * @return true if in debugMode, the given menuitem has no roles or it has a
-     * role equal to the roles of the current user
+     * @return true if in debugMode, the given menuitem has no roles 
+     * or it has a role equal to the roles of the current user
      */
     public boolean canDisplayMenuItem(MenuItem menuitem) {
         if (authBean.isDebugMode() || menuitem.getRoles().isEmpty()) {
@@ -74,8 +86,8 @@ public class NavBarBean implements Serializable {
      * Returns an input stream for reading the specified resource. First tries
      * the find on ClassLoader. If not found try from this class.
      * @param resource The resource name
-     * @return An InputStream object or null if no resource with this name is
-     * found
+     * @return An InputStream object 
+     * or null if no resource with this name is found
      */
     private InputStream getResourceAsStream(String resource) {
         final InputStream in = getContextClassLoader().getResourceAsStream(resource);
