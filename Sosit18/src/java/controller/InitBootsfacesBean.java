@@ -86,7 +86,7 @@ public class InitBootsfacesBean {
                     // ****** THIS IS THE IMPORTANT CALL TO REGISTER THE RENDERER *********
                     renderersAddedCount++;
                 } catch (Throwable e) {
-                    LOGGER.log(Level.WARNING, "Init Bootsfaces: Unable to register renderer for component: " + className, e);
+                    LOGGER.log(Level.WARNING, "Init Bootsfaces: Unable to register renderer for component: {0}", className);
                 }
             }
         }

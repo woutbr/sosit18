@@ -6,10 +6,14 @@ import be.hbo5.java.menu.MenuLink;
 import be.hbo5.java.menu.MenuList;
 import be.hbo5.java.xml.LinksXmlReader;
 import com.sun.el.ValueExpressionLiteral;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +27,7 @@ import javax.servlet.ServletContext;
 import net.bootsfaces.component.dropMenu.DropMenu;
 import net.bootsfaces.component.navBarLinks.NavBarLinks;
 import net.bootsfaces.component.navLink.NavLink;
+import org.xml.sax.SAXException;
 
 /**
  * Deze bean laad de links voor de navbar uit een xml bestand en rendered er een
@@ -38,37 +43,49 @@ public class NavBarBean implements Serializable {
     @Inject
     private AuthBean authBean;
 
-    private MenuList links;
+    private final MenuList links;
 //    private HeaderNavBarLinks navBarMenu;
 
-    public NavBarBean() throws Exception {
-        String path = "/navbarlinks.xml";
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        System.out.println("classLoader: " + classLoader);
-        InputStream navbarlinksXmlStream = classLoader.getResourceAsStream(path);
+    public NavBarBean() throws SAXException, IOException {
+        //DEBUG Print the files on the classpath
+//        System.out.println("getResourceFiles: "+getResourceFiles("/"));
+
+        try {
+//Get the xml file from the jar.
+            String pathNavbarlinks = "/navbarlinks";
+            InputStream navbarlinksXmlStream = getResourceAsStream(pathNavbarlinks + ".xml");
+            InputStream navbarlinksDtdStream = getResourceAsStream(pathNavbarlinks + ".dtd");
+
+//ServletContext Stream
+//        ExternalContext ext2 = FacesContext.getCurrentInstance().getExternalContext();
+//        ServletContext servletContext = (ServletContext) ext2.getContext();
+//        realPath = servletContext.getRealPath(path);
+//        System.out.println("ServletContext realPath: " + realPath);
+//        navbarlinksXmlStream = servletContext.getResourceAsStream(path);
+//        System.out.println("ServletContext NavBarBean: " + navbarlinksXmlStream);
+
+//FacesContext string path
 //        ExternalContext ext = FacesContext.getCurrentInstance().getExternalContext();
-//        ServletContext servletContext = (ServletContext) ext.getContext();
-//        String realPath = servletContext.getRealPath(path);
-//        InputStream navbarlinksXmlStream = servletContext.getResourceAsStream(path);
-
-//        System.out.println("realPath: " + realPath);
-        System.out.println("NavBarBean: " + navbarlinksXmlStream);
-
-        if (navbarlinksXmlStream == null) {
-            throw new Exception();
+//        realPath = ext.getRealPath(path);
+//        System.out.println("FacesContext realPath: " + realPath);
+            this.links = LinksXmlReader.readLinksFromXmlFile(navbarlinksXmlStream, navbarlinksDtdStream);
+        } catch (SAXException | IOException ex) {
+            Logger.getLogger(NavBarBean.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
         }
-
-//        String linksXmlPath = ext.getRealPath("/templates/navbarlinks.xml");
-//        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-//        InputStream navbarlinksXmlStream = classloader.getResourceAsStream("Web-INF/classes/controller/navbarlinks.xml");
-        this.links = LinksXmlReader.readLinksFromXmlFile(navbarlinksXmlStream);
-//            this.renderNavBarMenu();
     }
 
     public MenuList getLinks() {
         return links;
     }
 
+    /**
+     * Can the given MenuItem be displayed for the current user.
+     *
+     * @param menuitem MenuItem for which to check
+     * @return true if in debugMode, the given menuitem has no roles or it has a
+     * role equal to the roles of the current user
+     */
     public boolean canDisplayMenuItem(MenuItem menuitem) {
         if (authBean.isDebugMode() || menuitem.getRoles().isEmpty()) {
             //Als we in debugMode zijn, toon de menuitem altijd.
@@ -76,6 +93,49 @@ public class NavBarBean implements Serializable {
             return true;
         }
         return authBean.hasAtLeastOneRole(menuitem.getRoles());
+    }
+
+    /**
+     * Returns an input stream for reading the specified resource. First tries
+     * the find on ClassLoader. If not found try from this class.
+     *
+     * @param resource The resource name
+     * @return An InputStream object or null if no resource with this name is
+     * found
+     */
+    private InputStream getResourceAsStream(String resource) {
+        final InputStream in = getContextClassLoader().getResourceAsStream(resource);
+
+        return in == null ? getClass().getResourceAsStream(resource) : in;
+    }
+
+    private ClassLoader getContextClassLoader() {
+        return Thread.currentThread().getContextClassLoader();
+    }
+
+    /**
+     * Get a list of resources from classpath directory
+     * https://stackoverflow.com/a/3923685 : answer iirekm
+     *
+     * @param path A path to an directory under the classpath found with
+     * getContextClassLoader or getClass.
+     * @return ArrayList of filenames found on path
+     * @throws IOException if an I/O error occurs
+     */
+    private List<String> getResourceFiles(String path) throws IOException {
+        List<String> filenames = new ArrayList<>();
+
+        try (
+                InputStream in = getResourceAsStream(path);
+                BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
+            String resource;
+
+            while ((resource = br.readLine()) != null) {
+                filenames.add(resource);
+            }
+        }
+
+        return filenames;
     }
 
 //    public NavBarLinks getNavBarMenu() {

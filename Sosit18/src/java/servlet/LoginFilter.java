@@ -80,10 +80,12 @@ public class LoginFilter implements Filter {
         boolean loginRequest = request.getRequestURI().equals(loginURL);
 
         String path = request.getRequestURI().substring(request.getContextPath().length()).replaceAll("[/]+$", "");
+        //DEBUG Print requested path
+        System.out.println("LoginFilter path: "+path);
+        
         boolean allowedPath = ALLOWED_PATHS.contains(path);
         boolean loggedIn = this.authBean.isLoggedIn();
         boolean roleAllowed = isRoleAllowed(request, path);
-        System.out.println("LoginFilter: "+path);
 
         return debugMode || loginRequest || isResourceRequest(request) || allowedPath || loggedIn && roleAllowed;
     }
