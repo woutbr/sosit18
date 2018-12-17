@@ -4,7 +4,6 @@ import be.hbo5.java.menu.MenuLink;
 import be.hbo5.java.menu.MenuList;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
