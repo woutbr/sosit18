@@ -11,6 +11,7 @@ import entity.Useraccount;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,19 +23,21 @@ import java.util.Set;
 @SessionScoped
 public class TicketFilterBean implements Serializable {
 
-    private Ticketstatus Ticketstatus = new Ticketstatus();
+    private Ticketstatus ticketStatus = new Ticketstatus();
     private Company company = new Company();
-    private Useraccount Useraccount = new Useraccount();
+    private Useraccount userAccount = new Useraccount();
             
     public TicketFilterBean() {
     }
 
     public Ticketstatus getTicketstatus() {
-        return Ticketstatus;
+        return ticketStatus;
     }
 
     public void setTicketstatus(Ticketstatus Ticketstatus) {
-        this.Ticketstatus = Ticketstatus;
+        this.ticketStatus = Ticketstatus;
+
+        
     }
 
     public Company getCompany() {
@@ -46,22 +49,31 @@ public class TicketFilterBean implements Serializable {
     }
 
     public Useraccount getUseraccount() {
-        return Useraccount;
+        return userAccount;
     }
 
     public void setUseraccount(Useraccount Useraccount) {
-        this.Useraccount = Useraccount;
+        this.userAccount = Useraccount;
     }
     
-    public void ClearFilter(){
+    public String clearFilter(){
         this.setCompany(null);
         this.setTicketstatus(null);
         this.setUseraccount(null);
+        return  "ticketList?faces-redirect=true";
     }
     
     public void test(){
         String S = "";
+    }
+    
+    public void init(){
+        this.setCompany(null);
+        this.ticketStatus.setTicketstatusid(new BigDecimal(1));
+        this.setUseraccount(null);
     
     }
+    
+    
     
 }

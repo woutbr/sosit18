@@ -7,6 +7,7 @@ package dao;
 
 import controller.TicketFilterBean;
 import entity.Ticket;
+import helper.Helper;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -45,53 +46,57 @@ public class TicketFacade extends AbstractFacade<Ticket> {
         List<Ticket> l = (List<Ticket>)q.getResultList();
         return l;
     }
-    
-    public List<Ticket> GetfilteredTickets(TicketFilterBean ticketfilter){
-        //if (ticketfilter.getTicketstatus()!=null) {
-        //    Query q = this.em.createNamedQuery("Ticket.findByfilter");
-        //    q.setParameter("ticketstatusid", ticketfilter.getTicketstatus());
-        //    q.setParameter("useraccountid", ticketfilter.getUseraccount());
-        //    List<Ticket> l = (List<Ticket>)q.getResultList();
-        //    return l;
-        //}else{
-        //    return this.GetAllTickets();
-        //}
+
+    public List<Ticket> GetfilteredTickets(String strTicketstatusId, String strCompanyId, String strUseraccountId){
+        String strQuery = "SELECT t FROM Ticket t";
+        String strQueryParameter ="";
         
-        String queryParameter = "";
-        if (ticketfilter.getTicketstatus().getTicketstatusid()!=null) {
-            queryParameter=addQueryParameter(queryParameter,"TICKETSTATUSID",ticketfilter.getTicketstatus().getTicketstatusid());
+        if (!Helper.IsNullOrEmpty(strTicketstatusId)) {
+            String addParameter="t.ticketstatusid.ticketstatusid = "+strTicketstatusId;
+            strQueryParameter=updateQueryParameter(strQueryParameter,addParameter);
         }
-        if (ticketfilter.getCompany().getCompanyid()!=null) {
-            queryParameter=addQueryParameter(queryParameter,"",ticketfilter.getCompany().getCompanyid());
+        
+        if (!Helper.IsNullOrEmpty(strCompanyId)) {
+            String addParameter="t.useraccountid.companyid.companyid = "+strCompanyId;
+            strQueryParameter=updateQueryParameter(strQueryParameter,addParameter);
         }
-        if (ticketfilter.getUseraccount().getUseraccountid()!=null) {
-            queryParameter=addQueryParameter(queryParameter,"USERACCOUNTID",ticketfilter.getUseraccount().getUseraccountid());
+        
+        if (!Helper.IsNullOrEmpty(strUseraccountId)) {
+            String addParameter="t.useraccountid.useraccountid = "+strUseraccountId;
+            strQueryParameter=updateQueryParameter(strQueryParameter,addParameter);
         }
-        String sqlstring="SELECT * FROM TICKET" + queryParameter;
-        Query q = this.em.createNativeQuery(sqlstring);
+        
+        strQuery+=strQueryParameter+" order by t.creationdate";
+        
+        Query q = this.em.createQuery(strQuery);
         List<Ticket> l = (List<Ticket>)q.getResultList();
-        return  l;
+    
+        return l;
     }
     
+
     
-    private String addQueryParameter(String queryParameter, String qfield,BigDecimal qvalue ){
+    
+    private String updateQueryParameter(String queryParameter, String addParameter){
         if (!queryParameter.equals("")) {
             queryParameter +=" and ";
         }else{
             queryParameter +=" where ";
         }
-        queryParameter+= qfield + "=" + qvalue;
-        return qvalue.toString() ;
+        queryParameter+= addParameter;
+        return queryParameter  ;
     }
     
     public List<Ticket> test(){
-        String sqlstring = "SELECT * FROM TICKET WHERE TICKETSTATUSID=2 ";
-        Query q = this.em.createNativeQuery(sqlstring);
+        String strQuery = "SELECT t FROM Ticket t WHERE t.ticketstatusid.ticketstatusid = 2";
+
+
+        Query q = this.em.createQuery(strQuery);
         List<Ticket> l = (List<Ticket>)q.getResultList();
         return l;
-    
-    
     }
+    
+    
 
    
 }
