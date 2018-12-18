@@ -53,15 +53,24 @@ public class UserController implements Serializable {
     }
     
     public List<Useraccount> ListAllUsersByCompany(Company company){
+
+        return listAllUsersByCompanyId(company.getCompanyid());
+    }
+    
+    public List<Useraccount> listAllUsersByCompanyId(BigDecimal companyId){
         List<Useraccount> userlist;
         
-        if(company!=null){
-            userlist = this.useraccountFacade.GetAllUsersByCompanyId(company.getCompanyid());
+        if(companyId!=null){
+            userlist = this.useraccountFacade.GetAllUsersByCompanyId(companyId);
         }else{
             userlist =findAllUsers();
         }
         return userlist;
     }
+    
+    
+    
+    
     
     public String test(Company co){
         String s = " test";
@@ -73,12 +82,7 @@ public class UserController implements Serializable {
         int a = 1;
         return "userlist?faces-redirect=true";
     }
-    
-//    public String edit(){
-//        this.useraccountFacade.edit(useraccount);
-//        return "userlist?faces-redirect=true";
-//    }
-    
+
     public String edit(Useraccount u){
         this.useraccount=u;
         return "useraccount?faces-redirect=true";

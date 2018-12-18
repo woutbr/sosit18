@@ -104,4 +104,15 @@ public class AuthBean implements Serializable {
     public boolean isGewoneUser(){
         return this.isLoggedIn() && this.user.hasRole(new Role("User"));
     }
+    
+    //Methode die een boolean terug geeft afhankelijk van z'n userrole
+    public boolean rights(boolean user, boolean supporter, boolean admin){
+        if (isGewoneUser()) {
+            return user;
+        }else if (isSupporter()) {
+            return supporter;
+        }else{
+            return admin;
+        }
+    }
 }

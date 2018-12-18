@@ -47,22 +47,22 @@ public class TicketFacade extends AbstractFacade<Ticket> {
         return l;
     }
 
-    public List<Ticket> GetfilteredTickets(String strTicketstatusId, String strCompanyId, String strUseraccountId){
+    public List<Ticket> GetfilteredTickets(BigDecimal ticketstatusId, BigDecimal companyId, BigDecimal useraccountId){
         String strQuery = "SELECT t FROM Ticket t";
         String strQueryParameter ="";
         
-        if (!Helper.IsNullOrEmpty(strTicketstatusId)) {
-            String addParameter="t.ticketstatusid.ticketstatusid = "+strTicketstatusId;
+        if (ticketstatusId!=null) {
+            String addParameter="t.ticketstatusid.ticketstatusid = "+ticketstatusId;
             strQueryParameter=updateQueryParameter(strQueryParameter,addParameter);
         }
         
-        if (!Helper.IsNullOrEmpty(strCompanyId)) {
-            String addParameter="t.useraccountid.companyid.companyid = "+strCompanyId;
+        if (companyId!=null) {
+            String addParameter="t.useraccountid.companyid.companyid = "+companyId;
             strQueryParameter=updateQueryParameter(strQueryParameter,addParameter);
         }
         
-        if (!Helper.IsNullOrEmpty(strUseraccountId)) {
-            String addParameter="t.useraccountid.useraccountid = "+strUseraccountId;
+        if (useraccountId!=null) {
+            String addParameter="t.useraccountid.useraccountid = "+useraccountId;
             strQueryParameter=updateQueryParameter(strQueryParameter,addParameter);
         }
         
@@ -73,6 +73,35 @@ public class TicketFacade extends AbstractFacade<Ticket> {
     
         return l;
     }
+    
+//     public List<Ticket> GetfilteredTickets(String strTicketstatusId, String strCompanyId, String strUseraccountId){
+//        String strQuery = "SELECT t FROM Ticket t";
+//        String strQueryParameter ="";
+//        
+//        if (!Helper.IsNullOrEmpty(strTicketstatusId)) {
+//            String addParameter="t.ticketstatusid.ticketstatusid = "+strTicketstatusId;
+//            strQueryParameter=updateQueryParameter(strQueryParameter,addParameter);
+//        }
+//        
+//        if (!Helper.IsNullOrEmpty(strCompanyId)) {
+//            String addParameter="t.useraccountid.companyid.companyid = "+strCompanyId;
+//            strQueryParameter=updateQueryParameter(strQueryParameter,addParameter);
+//        }
+//        
+//        if (!Helper.IsNullOrEmpty(strUseraccountId)) {
+//            String addParameter="t.useraccountid.useraccountid = "+strUseraccountId;
+//            strQueryParameter=updateQueryParameter(strQueryParameter,addParameter);
+//        }
+//        
+//        strQuery+=strQueryParameter+" order by t.creationdate";
+//        
+//        Query q = this.em.createQuery(strQuery);
+//        List<Ticket> l = (List<Ticket>)q.getResultList();
+//    
+//        return l;
+//    }
+    
+    
     
 
     

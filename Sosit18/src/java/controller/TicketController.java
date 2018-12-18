@@ -36,12 +36,18 @@ public class TicketController implements Serializable {
     
     @ManagedProperty(value="#(auth)")
     private AuthBean auth;
-
+    
     public void setAuth(AuthBean auth) {
         this.auth = auth;
     }
     
-
+//    @ManagedProperty(value="#(ticketFilterBean)")
+//    private TicketFilterBean ticketFilter;
+//
+//    public void setTicketFilter(TicketFilterBean ticketFilter) {
+//        this.ticketFilter = ticketFilter;
+//    }
+    
     private Ticket ticket = new Ticket();
     private List<Ticket> ticketList = new ArrayList<>();
 
@@ -77,17 +83,22 @@ public class TicketController implements Serializable {
         return this.ticketFacade.findAll();
     }
 
-
-    public void loadTicketList(String strTicketstatusId, String strCompanyId, String strUseraccountId) {
-        if (auth.isGewoneUser()) {
-            strUseraccountId=auth.getUser().getUseraccountid().toString();
-        }
+    
+    
+    public void loadTicketList(TicketFilterBean ticketFilter){
         
-        ticketList = this.ticketFacade.GetfilteredTickets(strTicketstatusId, strCompanyId, strUseraccountId);
-
-           
-  
+        // gewone users mogen enkel tickets van zichzelf zien
+        if (auth.isGewoneUser()) {
+            ticketFilter.setUserAccountId(auth.getUser().getUseraccountid());
+        }
+        ticketList = this.ticketFacade.GetfilteredTickets(
+                ticketFilter.getTicketStatusId(),
+                ticketFilter.getCompanyId(),
+                ticketFilter.getUserAccountId());
     }
+    
+    
+
 
     public String cancel() {
         return "ticketList?faces-redirect=true";
@@ -131,26 +142,12 @@ public class TicketController implements Serializable {
         // wordt aangeroepen in ticketList
         this.ticket = new Ticket();
         ticket.setCreationdate(findCurrentDate());
-        int a = 1;
     }
 
     public Date findCurrentDate() {
         LocalDate ld = LocalDate.now();
         Date d = java.sql.Date.valueOf(ld);
         return d;
-    }
-
-    public void test() {
-        int a = 1;
-    }
-    
-
-    
-        public void test(String auth){
-            if (auth!=null) {
-                String id = auth;
-                int a =1;
-            }
     }
 
 }
