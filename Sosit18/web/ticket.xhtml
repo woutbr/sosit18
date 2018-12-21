@@ -56,10 +56,13 @@
                                                itemLabel="#{ts.description}" />
                             </b:selectOneMenu>
                             <b:selectOneMenu label="Handled by" 
-                                             value="" 
+                                             value="#{TicketController.ticket.handlerid}" 
                                              span="12">
-                                
-                                                 
+                                <f:selectItem itemLabel="-- Unassigned --"/>
+                                <f:selectItems value="#{userController.listAllSupporter()}" 
+                                               var="supporter" 
+                                               itemValue="#{supporter}" 
+                                               itemLabel="#{supporter.fullname}"/>
                             </b:selectOneMenu>
                         </b:formGroup>
 

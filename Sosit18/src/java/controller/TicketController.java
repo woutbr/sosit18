@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import helper.Helper;
 import javax.faces.annotation.ManagedProperty;
+import javax.inject.Inject;
 
 
 /**
@@ -34,30 +35,18 @@ public class TicketController implements Serializable {
     @EJB
     private TicketFacade ticketFacade;
     
-    @ManagedProperty(value="#(auth)")
-    private AuthBean auth;
+    @Inject
+    private AuthBean authBean;
     
-    public void setAuth(AuthBean auth) {
-        this.auth = auth;
-    }
-    
-//    @ManagedProperty(value="#(ticketFilterBean)")
-//    private TicketFilterBean ticketFilter;
-//
-//    public void setTicketFilter(TicketFilterBean ticketFilter) {
-//        this.ticketFilter = ticketFilter;
+    @Inject
+    private TicketFilterBean ticketFilterBean;
+
+//    
+//    public void setAuth(AuthBean auth) {
+//        this.auth = auth;
 //    }
-    
+        
     private Ticket ticket = new Ticket();
-    private List<Ticket> ticketList = new ArrayList<>();
-
-    public List<Ticket> getTicketList() {
-        return ticketList;
-    }
-
-    public void setTicketList(List<Ticket> ticketList) {
-        this.ticketList = ticketList;
-    }
 
     public Ticket getTicket() {
         return ticket;
@@ -83,18 +72,18 @@ public class TicketController implements Serializable {
         return this.ticketFacade.findAll();
     }
 
-    
-    
-    public void loadTicketList(TicketFilterBean ticketFilter){
-        
+    public List<Ticket> loadfilteredTickets(){
+
         // gewone users mogen enkel tickets van zichzelf zien
-        if (auth.isGewoneUser()) {
-            ticketFilter.setUserAccountId(auth.getUser().getUseraccountid());
+        if (authBean.isGewoneUser()) {
+            ticketFilterBean.setUserAccountId(authBean.getUser().getUseraccountid());
         }
-        ticketList = this.ticketFacade.GetfilteredTickets(
-                ticketFilter.getTicketStatusId(),
-                ticketFilter.getCompanyId(),
-                ticketFilter.getUserAccountId());
+        List<Ticket> ticketList = this.ticketFacade.GetfilteredTickets(
+                ticketFilterBean.getTicketStatusId(),
+                ticketFilterBean.getCompanyId(),
+                ticketFilterBean.getUserAccountId());
+        
+        return ticketList;
     }
     
     
@@ -149,5 +138,4 @@ public class TicketController implements Serializable {
         Date d = java.sql.Date.valueOf(ld);
         return d;
     }
-
 }

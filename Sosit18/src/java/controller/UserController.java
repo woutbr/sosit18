@@ -12,6 +12,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import static java.util.Collections.list;
 import java.util.List;
 import javax.ejb.EJB;
 
@@ -66,6 +67,13 @@ public class UserController implements Serializable {
             userlist =findAllUsers();
         }
         return userlist;
+    }
+    
+    public List<Useraccount> listAllSupporter(){
+        List<Useraccount> supportList = this.useraccountFacade.GetAllSupporters();
+        return supportList;
+        
+    
     }
     
     

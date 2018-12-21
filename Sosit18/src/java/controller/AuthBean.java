@@ -23,6 +23,7 @@ public class AuthBean implements Serializable {
     }
 
     public boolean isDebugMode() {
+        int a=1;
         return debugMode;
     }
 

@@ -15,9 +15,6 @@
                     <f:viewParam name="CompanyId" />
                     <f:viewParam name="UseraccountId" />
                     <f:viewAction action="#{ticketFilterBean.update(TicketstatusId,CompanyId,UseraccountId)}"/>
-                    
-                    <f:viewAction action="#{TicketController.setAuth(auth)}" />
-                    <f:viewAction action="#{TicketController.loadTicketList(ticketFilterBean)}"/>
                 </f:metadata>
                 <b:form>
                     <b:panel title="Ticket " collapsible="false">
@@ -28,7 +25,7 @@
                                 <b:label value="Status" 
                                          style="background-color: lightgray" />
                                 <b:selectOneMenu value="#{ticketFilterBean.ticketStatusId}"  >
-                                    <f:selectItem />
+                                    <f:selectItem itemLabel="-- All Tickets --" />
                                     <f:selectItems value="#{ticketstatusController.ListAllTicketstatus()}" 
                                                    var="ts" 
                                                    itemValue="#{ts.ticketstatusid}" 
@@ -40,7 +37,7 @@
                                          style="background-color: lightgray"/>
                                 <b:selectOneMenu value="#{ticketFilterBean.companyId}" 
                                                  readonly="#{auth.rights(true, false, false)}">
-                                    <f:selectItem />
+                                    <f:selectItem itemLabel="-- All Company's --"/>
                                     <f:selectItems value="#{companyController.listAllCompanies()}" 
                                                    var="co" 
                                                    itemValue="#{co.companyid}" 
@@ -52,7 +49,7 @@
                                          style="background-color: lightgray"/>
                                 <b:selectOneMenu value="#{ticketFilterBean.userAccountId}" id="iduser" 
                                                  readonly="#{auth.rights(true, false, false)}">
-                                    <f:selectItem />
+                                    <f:selectItem itemLabel="-- All Users --"/>
                                     <f:selectItems value="#{userController.listAllUsersByCompanyId(ticketFilterBean.companyId)}" 
                                                    var="ua" 
                                                    itemValue="#{ua.useraccountid}" 
@@ -71,7 +68,7 @@
                             </b:formGroup>                         
                             <b:formGroup>
 
-                                <b:dataTable value="#{TicketController.ticketList}" 
+                                <b:dataTable value="#{TicketController.loadfilteredTickets()}" 
                                              var="item" save-state="false" 
                                              id="ticketTable">
                                     <f:facet name="header">

@@ -13,7 +13,6 @@ public class Helper {
     
     public  static boolean IsNullOrEmpty(String s){
 
-        
         return s==null || s.length()==0 || s.equals("null");
     }
     

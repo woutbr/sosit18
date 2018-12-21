@@ -54,20 +54,15 @@ public class TicketFilterBean implements Serializable {
     }
 
     public TicketFilterBean() {
+        //ticket filter laat default enkel de open tickets zien;
+        this.ticketStatusId = new BigDecimal(1);
     }
     
     public String clearFilter(){
-        this.ticketStatusId=null;
-        this.companyId=null;
-        this.userAccountId=null;
+        this.ticketStatusId=new BigDecimal(1);
         return  "ticketList?faces-redirect=true";
     }
     
-    public void init() {
-        this.ticketStatusId=new BigDecimal(1);
-        this.companyId=null;
-        this.userAccountId=null;
-    }
     
     public void update(String strTicketstatusId, String strCompanyId, String strUseraccountId){
         
