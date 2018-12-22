@@ -44,15 +44,17 @@ and open the template in the editor.
                         
                         <b:formGroup>
                             <h:outputLabel>Username</h:outputLabel>
-                            <b:inputText value="#{userController.useraccount.username}"></b:inputText>
+                            <b:inputText value="#{userController.useraccount.username}" required="true" required-message="Please fill in a Username!"  ></b:inputText>
+                            <b:message/>
                             <h:outputLabel>Password</h:outputLabel>
-                            <b:inputText type="password" value="#{userController.useraccount.password}" ></b:inputText>
+                            <b:inputText type="password" value="#{userController.useraccount.password}" required="true"  required-message="Please fill in a Password!"  ></b:inputText>
+                            <b:message/>
                             
                             <h:outputLabel>Account role</h:outputLabel>
 <!--                            <b:panelGrid size="sm" columns="4">
-                            <b:radiobutton itemLabel="User" itemValue="1"/>
-                            <b:radiobutton itemLabel="Supporter" itemValue="2"/>
-                            <b:radiobutton itemLabel="Admin" itemValue="3"/>
+                            <b:radiobutton value="#{useraccountRoleController.useraccountrole.roleid}" itemLabel="User" itemValue="1" />
+                            <b:radiobutton value="#{useraccountRoleController.useraccountrole.roleid}" itemLabel="Supporter" itemValue="2" />
+                            <b:radiobutton value="#{useraccountRoleController.useraccountrole.roleid}" itemLabel="Admin" itemValue="3" />
                             </b:panelGrid>-->
                         </b:formGroup>
                         
@@ -62,7 +64,8 @@ and open the template in the editor.
                     <b:panelGrid colSpans="6,6">
                         <b:formGroup>
                         <h:outputLabel>Email</h:outputLabel>
-                        <b:inputText value="#{userController.useraccount.email}"></b:inputText>
+                        <b:inputText value="#{userController.useraccount.email}" required="true"  required-message="Please fill in the email address!" ></b:inputText>
+                        <b:message/>
                         <h:outputLabel>Phone number</h:outputLabel>
                         <b:inputText value="#{userController.useraccount.phone}"></b:inputText>
                         </b:formGroup>

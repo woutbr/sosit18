@@ -123,4 +123,16 @@ public class UserController implements Serializable {
         //  ?faces-redirect=true zorgt ervoor dat de browser url meevolgt
         return "userlist?faces-redirect=true";
     }
+
+    
+    
+    public boolean canDeleteUser(Useraccount u){
+        if (!u.getUseraccountroleCollection().isEmpty()){
+            return false;
+        }
+        return true;
+    }
 }
+
+
+

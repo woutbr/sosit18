@@ -61,7 +61,7 @@ public class Useraccount implements Serializable {
 //    @NotNull
     
     @SequenceGenerator(name="USER_SEQ",sequenceName="USER_SEQ",allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "TICKET_SEQ")
+    @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "USER_SEQ")
     
     @Column(name = "USERACCOUNTID")
     private BigDecimal useraccountid;

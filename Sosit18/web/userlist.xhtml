@@ -39,12 +39,12 @@
                                 <b:button icon="pencil" outcome="useraccount">
                                     <f:param name="UseraccountId" value="#{item.useraccountid}"/>
                                 </b:button>
-                                <b:commandButton icon="remove" action="#{userController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
+                                <b:commandButton icon="remove" disabled="#{!userController.canDeleteUser(item)}" action="#{userController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
                             </b:dataTableColumn>                          
                         </b:dataTable>  
                         
                     </b:panel>
-                    <b:commandButton value="New" action="#{userController.create()}"/>
+                    <b:commandButton value="Add new user" look="warning" action="#{userController.create()}"/>
                               
                 </b:form>
             </f:view>
