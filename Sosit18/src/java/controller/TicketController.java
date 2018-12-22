@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import helper.Helper;
-import javax.faces.annotation.ManagedProperty;
 import javax.inject.Inject;
 
 
