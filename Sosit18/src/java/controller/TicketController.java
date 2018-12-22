@@ -18,32 +18,35 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import helper.Helper;
+import javax.faces.annotation.ManagedProperty;
+import javax.inject.Inject;
 
 
 /**
  *
  * @author Vincent
  */
-
 @Named(value = "TicketController")
 @SessionScoped
 public class TicketController implements Serializable {
 
+
     @EJB
     private TicketFacade ticketFacade;
     
-    private Ticket ticket = new Ticket();
-    private List<Ticket> ticketList = new ArrayList<>();
-
-    public List<Ticket> getTicketList() {
-        return ticketList;
-    }
-
-    public void setTicketList(List<Ticket> ticketList) {
-        this.ticketList = ticketList;
-    }
+    @Inject
+    private AuthBean authBean;
     
+    @Inject
+    private TicketFilterBean ticketFilterBean;
+
+//    
+//    public void setAuth(AuthBean auth) {
+//        this.auth = auth;
+//    }
+        
+    private Ticket ticket = new Ticket();
 
     public Ticket getTicket() {
         return ticket;
@@ -55,86 +58,84 @@ public class TicketController implements Serializable {
 
     public TicketController() {
 
-
     }
-    
-    public void findById(BigDecimal id){
-        if (id==null ) {
+
+    public void findById(BigDecimal id) {
+        if (id == null) {
             resetTicket();
-        }else{
+        } else {
             ticket = this.ticketFacade.FindById(id);
         }
     }
-    
-    public List<Ticket> findAllTickets(){
+
+    public List<Ticket> findAllTickets() {
         return this.ticketFacade.findAll();
     }
-    
-    public List<Ticket> findFilteredTickets(TicketFilterBean ticketfilter){
-        if (ticketfilter!=null) {
-            return this.ticketFacade.GetfilteredTickets(ticketfilter);   
-        }else{
-            return findAllTickets();
+
+    public List<Ticket> loadfilteredTickets(){
+
+        // gewone users mogen enkel tickets van zichzelf zien
+        if (authBean.isGewoneUser()) {
+            ticketFilterBean.setUserAccountId(authBean.getUser().getUseraccountid());
         }
-            
+        List<Ticket> ticketList = this.ticketFacade.GetfilteredTickets(
+                ticketFilterBean.getTicketStatusId(),
+                ticketFilterBean.getCompanyId(),
+                ticketFilterBean.getUserAccountId());
+        
+        return ticketList;
     }
     
-    public String cancel(){
+    
+
+
+    public String cancel() {
         return "ticketList?faces-redirect=true";
     }
-    
-    public String save(){
- 
-        if (ticket.getTicketid()==null) {
+
+    public String save() {
+
+        if (ticket.getTicketid() == null) {
             // een ticket dat nog geen nummer heeft moet een nieuw ticket zijn
 
             ticket.setCreationdate(findCurrentDate());
             this.ticketFacade.create(ticket);
 
-        }else{
+        } else {
             // een bestaan ticket wordt enkel geupdate
             this.ticketFacade.edit(ticket);
         }
-        
+
         //  ?faces-redirect=true zorgt ervoor dat de browser url meevolgt
         return "ticketList?faces-redirect=true";
     }
-    
-    public String edit(Ticket t){
+
+    public String edit(Ticket t) {
         // open ticket
-        this.ticket= t;
+        this.ticket = t;
         return "ticket?faces-redirect=true";
     }
-    
-    public String create(){
+
+    public String create() {
 
         return "ticket?faces-redirect=true";
     }
-    
-    public String erase(Ticket t){
+
+    public String erase(Ticket t) {
         this.ticketFacade.remove(t);
         return "ticketList?faces-redirect=true";
-    
-    }
-    
-    public void resetTicket(){
-        // wordt aangeroepen in ticketList
-        this.ticket= new Ticket();
-        ticket.setCreationdate(findCurrentDate());
-        int a = 1;
+
     }
 
-    public Date findCurrentDate(){
-        LocalDate ld  = LocalDate.now();
-        Date      d   =java.sql.Date.valueOf(ld);
+    public void resetTicket() {
+        // wordt aangeroepen in ticketList
+        this.ticket = new Ticket();
+        ticket.setCreationdate(findCurrentDate());
+    }
+
+    public Date findCurrentDate() {
+        LocalDate ld = LocalDate.now();
+        Date d = java.sql.Date.valueOf(ld);
         return d;
     }
-    
-    public void test(){
-        int a =1;
-    }
-    
-    public void loadTicketList(){
-        ticketList=findFilteredTickets(null);
-    }        
 }

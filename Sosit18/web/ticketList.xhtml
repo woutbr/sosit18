@@ -11,82 +11,89 @@
         <ui:define name="main">
             <f:view>
                 <f:metadata>
-                    <!-- 
-                    ResetTicket maak steeds een nieuw ticket object bij aanroepen van deze pagina.
-                    Waneer TicketController.create() wordt aangeroepen  vertrekken we van een nieuw ticket;
-                    -->
-                    <f:viewAction action="#{TicketController.resetTicket()}"></f:viewAction>+
-                    <f:viewAction action="#{TicketController.loadTicketList()}"></f:viewAction>
+                    <f:viewParam name="TicketstatusId" />
+                    <f:viewParam name="CompanyId" />
+                    <f:viewParam name="UseraccountId" />
+                    <f:viewAction action="#{ticketFilterBean.update(TicketstatusId,CompanyId,UseraccountId)}"/>
                 </f:metadata>
                 <b:form>
-
                     <b:panel title="Ticket " collapsible="false">
-                     <b:panelGrid colSpans='3,9' >
-                         <b:formGroup style="background-color: aliceblue ; padding: 1em" id="fgfilter">
-                              <h3 class="text-center">Filter</h3>
+                        <b:panelGrid colSpans='3,9' >
+                            <b:formGroup style="background-color: aliceblue ; padding: 1em" id="fgfilter">
+                                <h3 class="text-center">Filter</h3>
+                                
                                 <b:label value="Status" 
                                          style="background-color: lightgray" />
-                                <b:selectOneMenu value="#{ticketFilterBean.ticketstatus}"  >
-                                    <f:selectItem itemValue="#{null}"/>
+                                <b:selectOneMenu value="#{ticketFilterBean.ticketStatusId}"  >
+                                    <f:selectItem itemLabel="-- All Tickets --" />
                                     <f:selectItems value="#{ticketstatusController.ListAllTicketstatus()}" 
                                                    var="ts" 
-                                                   itemValue="#{ts}" 
+                                                   itemValue="#{ts.ticketstatusid}" 
                                                    itemLabel="#{ts.description}"/>
                                     <f:ajax render="fgfilter"/>
                                 </b:selectOneMenu>
-                                
+
                                 <b:label value="Company"
                                          style="background-color: lightgray"/>
-                                <b:selectOneMenu value="#{ticketFilterBean.company}" >
-                                    <f:selectItem itemValue="#{null}"/>
+                                <b:selectOneMenu value="#{ticketFilterBean.companyId}" 
+                                                 readonly="#{auth.rights(true, false, false)}">
+                                    <f:selectItem itemLabel="-- All Company's --"/>
                                     <f:selectItems value="#{companyController.listAllCompanies()}" 
                                                    var="co" 
-                                                   itemValue="#{co}" 
+                                                   itemValue="#{co.companyid}" 
                                                    itemLabel="#{co.name}"/>
                                     <f:ajax render="fgfilter"/>
                                 </b:selectOneMenu>
+                                
                                 <b:label value="User"
                                          style="background-color: lightgray"/>
-                                <b:selectOneMenu value="#{ticketFilterBean.useraccount}" id="iduser">
-                                <f:selectItem itemValue="#{null}"/>
-                                <f:selectItems value="#{userController.ListAllUsersByCompany(ticketFilterBean.company)}" 
-                                               var="ua" 
-                                               itemValue="#{ua}" 
-                                               itemLabel="#{ua.fullname}"/>
-                                <f:ajax render="fgfilter"/>
-                            </b:selectOneMenu>
+                                <b:selectOneMenu value="#{ticketFilterBean.userAccountId}" id="iduser" 
+                                                 readonly="#{auth.rights(true, false, false)}">
+                                    <f:selectItem itemLabel="-- All Users --"/>
+                                    <f:selectItems value="#{userController.listAllUsersByCompanyId(ticketFilterBean.companyId)}" 
+                                                   var="ua" 
+                                                   itemValue="#{ua.useraccountid}" 
+                                                   itemLabel="#{ua.fullname}"/>
+                                    <f:ajax render="fgfilter"/>
+                                </b:selectOneMenu>
                                 <div class="text-center" style="margin-top: 1em">
-                                  <b:commandButton value="Filter"/>
-                                  <b:commandButton value="Clear"/>
-
+                                    <b:button value="Filter" outcome="ticketList">
+                                        <f:param name="TicketstatusId" value="#{ticketFilterBean.ticketStatusId}"/>
+                                        <f:param name="CompanyId" value="#{ticketFilterBean.companyId}"/>
+                                        <f:param name="UseraccountId" value="#{ticketFilterBean.userAccountId}"/>
+                                    </b:button>
+                                    <b:commandButton value="Clear" action="#{ticketFilterBean.clearFilter()}"/>
                                 </div>
-                                
+
                             </b:formGroup>                         
-                    <b:formGroup>
-                       
-                        <b:dataTable value="#{TicketController.ticketList}" 
-                                     var="item" save-state="false" 
-                                     id="ticketTable">
-                            <f:facet name="header">
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Title</th>
-                                    <th>description</th>
-                                    <th></th>
-                                </tr>
-                            </f:facet>
-                            <b:dataTableColumn value="#{item.ticketid}" order="asc" />
-                            <b:dataTableColumn value="#{item.title}" />
-                            <b:dataTableColumn value="#{item.description}" />
-                            <b:dataTableColumn value="">
-                                <b:button icon="pencil" outcome="ticket">
-                                    <f:param name="TicketId" value="#{item.ticketid}"/>
-                                </b:button>
-                                <b:commandButton icon="remove" action="#{TicketController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
-                            </b:dataTableColumn>
-                        </b:dataTable>  
-                    </b:formGroup>
-                    </b:panelGrid>
+                            <b:formGroup>
+
+                                <b:dataTable value="#{TicketController.loadfilteredTickets()}" 
+                                             var="item" save-state="false" 
+                                             id="ticketTable">
+                                    <f:facet name="header">
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Title</th>
+                                            <th>description</th>
+                                            <th></th>
+                                        </tr>
+                                    </f:facet>
+                                    <b:dataTableColumn value="#{item.ticketid}" order="asc" />
+                                    <b:dataTableColumn value="#{item.title}" />
+                                    <b:dataTableColumn value="#{item.description}" />
+                                    <b:dataTableColumn value="">
+                                        <b:button icon="pencil" outcome="ticket">
+                                            <f:param name="TicketId" value="#{item.ticketid}"/>
+                                        </b:button>
+                                        <b:commandButton icon="remove" 
+                                                         action="#{TicketController.erase(item)}" 
+                                                         onclick="return 
+                                                             confirm('Are you sure ?')" rendered="#{auth.rights(false, false, true)}"/>  
+                                    </b:dataTableColumn>
+                                </b:dataTable>  
+                            </b:formGroup>
+                        </b:panelGrid>
                     </b:panel>
                     <b:commandButton value="new" action="#{TicketController.create()}" />
                     <b:commandButton value="test" action="#{userController.test(companyController.company)}" />
