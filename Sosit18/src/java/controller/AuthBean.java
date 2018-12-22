@@ -25,6 +25,7 @@ public class AuthBean implements Serializable {
     }
 
     public boolean isDebugMode() {
+        int a=1;
         return debugMode;
     }
 
@@ -117,5 +118,16 @@ public class AuthBean implements Serializable {
      */
     public boolean hasAtLeastOneRole(List<String> roles) {
         return this.isLoggedIn() && roles.stream().anyMatch((role) -> this.user.hasRole(new Role(role)));
+    //Methode die een boolean terug geeft afhankelijk van z'n userrole
+    }
+    
+    public boolean rights(boolean user, boolean supporter, boolean admin){
+        if (isGewoneUser()) {
+            return user;
+        }else if (isSupporter()) {
+            return supporter;
+        }else{
+            return admin;
+        }
     }
 }
