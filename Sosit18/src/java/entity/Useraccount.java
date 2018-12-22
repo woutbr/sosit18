@@ -50,6 +50,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Useraccount.findBySex", query = "SELECT u FROM Useraccount u WHERE u.sex = :sex")
     , @NamedQuery(name = "Useraccount.findByVersion", query = "SELECT u FROM Useraccount u WHERE u.version = :version")
     //, @NamedQuery(name = "Useraccount.findByRoleId", query = "SELECT u FROM Useraccount u WHERE u.useraccountroleCollection.roleid = :roleid")
+    //, @NamedQuery(name = "Useraccount.findByRoleId", query = "SELECT u FROM Useraccount u inner join on useraccountrole a Where a.roleid :roleid ")
+    // SELECT a FROM Useraccountrole u INNER JOIN Useraccount a WHERE u.useraccountid = a.useraccountid AND u.roleid = :roleid u.companyid.companyid = :companyid")
     , @NamedQuery(name = "Useraccount.findByCompanyId", query = "SELECT u FROM Useraccount u WHERE u.companyid.companyid = :companyid")})
 
 public class Useraccount implements Serializable {
