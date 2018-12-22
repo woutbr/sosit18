@@ -12,6 +12,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import static java.util.Collections.list;
 import java.util.List;
 import javax.ejb.EJB;
 
@@ -53,15 +54,31 @@ public class UserController implements Serializable {
     }
     
     public List<Useraccount> ListAllUsersByCompany(Company company){
+
+        return listAllUsersByCompanyId(company.getCompanyid());
+    }
+    
+    public List<Useraccount> listAllUsersByCompanyId(BigDecimal companyId){
         List<Useraccount> userlist;
         
-        if(company!=null){
-            userlist = this.useraccountFacade.GetAllUsersByCompanyId(company.getCompanyid());
+        if(companyId!=null){
+            userlist = this.useraccountFacade.GetAllUsersByCompanyId(companyId);
         }else{
             userlist =findAllUsers();
         }
         return userlist;
     }
+    
+    public List<Useraccount> listAllSupporter(){
+        List<Useraccount> supportList = this.useraccountFacade.GetAllSupporters();
+        return supportList;
+        
+    
+    }
+    
+    
+    
+    
     
     public String test(Company co){
         String s = " test";
@@ -73,12 +90,7 @@ public class UserController implements Serializable {
         int a = 1;
         return "userlist?faces-redirect=true";
     }
-    
-//    public String edit(){
-//        this.useraccountFacade.edit(useraccount);
-//        return "userlist?faces-redirect=true";
-//    }
-    
+
     public String edit(Useraccount u){
         this.useraccount=u;
         return "useraccount?faces-redirect=true";
@@ -111,6 +123,7 @@ public class UserController implements Serializable {
         //  ?faces-redirect=true zorgt ervoor dat de browser url meevolgt
         return "userlist?faces-redirect=true";
     }
+
     
     
     public boolean canDeleteUser(Useraccount u){
@@ -120,3 +133,6 @@ public class UserController implements Serializable {
         return true;
     }
 }
+
+
+

@@ -8,9 +8,11 @@ package controller;
 import entity.Company;
 import entity.Ticketstatus;
 import entity.Useraccount;
+import helper.Helper;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,46 +24,56 @@ import java.util.Set;
 @SessionScoped
 public class TicketFilterBean implements Serializable {
 
-    private Ticketstatus Ticketstatus = new Ticketstatus();
-    private Company company = new Company();
-    private Useraccount Useraccount = new Useraccount();
-            
+    
+    private BigDecimal ticketStatusId = null;
+    private BigDecimal companyId = null;
+    private BigDecimal userAccountId = null;
+
+    public BigDecimal getTicketStatusId() {
+        return ticketStatusId;
+    }
+
+    public void setTicketStatusId(BigDecimal ticketStatusId) {
+        this.ticketStatusId = ticketStatusId;
+    }
+
+    public BigDecimal getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(BigDecimal companyId) {
+        this.companyId = companyId;
+    }
+
+    public BigDecimal getUserAccountId() {
+        return userAccountId;
+    }
+
+    public void setUserAccountId(BigDecimal userAccountId) {
+        this.userAccountId = userAccountId;
+    }
+
     public TicketFilterBean() {
-    }
-
-    public Ticketstatus getTicketstatus() {
-        return Ticketstatus;
-    }
-
-    public void setTicketstatus(Ticketstatus Ticketstatus) {
-        this.Ticketstatus = Ticketstatus;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    public Useraccount getUseraccount() {
-        return Useraccount;
-    }
-
-    public void setUseraccount(Useraccount Useraccount) {
-        this.Useraccount = Useraccount;
+        //ticket filter laat default enkel de open tickets zien;
+        this.ticketStatusId = new BigDecimal(1);
     }
     
-    public void ClearFilter(){
-        this.setCompany(null);
-        this.setTicketstatus(null);
-        this.setUseraccount(null);
+    public String clearFilter(){
+        this.ticketStatusId=new BigDecimal(1);
+        return  "ticketList?faces-redirect=true";
     }
     
-    public void test(){
-        String S = "";
     
+    public void update(String strTicketstatusId, String strCompanyId, String strUseraccountId){
+        
+        if (!Helper.IsNullOrEmpty(strTicketstatusId)) {
+            this.ticketStatusId=new BigDecimal(strTicketstatusId);
+        }
+        if (!Helper.IsNullOrEmpty(strCompanyId)) {
+            this.companyId=new BigDecimal(strCompanyId);
+        }
+        if (!Helper.IsNullOrEmpty(strUseraccountId)) {
+            this.userAccountId=new BigDecimal(strUseraccountId);
+        }
     }
-    
 }

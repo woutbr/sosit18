@@ -80,13 +80,13 @@ public class InitBootsfacesBean {
                     Class rendererSuperclass = Class.forName(rendererClassName);
                     Class<Renderer> rendererClass = rendererSuperclass.asSubclass(Renderer.class);
                     Renderer renderer = rendererClass.newInstance();
-                    LOGGER.log(Level.INFO, "Init Bootsfaces: Registering renderer: {0}/{1}", new Object[]{rendererFamily, rendererType});
+                    LOGGER.log(Level.FINER, "Init Bootsfaces: Registering renderer: {0}/{1}", new Object[]{rendererFamily, rendererType});
 
                     addRenderer(rendererFamily, rendererType, renderer);
                     // ****** THIS IS THE IMPORTANT CALL TO REGISTER THE RENDERER *********
                     renderersAddedCount++;
                 } catch (Throwable e) {
-                    LOGGER.log(Level.WARNING, "Init Bootsfaces: Unable to register renderer for component: " + className, e);
+                    LOGGER.log(Level.WARNING, "Init Bootsfaces: Unable to register renderer for component: {0}", className);
                 }
             }
         }

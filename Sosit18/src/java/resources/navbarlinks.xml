@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE list SYSTEM "navbarlinks.dtd">
+<list name="">
+    <list name="Ticket " roles="Admin Supporter User">
+        <link name="All tickets" outcome="ticketList" roles="Admin Supporter User"/>
+        <link name="New ticket" outcome="ticket" roles="Admin Supporter User"/>
+        <link name="Ticket type" outcome="tickettype" roles="Admin"/>
+        <link name="Ticket status" outcome="ticketstatus" roles="Admin"/>
+        <link name="Ticket severity" outcome="ticketseverity" roles="Admin"/>
+        <link name="Ticket priority" outcome="ticketpriority" roles="Admin"/>
+        <link name="Assign new action" outcome="action" roles="Admin Supporter"/>
+    </list>
+    <list name="Companies " roles="Admin Supporter User">
+        <link name="All companies" outcome="companyList" roles="Admin Supporter User"/>
+        <link name="New company" outcome="company" roles="Admin Supporter"/>
+    </list>
+    <list name="Asset " roles="Admin Supporter User">
+        <link name="All assets" outcome="assets" roles="Admin Supporter User"/>
+        <link name="New asset" outcome="newasset" roles="Admin Supporter"/>
+        <link name="Asset group" outcome="assetgroup" roles="Admin Supporter"/>
+        <link name="Asset location" outcome="assetlocation" roles="Admin Supporter"/>
+    </list>>
+    <list name="User " roles="Admin Supporter User">
+        <link name="All users" outcome="userlist" roles="Admin Supporter User"/>
+        <link name="New User" outcome="useraccount" roles="Admin"/>
+        <link name="User role" outcome="role" roles="Admin"/>
+    </list>
+    <link name="SLA" outcome="sla" roles="Admin Supporter User"/>
+    <link name="Contact" outcome="contact"/>
+</list>
