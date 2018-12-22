@@ -1,10 +1,14 @@
 package servlet;
 
+import be.hbo5.java.menu.MenuItem;
+import be.hbo5.java.menu.MenuLink;
 import controller.AuthBean;
+import controller.NavBarBean;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.faces.application.ResourceHandler;
 import javax.inject.Inject;
@@ -17,7 +21,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * A Filter for every request that checks whether the user can access it.
@@ -30,6 +33,8 @@ public class LoginFilter implements Filter {
 
     @Inject
     private AuthBean authBean;
+    @Inject
+    private NavBarBean navBarBean;
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
@@ -69,24 +74,54 @@ public class LoginFilter implements Filter {
 
         }
     }
-    
-    private boolean isRequestAllowed(HttpServletRequest request, String loginURL){
+
+    private boolean isRequestAllowed(HttpServletRequest request, String loginURL) {
         boolean debugMode = this.authBean.isDebugMode();
-        boolean loggedIn = this.authBean.isLoggedIn();
         boolean loginRequest = request.getRequestURI().equals(loginURL);
-        
+
         String path = request.getRequestURI().substring(request.getContextPath().length()).replaceAll("[/]+$", "");
-        boolean allowedPath = ALLOWED_PATHS.contains(path);
-        //TODO Check for role
+        //DEBUG Print requested path
+        System.out.println("LoginFilter path: "+path);
         
-        return debugMode || loggedIn || loginRequest || isResourceRequest(request) || allowedPath;
+        boolean allowedPath = ALLOWED_PATHS.contains(path);
+        boolean loggedIn = this.authBean.isLoggedIn();
+        boolean roleAllowed = isRoleAllowed(request, path);
+
+        return debugMode || loginRequest || isResourceRequest(request) || allowedPath || loggedIn && roleAllowed;
+    }
+
+    private boolean isRoleAllowed(HttpServletRequest request, String path) {
+//        MenuList items = this.navBarBean.getLinks();
+        //TODO Create list of links without needing to walk it everytime.
+//        MenuLink link = walkUntilFound(items, request, path);
+    
+        MenuLink link = this.findMatchingMenuItem(this.navBarBean.getLinksAsList(), path);
+        return link != null && this.authBean.hasAtLeastOneRole(link.getRoles());
     }
     
-    private boolean isResourceRequest(HttpServletRequest request){
+    
+    /**
+     * Search for a MenuLink in the given List 
+     * with an outcome equal to the current request path.
+     * @param items List of MenuItems
+     * @return null if no MenuLink has been found.
+     */
+    private MenuLink findMatchingMenuItem(List<MenuItem> items, String path) {
+        //Remove first slash and xhtml extension
+        path = path.replaceAll("^[/]?|.xhtml$", "");
+        for(MenuItem mi : items){
+            if(MenuLink.class.isInstance(mi) && ((MenuLink)mi).getOutcome().equals(path)){
+                return (MenuLink)mi;
+            }
+        }
+        return null;
+    }
+
+    private boolean isResourceRequest(HttpServletRequest request) {
         return request.getRequestURI().startsWith(request.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER + "/");
     }
-    
-    private boolean isAjaxRequest(HttpServletRequest request){
+
+    private boolean isAjaxRequest(HttpServletRequest request) {
         return "partial/ajax".equals(request.getHeader("Faces-Request"));
     }
 

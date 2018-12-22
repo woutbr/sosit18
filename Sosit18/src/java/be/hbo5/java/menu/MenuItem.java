@@ -1,13 +1,25 @@
 package be.hbo5.java.menu;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author woutbr@student.hik.be
  */
-public abstract class MenuItem {
-    private String name;
+public abstract class MenuItem implements Serializable {
 
-    public MenuItem(String name) {
+    private String name;
+    private List<String> roles;
+
+    public MenuItem(String name, String roles) {
         this.name = name;
+        if (roles.isEmpty()) {
+            this.roles = new ArrayList<>();
+        } else {
+            this.roles = Arrays.asList(roles.split("\\s+"));
+        }
     }
 
     public String getName() {
@@ -16,6 +28,33 @@ public abstract class MenuItem {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public boolean hasRole(String rolename) {
+        return this.roles.contains(name);
+    }
+
+    @Override
+    public String toString() {
+        return "MenuItem{" + "name=" + name + ", roles=" + getRoles() + '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof MenuItem)) {
+            return false;
+        }
+        MenuItem other = (MenuItem) obj;
+        return !((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name)));
+    }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode() + 53;
     }
 
 }

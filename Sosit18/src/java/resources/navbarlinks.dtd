@@ -5,6 +5,7 @@ The attribute name is a string which will be displayed. -->
 <!ELEMENT list (#PCDATA|link|list)*>
 <!ATTLIST list
     name CDATA #REQUIRED
+    roles NMTOKENS #IMPLIED
   >
 
 <!--- An element link with attributes name and href.
@@ -14,5 +15,6 @@ of the JSF page without .xhtml. -->
 <!ELEMENT link EMPTY>
 <!ATTLIST link
     name CDATA #REQUIRED
-    href CDATA #REQUIRED
+    outcome CDATA #REQUIRED
+    roles NMTOKENS #IMPLIED
   >

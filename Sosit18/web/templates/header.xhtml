@@ -3,27 +3,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:my="http://xmlns.jcp.org/jsf/composite/mycomponents">
 <ui:composition>
     <b:navBar brand="SosIT" brandHref="index.xhtml" fixed="top" inverse="true">
         <b:navbarLinks>
-            <!--TODO controle op role: <ui:include src="/WEB-INF/header{auth.isAdmin() ? 'Admin' : 'User'}.xhtml" />-->
-            <ui:repeat value="#{NavBarController.links.subItems}" var="item" >
-                <b:navLink rendered="#{item.class.simpleName == 'MenuLink'}"
-                    value="#{item.name}" href="#{item.href}.xhtml"></b:navLink>
-                <b:dropMenu rendered="#{item.class.simpleName == 'MenuList'}"
-                    value="#{item.name}">
-                    <ui:repeat value="#{item.subItems}" var="subItem" >
-                        <b:navLink value="#{subItem.name}" href="#{subItem.href}.xhtml"></b:navLink>
-                    </ui:repeat>
-                </b:dropMenu>
+            <ui:repeat value="#{navBarBean.links.children}" var="item" >
+                <b:navLink rendered="#{item.class.simpleName == 'MenuLink' and navBarBean.canDisplayMenuItem(item)}"
+                    value="#{item.name}" outcome="#{item.outcome}"/>
+                <my:customDropMenu menulist="#{item}" 
+                                   rendered="#{item.class.simpleName == 'MenuList' and navBarBean.canDisplayMenuItem(item)}"/>
             </ui:repeat>
-            <b:dropMenu value="#{auth.user.username}"
-                        rendered="#{auth.loggedIn}">
+        </b:navbarLinks>
+        <b:navbarLinks pull="right">
+            <b:dropMenu value="#{auth.user.username}" rendered="#{auth.loggedIn}">
                 <b:navLink value="Admin" rendered="#{auth.admin}"/>
                 <b:navLink value="Supporter" rendered="#{auth.supporter}"/>
                 <b:navLink value="Gewone user" rendered="#{auth.gewoneUser}"/>
-                <b:navLink value="Edit useraccount" href="useraccount.xhtml">
+                <b:navLink value="Edit useraccount" outcome="useraccount">
                     <f:param name="useraccountid" value="#{auth.user.useraccountid}"/>
                 </b:navLink>
                 <!--b:form>
@@ -34,7 +31,7 @@
             <b:navLink value="Login" outcome="login"
                        rendered="#{not auth.loggedIn}"/>
         </b:navbarLinks>
-        <b:form horizontal="true" style="margin: 1em 0 0 0; height: 36px; color: #fb0;">
+        <b:form horizontal="true" style="margin: 1em 1em 0; height: 36px; color: #fb0; float: right;" >
             <b:switch value="#{auth.debugMode}" caption="auth.debugMode" tooltip="Ignore the login check" ajax="true"
                       onColor="warning" switchsize="mini"/>
         </b:form>
