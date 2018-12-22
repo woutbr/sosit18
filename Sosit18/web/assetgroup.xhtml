@@ -1,35 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
-          
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Asset group - SosIT"/>
         <ui:define name="main">
-            
             <b:form>
                 <b:panel title="Asset group" collapsible="false">
                     <h4><u>Add new asset group</u></h4>
                     <b:panelGrid colSpans="6,6">
-                          <b:formGroup>
-                            <h:outputLabel>Asset Group ID</h:outputLabel>
-                            <b:inputText disabled="true"></b:inputText>
-                            <h:outputLabel>SLA ID</h:outputLabel>
-                            <b:selectOneMenu required="true"></b:selectOneMenu>                      
-                          </b:formGroup> 
+                        <b:formGroup>
+                            <h:outputLabel value="SLA ID" for="selectsla"/>
+                            <b:selectOneMenu value="#{assetgroupController.assetgroup.slaid}"
+                                             id="selectsla"
+                                             required="true" 
+                                             required-message="Please select a SLA.">
+                                <f:selectItem itemLabel="Select a SLA"/>
+                                <f:selectItems value="#{slaController.listAllSlas()}"
+                                               var="sla"
+                                               itemLabel="#{sla.title}"
+                                               itemValue="#{sla}"/>
+                            </b:selectOneMenu>               
+                        </b:formGroup>
                     </b:panelGrid>
                     <h4><u>Description</u></h4>
-                    <b:inputTextarea></b:inputTextarea>
+                    <b:inputTextarea value="#{assetgroupController.assetgroup.description}"
+                                     id="inputassetgroupdesc"/>
+                    <b:message />
                     <div class="text-center">
-                        <b:commandButton value="Save" look="success" style="margin-right: 2em"></b:commandButton>
-                        <b:commandButton value="Cancel" look="warning" style="margin-left: 2em"></b:commandButton>
+                        <b:commandButton value="Save" look="success" icon="save" style="margin-right: 2em"
+                                         action="#{assetgroupController.createNewAssetgroup()}"/>
+                        <b:button value="Cancel" look="warning" style="margin-left: 2em"
+                                  outcome="assets"/>
                     </div>
                 </b:panel>
             </b:form>

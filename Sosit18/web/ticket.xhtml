@@ -8,54 +8,123 @@
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Ticket"/>
         <ui:define name="main">
+            <f:metadata>
+                <f:viewParam name="TicketId"/>
+                <f:viewAction action="#{TicketController.findById(TicketId)}" />
+            </f:metadata>
 
-            
             <b:form>
-                <b:panel title="Ticket " collapsible="false">
+
+                <b:panel title="Ticket " collapsible="false" id="mainPanel">
 
                     <h4><u>General information</u></h4>
                     <b:panelGrid colSpans="4,8">
                         <b:formGroup>
-                            <h:outputLabel>Ticket Id</h:outputLabel>
-                            <b:inputText value="#{TicketController.ticket.ticketid}"></b:inputText>
-                            <h:outputLabel>Company</h:outputLabel>
-                            <b:inputText></b:inputText>
-                            <h:outputLabel>user</h:outputLabel>
-                            <b:inputText></b:inputText>
-                            <h:outputLabel>Creation date</h:outputLabel>
-                            <b:inputText></b:inputText>
+
+
+                            <b:inputText label="Id" 
+                                         value="#{TicketController.ticket.ticketid}"  
+                                         readonly="true" 
+                                         span="4" />
+
+                            <b:inputText  label="Created"
+                                          value="#{TicketController.ticket.creationdate}" 
+                                          readonly="true"  
+                                          span="8" />
+
+                            <b:inputText  label="Comapna"
+                                          value="#{TicketController.ticket.useraccountid.companyid.name}" 
+                                          id="name" 
+                                          readonly="true" auto-update="true" 
+                                          span="12"/>
+                                                       
+                            <b:selectOneMenu label="User" 
+                                             value="#{TicketController.ticket.useraccountid}" 
+                                             span="12">
+                                <f:selectItems value="#{userController.findAllUsers()}" 
+                                               var="ua" 
+                                               itemValue="#{ua}" 
+                                               itemLabel="#{ua.fullname}"/>
+                                <f:ajax id="mainPanel"/>
+                            </b:selectOneMenu>
+
+                            <b:selectOneMenu label="Status" 
+                                             value="#{TicketController.ticket.ticketstatusid}" 
+                                             span="12">
+                                <f:selectItems value="#{ticketstatusController.ListAllTicketstatus()}" 
+                                               var="ts" 
+                                               itemValue="#{ts}" 
+                                               itemLabel="#{ts.description}" />
+                            </b:selectOneMenu>
+                            <b:selectOneMenu label="Handled by" 
+                                             value="#{TicketController.ticket.handlerid}" 
+                                             span="12">
+                                <f:selectItem itemLabel="-- Unassigned --"/>
+                                <f:selectItems value="#{userController.listAllSupporter()}" 
+                                               var="supporter" 
+                                               itemValue="#{supporter}" 
+                                               itemLabel="#{supporter.fullname}"/>
+                            </b:selectOneMenu>
+
                         </b:formGroup>
 
-                        
                         <b:formGroup>
-                            <h:outputLabel>Title</h:outputLabel>
-                            <b:inputText value="#{TicketController.ticket.title}"></b:inputText>
-                            <h:outputLabel>Ticket Type</h:outputLabel>
-                            <b:selectOneMenu></b:selectOneMenu>
 
-                            <h:outputLabel>Asset</h:outputLabel>
-                            <b:selectOneMenu></b:selectOneMenu>
 
-                            <h:outputLabel>Severity</h:outputLabel>
-                            <b:selectOneMenu></b:selectOneMenu>
+                            <b:inputText label="Title" 
+                                         value="#{TicketController.ticket.title}"></b:inputText>
 
-                            <h:outputLabel>Urgency</h:outputLabel>
-                            <b:selectOneMenu></b:selectOneMenu>
+                            <b:selectOneMenu label="TicketType" value="#{TicketController.ticket.tickettypeid}" >
+                                <f:selectItems value="#{ticketTypeController.listAllTickettypes()}" 
+                                               var="tt" 
+                                               itemValue="#{tt}" 
+                                               itemLabel="#{tt.description}"/>
+                            </b:selectOneMenu>
+
+                            <b:selectOneMenu label="Asset" 
+                                             value="#{TicketController.ticket.assetid}">
+                                <f:selectItems value="#{assetController.listAll()}"
+                                               var="a" 
+                                               itemValue="#{a.assetid.toBigInteger()}" 
+                                               itemLabel="#{a.description}"/>
+                            </b:selectOneMenu>
+
+                            <b:selectOneMenu label="Severity" 
+                                             value="#{TicketController.ticket.ticketseverityid}">
+                                <f:selectItems value="#{ticketseverityController.allTicketSeverity}"
+                                               var="ts" 
+                                               itemValue="#{ts}" 
+                                               itemLabel="#{ts.description}"
+                                               />
+                            </b:selectOneMenu>
+
+                            <b:selectOneMenu label="Priority"
+                                             value="#{TicketController.ticket.ticketpriorityid}">
+                                <f:selectItems value="#{ticketpriorityController.ListTicketpriority()}"
+                                               var="tp" 
+                                               itemValue="#{tp}" 
+                                               itemLabel="#{tp.description}"
+                                               />
+                            </b:selectOneMenu>
+                            
+
 
                         </b:formGroup>
                     </b:panelGrid>
-                    <h4><u>Description</u></h4>
+
+
+                    <h4><u>Omschrijving</u></h4>
                     <b:inputTextarea value="#{TicketController.ticket.description}" ></b:inputTextarea>
                     <div class="text-center">
-                        <b:commandButton value="Opslaan" look="success" style="margin-right: 2em" action="#{TicketController.edit()}"></b:commandButton>
-                        <b:commandButton value="Terug" look="warning" style="margin-left: 2em" action="#{TicketController.cancel()}"></b:commandButton>
-                        <b:button value="new action" style="margin-left: 2em" outcome="action">
+                        <b:commandButton value="Save" look="success" style="margin-right: 2em" action="#{TicketController.save()}"></b:commandButton>
+                        <b:commandButton value="Cancel" look="warning" style="margin-left: 2em" action="#{TicketController.cancel()}"></b:commandButton>
+                         <b:button value="new action" style="margin-left: 2em" outcome="action">
                             <f:param value="#{TicketController.ticket.ticketid}" name="ticket"></f:param>
                         </b:button>
+                        <b:commandButton action="#{ticketstatusController.ListAllTicketstatus()}">test</b:commandButton>
+
                     </div>
-                    
-                    
-                    
+
 
                 </b:panel>
             </b:form>

@@ -13,15 +13,19 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -43,7 +47,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Asset.findByWarranty", query = "SELECT a FROM Asset a WHERE a.warranty = :warranty")
     , @NamedQuery(name = "Asset.findBySupportcontract", query = "SELECT a FROM Asset a WHERE a.supportcontract = :supportcontract")
     , @NamedQuery(name = "Asset.findByValue", query = "SELECT a FROM Asset a WHERE a.value = :value")
-    , @NamedQuery(name = "Asset.findByVersion", query = "SELECT a FROM Asset a WHERE a.version = :version")})
+    , @NamedQuery(name = "Asset.findByVersion", query = "SELECT a FROM Asset a WHERE a.version = :version")
+    , @NamedQuery(name = "Asset.findByCompany", query = "SELECT a FROM Asset a WHERE a.companyid = :companyid")})
 public class Asset implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,6 +57,8 @@ public class Asset implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ASSETID")
+    @SequenceGenerator(name="ASSET_SEQ",sequenceName="ASSET_SEQ",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "ASSET_SEQ")
     private BigDecimal assetid;
     @Basic(optional = false)
     @NotNull
@@ -229,5 +236,4 @@ public class Asset implements Serializable {
     public String toString() {
         return "entity.Asset[ assetid=" + assetid + " ]";
     }
-    
 }

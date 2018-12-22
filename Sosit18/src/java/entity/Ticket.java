@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -46,7 +47,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Ticket.findByCreationdate", query = "SELECT t FROM Ticket t WHERE t.creationdate = :creationdate")
     , @NamedQuery(name = "Ticket.findByCloseddate", query = "SELECT t FROM Ticket t WHERE t.closeddate = :closeddate")
     , @NamedQuery(name = "Ticket.findByAssetid", query = "SELECT t FROM Ticket t WHERE t.assetid = :assetid")
-    , @NamedQuery(name = "Ticket.findByVersion", query = "SELECT t FROM Ticket t WHERE t.version = :version")})
+    , @NamedQuery(name = "Ticket.findByVersion", query = "SELECT t FROM Ticket t WHERE t.version = :version")
+    ,@NamedQuery(name = "Ticket.findByStatus", query = "SELECT t FROM Ticket t WHERE t.ticketstatusid.ticketstatusid = :ticketstatusid")
+    ,@NamedQuery(name = "Ticket.findByfilter", query = "SELECT t FROM Ticket t WHERE t.ticketstatusid.ticketstatusid = :ticketstatusid and t.useraccountid.useraccountid =:useraccountid")})
 public class Ticket implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -101,6 +104,8 @@ public class Ticket implements Serializable {
     @JoinColumn(name = "USERACCOUNTID", referencedColumnName = "USERACCOUNTID")
     @ManyToOne
     private Useraccount useraccountid;
+    
+
 
     public Ticket() {
     }
@@ -270,7 +275,7 @@ public class Ticket implements Serializable {
 
     @Override
     public String toString() {
-        return ticketid.toString();
+        return "entity.Ticket[ ticketid=" + ticketid + " ]";
     }
     
 }

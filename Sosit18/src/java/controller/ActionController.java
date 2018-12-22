@@ -52,7 +52,9 @@ public class ActionController implements Serializable {
        
     public String create(){
         this.actionFacade.create(action);
-        return "action?faces-redirect=true";
+        action = new Action();
+        //return "action?faces-redirect=true";
+        return "ticketList?faces-redirect=true";
     }
     
     public void onload(BigDecimal ticketid){
