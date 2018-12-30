@@ -24,7 +24,6 @@ and open the template in the editor.
 
             <b:form>
                 <b:panel title="Ticket type" collapsible="false">
-                    <h4><u>TicketType's</u></h4>
                     
                     <b:panelGrid colSpans="8,4" >
  
@@ -87,7 +86,9 @@ and open the template in the editor.
 
                             <div class="text-center">
                                 <b:commandButton value="Save" 
-                                                 look="success" style='margin: 1em' 
+                                                 icon="save"
+                                                 look="success"
+                                                 style='margin: 1em' 
                                                  action="#{ticketTypeController.saveTickettype()}"
                                                  />
                                 <b:commandButton value="Cancel" 

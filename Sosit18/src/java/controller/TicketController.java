@@ -11,6 +11,7 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import dao.TicketFacade;
 import entity.Ticket;
+import entity.Ticketstatus;
 import entity.Useraccount;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import helper.Helper;
+import java.util.HashSet;
+import java.util.Set;
 import javax.inject.Inject;
 
 
@@ -62,6 +65,13 @@ public class TicketController implements Serializable {
     public void findById(BigDecimal id) {
         if (id == null) {
             resetTicket();
+            // een nieuw ticket wijzen we default toe aan de ingelogde gebuiker
+            // met default Company
+            if (!authBean.isDebugMode()) {
+                this.ticket.setUseraccountid(authBean.getUser());
+
+            }
+            
         } else {
             ticket = this.ticketFacade.FindById(id);
         }
@@ -72,36 +82,35 @@ public class TicketController implements Serializable {
     }
 
     public List<Ticket> loadfilteredTickets(){
-
         // gewone users mogen enkel tickets van zichzelf zien
         if (authBean.isGewoneUser()) {
             ticketFilterBean.setUserAccountId(authBean.getUser().getUseraccountid());
         }
+        
+        
         List<Ticket> ticketList = this.ticketFacade.GetfilteredTickets(
                 ticketFilterBean.getTicketStatusId(),
                 ticketFilterBean.getCompanyId(),
-                ticketFilterBean.getUserAccountId());
-        
+                ticketFilterBean.getUserAccountId(),
+                ticketFilterBean.getSupporterId()  
+                );
         return ticketList;
     }
     
-    
-
-
-    public String cancel() {
-        return "ticketList?faces-redirect=true";
-    }
+//    public String cancel() {
+//        return "ticketList?faces-redirect=true";
+//    }
 
     public String save() {
 
         if (ticket.getTicketid() == null) {
             // een ticket dat nog geen nummer heeft moet een nieuw ticket zijn
 
-            ticket.setCreationdate(findCurrentDate());
+            ticket.setCreationdate(Helper.findCurrentDateTime());
             this.ticketFacade.create(ticket);
 
         } else {
-            // een bestaan ticket wordt enkel geupdate
+            // een bestaand ticket wordt enkel geupdate
             this.ticketFacade.edit(ticket);
         }
 
@@ -129,12 +138,17 @@ public class TicketController implements Serializable {
     public void resetTicket() {
         // wordt aangeroepen in ticketList
         this.ticket = new Ticket();
-        ticket.setCreationdate(findCurrentDate());
+        ticket.setCreationdate(Helper.findCurrentDateTime());
+        // nieuw ticket heeft standaard status open
+        Ticketstatus openstatus = new Ticketstatus();
+        openstatus.setTicketstatusid(new BigDecimal(1));
+        ticket.setTicketstatusid(openstatus);
+        
+    }
+    
+    public void test(){
+        int a=1;
+    
     }
 
-    public Date findCurrentDate() {
-        LocalDate ld = LocalDate.now();
-        Date d = java.sql.Date.valueOf(ld);
-        return d;
-    }
 }

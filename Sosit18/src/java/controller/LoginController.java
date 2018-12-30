@@ -30,6 +30,7 @@ public class LoginController implements Serializable {
     @Inject
     private AuthBean authBean;
     
+    
     private String username;
     private String password;
 

@@ -6,7 +6,9 @@
 package controller;
 
 import dao.CompanyFacade;
+import dao.UseraccountFacade;
 import entity.Company;
+import entity.Useraccount;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -33,6 +35,10 @@ public class CompanyController implements Serializable {
 
     @EJB
     private CompanyFacade companyFacade ;
+    
+    @EJB
+    private UseraccountFacade useraccountFacade ;
+    
     private Company company = new Company();
   
     /**
@@ -117,4 +123,12 @@ public class CompanyController implements Serializable {
         company = this.companyFacade.FindById(id);
         }
     }
+    
+    public Company findCompanyByUserId(BigDecimal userId){
+        Useraccount u = this.useraccountFacade.FindByUseraccountId(userId);
+        Company c =  u.getCompanyid();
+        return c;
+    }
+
+
 }

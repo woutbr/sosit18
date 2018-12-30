@@ -38,4 +38,15 @@ public class UseraccountroleFacade extends AbstractFacade<Useraccountrole> {
         Useraccountrole r = (Useraccountrole)q.getSingleResult();
         return r;
     }
+    
+    public Useraccountrole findAccountRodeIdByUserId(BigDecimal userId){
+        Query q = this.em.createNamedQuery("Useraccountrole.findAccountRoleIdByUserId");
+        q.setParameter("useraccountid", userId);
+        q.setMaxResults(1);
+        Useraccountrole userAccountRoleid =(Useraccountrole)q.getSingleResult();
+        return userAccountRoleid;
+    }
+    
+    
+
 }

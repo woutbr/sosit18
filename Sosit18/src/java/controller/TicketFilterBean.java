@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+
 /**
  *
  * @author c1041184
@@ -28,6 +29,8 @@ public class TicketFilterBean implements Serializable {
     private BigDecimal ticketStatusId = null;
     private BigDecimal companyId = null;
     private BigDecimal userAccountId = null;
+    private BigDecimal supporterId = null;
+    
 
     public BigDecimal getTicketStatusId() {
         return ticketStatusId;
@@ -53,6 +56,15 @@ public class TicketFilterBean implements Serializable {
         this.userAccountId = userAccountId;
     }
 
+    public BigDecimal getSupporterId() {
+        return supporterId;
+    }
+
+    public void setSupporterId(BigDecimal supporterId) {
+        this.supporterId = supporterId;
+    }
+    
+
     public TicketFilterBean() {
         //ticket filter laat default enkel de open tickets zien;
         this.ticketStatusId = new BigDecimal(1);
@@ -60,11 +72,14 @@ public class TicketFilterBean implements Serializable {
     
     public String clearFilter(){
         this.ticketStatusId=new BigDecimal(1);
+        this.companyId=null;
+        this.userAccountId=null;
+        this.supporterId=null;
         return  "ticketList?faces-redirect=true";
     }
     
     
-    public void update(String strTicketstatusId, String strCompanyId, String strUseraccountId){
+    public void update(String strTicketstatusId, String strCompanyId, String strUseraccountId,String strSupporterId){
         
         if (!Helper.IsNullOrEmpty(strTicketstatusId)) {
             this.ticketStatusId=new BigDecimal(strTicketstatusId);
@@ -74,6 +89,9 @@ public class TicketFilterBean implements Serializable {
         }
         if (!Helper.IsNullOrEmpty(strUseraccountId)) {
             this.userAccountId=new BigDecimal(strUseraccountId);
+        }
+        if (!Helper.IsNullOrEmpty(strSupporterId)) {
+            this.supporterId=new BigDecimal(strSupporterId);
         }
     }
 }
