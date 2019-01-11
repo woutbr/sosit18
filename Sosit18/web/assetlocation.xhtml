@@ -10,6 +10,9 @@
             <b:form>
                 <b:panel title="Asset location" collapsible="false">
                     <h4><u>Add new asset location</u></h4>
+                    <h:outputLabel value="Asset location ID"/>
+                    <b:inputText value="#{assetlocationController.assetlocation.assetlocationid}"
+                                 disabled="true"/>
                     <h4><u>Description</u></h4>
                     <b:inputTextarea value="#{assetlocationController.assetlocation.description}"
                                      id="inputassetlocationdesc"
