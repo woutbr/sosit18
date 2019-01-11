@@ -6,20 +6,21 @@
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/page.xhtml">
-        <ui:param name="pageTitle" value="Assets - SosIT"/>
+        <ui:param name="pageTitle" value="Asset list - SosIT"/>
         <ui:define name="main">
-            <b:panel title="Assets" collapsible="false">
+            <b:panel title="Asset list" collapsible="false">
                 <f:view>
                     <f:metadata>
                         <f:viewAction action="#{assetController.onload()}"/>
                     </f:metadata>
                 </f:view>
                 <b:form>
-                    <b:panelGrid colSpans="3,9" size="sm">
-                        <b:formGroup>
+                    <b:panelGrid colSpans="3,9">
+                        <b:formGroup id="fgfilter" style-class="filterform">
+                            <h3 class="text-center">Filter</h3>
+                            <b:label value="Company"/>
                             <b:selectOneMenu value="#{auth.gewoneUser ? auth.user.companyid.name : companyController.company.name}" 
                                              disabled="#{auth.gewoneUser}"
-                                             label="Filter on company"
                                              onchange="AssetTableWidget.DataTable().search(this.value).draw();">
                                 <f:selectItem itemLabel="Select a company"/>
                                 <f:selectItems value="#{companyController.listAllCompanies()}"
@@ -27,8 +28,8 @@
                                                itemLabel="#{company.name}"
                                                itemValue="#{company.name}"/>
                             </b:selectOneMenu>
+                            <b:label value="Assetgroup"/>
                             <b:selectOneMenu value="#{assetgroupController.assetgroup}" 
-                                             label="Filter on assetgroup"
                                              onchange="AssetTableWidget.DataTable().search(this.value).draw();">
                                 <f:selectItem itemLabel="Select an assetgroup"/>
                                 <f:selectItems value="#{assetgroupController.listAllAssetgroups()}"
@@ -36,9 +37,10 @@
                                                itemLabel="#{assetgroup.description}"
                                                itemValue="#{assetgroup.description}"/>
                             </b:selectOneMenu>
-                            <b:dateTimePicker label="Purchase date"
-                                              show-time="false"
+                            <b:label value="Purchase date"/>
+                            <b:dateTimePicker show-time="false"
                                               onblur="AssetTableWidget.DataTable().search(this.value).draw();"/>
+                            <!-- TODO Filter en Clear buttons -->
                         </b:formGroup>
                         <b:formGroup>
                             <b:dataTable value="#{auth.gewoneUser ? assetController.findAssetsByCompany(auth.user.companyid) : assetController.listAll()}"
@@ -51,18 +53,6 @@
                                          save-state='false'
                                          columnVisibility="true"
                                          row-group="rowGroup:{dataSrc:2,startRender:function ( rows, group ) {return 'Assets in the company '+ group +': '+rows.count();},endRender:null}">
-                                <b:dataTableColumn label="Actions" searchable="false">
-                                    <b:commandButton icon="edit" value="edit" 
-                                                     rendered="#{not assetController.isRowEditable(asset)}"
-                                                     ajax="true"
-                                                     update="@(.editableAssetTable)"
-                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.setEditRow(asset)"/>
-                                    <b:commandButton icon="refresh" value="cancel" look="warning"
-                                                     rendered="#{assetController.isRowEditable(asset)}"
-                                                     ajax="true"
-                                                     update="@(.editableAssetTable)"
-                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.cancelEditRow()"/>
-                                </b:dataTableColumn>
                                 <b:dataTableColumn value="#{asset.assetid}"/>
                                 <b:dataTableColumn value="#{asset.companyid.name}" label="Company" order="asc"/>
                                 <b:dataTableColumn label="Assetgroup">
@@ -83,17 +73,30 @@
                                     <h:outputText value="#{asset.description}" rendered="#{not assetController.isRowEditable(asset)}" />
                                     <b:inputText value="#{assetController.asset.description}" rendered="#{assetController.isRowEditable(asset)}"/>
                                 </b:dataTableColumn>
-                                <b:dataTableColumn value="#{asset.assetlocationid.description}" label="Location" />
-                                <b:dataTableColumn value="#{asset.assetmasterid.name}" label="Asset master"/>
-                                <b:dataTableColumn label="Date of Purchase" 
+                                <b:dataTableColumn label="" searchable="false" orderable="false">
+                                    <b:commandButton icon="pencil"
+                                                     rendered="#{not assetController.isRowEditable(asset)}"
+                                                     ajax="true"
+                                                     update="@(.editableAssetTable)"
+                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.setEditRow(asset)"/>
+                                    <b:commandButton icon="refresh" value="cancel" look="warning"
+                                                     rendered="#{assetController.isRowEditable(asset)}"
+                                                     ajax="true"
+                                                     update="@(.editableAssetTable)"
+                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.cancelEditRow()"/>
+                                    <!--TODO delete knop -->
+                                </b:dataTableColumn>
+                                <b:dataTableColumn rendered="false" value="#{asset.assetlocationid.description}" label="Location"/>
+                                <b:dataTableColumn rendered="false" value="#{asset.assetmasterid.name}" label="Asset master"/>
+                                <b:dataTableColumn rendered="false" label="Date of Purchase" 
                                                    data-order="#{asset.purchasedate.getTime()}" data-type="numeric">
                                     <h:outputText value="#{asset.purchasedate}">
                                         <f:convertDateTime pattern="dd/MM/yyyy" />
                                     </h:outputText>	
                                 </b:dataTableColumn>
-                                <b:dataTableColumn value="#{asset.warranty}"/>
-                                <b:dataTableColumn value="#{asset.supportcontract}" label="Support Contract" />
-                                <b:dataTableColumn value="#{asset.value}"/>
+                                <b:dataTableColumn rendered="false" value="#{asset.warranty}"/>
+                                <b:dataTableColumn rendered="false" value="#{asset.supportcontract}" label="Support Contract" />
+                                <b:dataTableColumn rendered="false" value="#{asset.value}"/>
                             </b:dataTable>
                             <b:commandButton value="save" icon="save" look="primary"
                                              disabled="#{not assetController.editMode}"
@@ -109,6 +112,10 @@
                     </b:panelGrid>
                 </b:form>
             </b:panel>
+            <b:form>
+                <b:commandButton value="Add new asset" look="warning" style-class="new"
+                                 action="#{assetController.loadCreateAsset()}"/>
+            </b:form>
         </ui:define>
     </ui:composition>
 </html>

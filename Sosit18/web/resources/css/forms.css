@@ -8,7 +8,11 @@
 .btn.new{
     
 }
-/* label for filter formgroup */
-.filterlabel {
+/* filter formgroup */
+.filterform{
+    background-color: aliceblue;
+    padding: 1em
+}
+.filterform .label {
     background-color: lightgray;
 }
