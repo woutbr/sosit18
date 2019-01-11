@@ -1,0 +1,14 @@
+/* b:commandButton en b:button */
+.btn.save{
+    margin-right: 2em;
+}
+.btn.cancel{
+    margin-left: 2em;
+}
+.btn.new{
+    
+}
+/* label for filter formgroup */
+.filterlabel {
+    background-color: lightgray;
+}
