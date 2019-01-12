@@ -74,19 +74,22 @@ public class LoginController implements Serializable {
      */
     public void login() throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
+        
         if (this.authBean.isLoggedIn()) {
             FacesMessage loginErrorMessage = new FacesMessage("A user is still logged in.");
             context.addMessage(null, loginErrorMessage);
+            
         } else {
             ExternalContext externalContext = context.getExternalContext();
             Useraccount foundUser = this.useraccountFacade.findByUsernamePassword(this.username, this.password);
+            
             if (foundUser != null) {
+                // User met zelfde username en password is gevonden
                 this.authBean.setUser((foundUser));
-//                externalContext.getSessionMap().put("user", foundUser);
-                //User is accessible in JSF EL by #{user}
-//                String redirectUrl = context.getExternalContext().getRequestParameterMap().get("redirect");
+                // Als de user is geredirect naar de login pagina, redirect dan terug.
                 String redirectUrl = LoginController.originalURL(externalContext);
                 externalContext.redirect(redirectUrl);
+                
             } else {
                 FacesMessage loginErrorMessage = new FacesMessage("Username or password are incorrect.");
                 context.addMessage(null, loginErrorMessage);
