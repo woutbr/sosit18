@@ -100,7 +100,7 @@ public class Ticket implements Serializable {
     private Tickettype tickettypeid;
     @JoinColumn(name = "HANDLERID", referencedColumnName = "USERACCOUNTID")
     @ManyToOne
-    private Useraccount handlerid;
+    private Useraccount handlerid;  
     @JoinColumn(name = "USERACCOUNTID", referencedColumnName = "USERACCOUNTID")
     @ManyToOne
     private Useraccount useraccountid;

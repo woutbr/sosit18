@@ -11,6 +11,7 @@
             <f:metadata>
                 <f:viewParam name="TicketId"/>
                 <f:viewAction action="#{TicketController.findById(TicketId)}" />
+                <f:viewAction action="#{companyController.setCompany(TicketController.ticket.useraccountid.companyid)}"/>
             </f:metadata>
 
             <b:form>
@@ -26,13 +27,14 @@
                                          value="#{TicketController.ticket.ticketid}"  
                                          readonly="true" 
                                          span="4" />
-
-                            <b:inputText  label="Created"
-                                          value="#{TicketController.ticket.creationdate}" 
-                                          readonly="true"  
-                                          span="8" />
-
-                            <b:inputText  label="Comapna"
+                            
+                            <b:dateTimePicker label="Created"
+                                              value="#{TicketController.ticket.creationdate}" 
+                                              readonly="true" 
+                                              showIcon='false'
+                                              span="8" />
+                            
+                            <b:inputText  label="Company"
                                           value="#{TicketController.ticket.useraccountid.companyid.name}" 
                                           id="name" 
                                           readonly="true" auto-update="true" 
@@ -40,7 +42,8 @@
                                                        
                             <b:selectOneMenu label="User" 
                                              value="#{TicketController.ticket.useraccountid}" 
-                                             span="12">
+                                             span="12" 
+                                             readonly="#{auth.rights(true, true, false)}">
                                 <f:selectItems value="#{userController.findAllUsers()}" 
                                                var="ua" 
                                                itemValue="#{ua}" 
@@ -50,7 +53,7 @@
 
                             <b:selectOneMenu label="Status" 
                                              value="#{TicketController.ticket.ticketstatusid}" 
-                                             span="12">
+                                             span="12" readonly="#{auth.rights(true, false, false)}">
                                 <f:selectItems value="#{ticketstatusController.ListAllTicketstatus()}" 
                                                var="ts" 
                                                itemValue="#{ts}" 
@@ -58,8 +61,9 @@
                             </b:selectOneMenu>
                             <b:selectOneMenu label="Handled by" 
                                              value="#{TicketController.ticket.handlerid}" 
-                                             span="12">
+                                             span="12" readonly="#{auth.rights(true, false, false)}">
                                 <f:selectItem itemLabel="-- Unassigned --"/>
+
                                 <f:selectItems value="#{userController.listAllSupporter()}" 
                                                var="supporter" 
                                                itemValue="#{supporter}" 
@@ -72,9 +76,12 @@
 
 
                             <b:inputText label="Title" 
-                                         value="#{TicketController.ticket.title}"></b:inputText>
+                                         value="#{TicketController.ticket.title}" 
+                                         required="true" 
+                                         required-message="Please fill in a Title!" />
+                            <b:message/>
 
-                            <b:selectOneMenu label="TicketType" value="#{TicketController.ticket.tickettypeid}" >
+                            <b:selectOneMenu label="Ticket type" value="#{TicketController.ticket.tickettypeid}" >
                                 <f:selectItems value="#{ticketTypeController.listAllTickettypes()}" 
                                                var="tt" 
                                                itemValue="#{tt}" 
@@ -107,24 +114,23 @@
                                                />
                             </b:selectOneMenu>
                             
-
-
                         </b:formGroup>
                     </b:panelGrid>
 
-
-                    <h4><u>Omschrijving</u></h4>
+                    <h4><u>Description</u></h4>
                     <b:inputTextarea value="#{TicketController.ticket.description}" ></b:inputTextarea>
                     <div class="text-center">
-                        <b:commandButton value="Save" look="success" style="margin-right: 2em" action="#{TicketController.save()}"></b:commandButton>
-                        <b:commandButton value="Cancel" look="warning" style="margin-left: 2em" action="#{TicketController.cancel()}"></b:commandButton>
+                        <b:commandButton value="Save" 
+                                         icon="save" 
+                                         look="success" 
+                                         style="margin-right: 2em" 
+                                         action="#{TicketController.save()}"/>
+                        <b:button value="Cancel" look="warning" style="margin-left: 2em" outcome="ticketList"/>
                          <b:button value="new action" style="margin-left: 2em" outcome="action">
                             <f:param value="#{TicketController.ticket.ticketid}" name="ticket"></f:param>
                         </b:button>
                         <b:commandButton action="#{ticketstatusController.ListAllTicketstatus()}">test</b:commandButton>
-
                     </div>
-
 
                 </b:panel>
             </b:form>

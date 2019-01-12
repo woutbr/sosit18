@@ -8,13 +8,16 @@ package controller;
 import dao.UseraccountFacade;
 import entity.Company;
 import entity.Useraccount;
+import entity.Useraccountrole;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import static java.util.Collections.list;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 
 /**
  *
@@ -29,6 +32,9 @@ public class UserController implements Serializable {
     private UseraccountFacade useraccountFacade;
     private Useraccount useraccount = new Useraccount();
     
+    @Inject
+    private UseraccountRoleController useraccountRoleController;
+    
 
     public Useraccount getUseraccount() {
         return useraccount;
@@ -42,8 +48,13 @@ public class UserController implements Serializable {
     }
     
     public void findByUseraccountId (BigDecimal id){
+        
         if (id==null) {
+            //Wanneer er geen Id wordt meegeven wordt een nieuw user en nieuwe accountrole gecreerd;
             resetUseraccount();
+            useraccountRoleController.resetUseraccountrole();
+
+            
         }else{
             useraccount = this.useraccountFacade.FindByUseraccountId(id);
         } 
@@ -70,21 +81,12 @@ public class UserController implements Serializable {
     }
     
     public List<Useraccount> listAllSupporter(){
+        
         List<Useraccount> supportList = this.useraccountFacade.GetAllSupporters();
         return supportList;
+
+    }
         
-    
-    }
-    
-    
-    
-    
-    
-    public String test(Company co){
-        String s = " test";
-        return s;
-    
-    }
   
     public String cancel(){
         int a = 1;
@@ -96,12 +98,14 @@ public class UserController implements Serializable {
         return "useraccount?faces-redirect=true";
     }
     
-    public String create(){
-        useraccount = new Useraccount();
-        return "useraccount?faces-redirect=true";
-    }
+//    public String create(){
+//        useraccount = new Useraccount();
+//        return "useraccount?faces-redirect=true";
+//    }
+
     
     public String erase(Useraccount u){
+        this.useraccountRoleController.eraseUserAccountroleforUser(u);
         this.useraccountFacade.remove(u);
         return "userlist?faces-redirect=true";
     }
@@ -113,11 +117,21 @@ public class UserController implements Serializable {
     public String save(){
  
         if (useraccount.getUseraccountid()==null) {
-            // een ticket dat nog geen nummer heeft moet een nieuw ticket zijn
+            // een User die nog geen nummer heeft moet een nieuwe user zijn
             this.useraccountFacade.create(useraccount);
+
+            BigDecimal test = useraccount.getUseraccountid();
+            int a =1;
+            Useraccountrole r = this.useraccountRoleController.getUseraccountrole();
+            r.setUseraccountid(useraccount);
+            this.useraccountRoleController.setUseraccountrole(r);
+            this.useraccountRoleController.createUseraccountrole();
+            
+            
         }else{
             // een bestaand ticket wordt enkel geupdate
             this.useraccountFacade.edit(useraccount);
+            this.useraccountRoleController.updateUserAccountRole();
         }
         
         //  ?faces-redirect=true zorgt ervoor dat de browser url meevolgt
@@ -132,6 +146,9 @@ public class UserController implements Serializable {
         }
         return true;
     }
+    
+
+    
 }
 
 

@@ -98,12 +98,13 @@ public class UseraccountFacade extends AbstractFacade<Useraccount> {
     }
     
     public List<Useraccount> GetAllSupporters(){
-//        Query q = this.em.createNamedQuery("findByRoleId");
-//        q.setParameter("roleid", "2");
-//        List<Useraccount> l = (List<Useraccount>)q.getResultList();
-        Query q = this.em.createNamedQuery("Useraccount.findAll");
-        List<Useraccount> l = (List<Useraccount>) q.getResultList();
+        
+        Query q = this.em.createNamedQuery("Useraccountrole.findUseraccountByRoleid");
+        q.setParameter("roleid", new BigDecimal(2));
+        List<Useraccount> l = (List<Useraccount>)q.getResultList();
         return l;
     }
+
+    
 
 }

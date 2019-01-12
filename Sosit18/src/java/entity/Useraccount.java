@@ -5,6 +5,7 @@
  */
 package entity;
 
+import helper.Helper;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -49,7 +50,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Useraccount.findByPhone", query = "SELECT u FROM Useraccount u WHERE u.phone = :phone")
     , @NamedQuery(name = "Useraccount.findBySex", query = "SELECT u FROM Useraccount u WHERE u.sex = :sex")
     , @NamedQuery(name = "Useraccount.findByVersion", query = "SELECT u FROM Useraccount u WHERE u.version = :version")
-    //, @NamedQuery(name = "Useraccount.findByRoleId", query = "SELECT u FROM Useraccount u WHERE u.useraccountroleCollection.roleid = :roleid")
     , @NamedQuery(name = "Useraccount.findByCompanyId", query = "SELECT u FROM Useraccount u WHERE u.companyid.companyid = :companyid")})
 
 public class Useraccount implements Serializable {
@@ -57,11 +57,11 @@ public class Useraccount implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
-//    @Basic(optional = false)
-//    @NotNull
+    //@Basic(optional = false)
+    //@NotNull
     
-    @SequenceGenerator(name="USER_SEQ",sequenceName="USER_SEQ",allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "USER_SEQ")
+    @SequenceGenerator(name="USERACCOUNT_SEQ",sequenceName="USERACCOUNT_SEQ",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "USERACCOUNT_SEQ")
     
     @Column(name = "USERACCOUNTID")
     private BigDecimal useraccountid;
@@ -123,7 +123,18 @@ public class Useraccount implements Serializable {
     }
     
     public String getFullname() {
-        return this.firstname+" "+this.lastname;
+        String fullname ="";
+        
+        if (!Helper.IsNullOrEmpty(firstname)) {
+            fullname += firstname;
+        }
+        if (!Helper.IsNullOrEmpty(fullname)) {
+            fullname+=" ";
+        }
+        if (!Helper.IsNullOrEmpty(lastname)) {
+            fullname+=lastname;
+        }
+        return fullname;
     }
 
 
@@ -316,4 +327,5 @@ public class Useraccount implements Serializable {
     public boolean hasRole(Role r){
         return useraccountroleCollection.stream().anyMatch((useraccountrole) -> (useraccountrole.getRoleid().equals(r)));
     }
+    
 }
