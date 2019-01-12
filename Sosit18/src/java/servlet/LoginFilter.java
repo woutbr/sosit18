@@ -5,6 +5,7 @@ import be.hbo5.java.menu.MenuLink;
 import controller.AuthBean;
 import controller.NavBarBean;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -21,6 +22,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * A Filter for every request
@@ -74,7 +76,7 @@ public class LoginFilter implements Filter {
             
         } else {
              // So, just perform standard synchronous redirect.
-             this.redirectResponse(response, loginURL);
+             this.redirectResponse(request, response, loginURL);
         }
     }
 
@@ -106,7 +108,8 @@ public class LoginFilter implements Filter {
         return "partial/ajax".equals(request.getHeader("Faces-Request"));
     }
     
-    private void redirectResponse(HttpServletResponse response, String loginURL) throws IOException{
+    private void redirectResponse(HttpServletRequest request, HttpServletResponse response, String loginURL) throws IOException{
+        this.addMessageToSession(request, "You are not allowed to visit this page.");
 //        System.out.println("LoginFilter redirect to: "+loginURL);
         response.sendRedirect(loginURL);
     }
@@ -126,6 +129,22 @@ public class LoginFilter implements Filter {
             }
         }
         return null;
+    }
+    
+    /**
+     * Add a String message to an ArrayList in the session map.
+     * The ArrayList is stored under "loginMessages".
+     */
+    private void addMessageToSession(HttpServletRequest request, String msg){
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            List<String> loginMessages = (List<String>)session.getAttribute("loginMessages");
+            if(loginMessages == null){
+                loginMessages = new ArrayList<>();
+            }
+            loginMessages.add(msg);
+            session.setAttribute("loginMessages", loginMessages);
+        }
     }
 
     @Override

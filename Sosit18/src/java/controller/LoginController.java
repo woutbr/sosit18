@@ -4,6 +4,8 @@ import dao.UseraccountFacade;
 import entity.Useraccount;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -29,13 +31,16 @@ public class LoginController implements Serializable {
     private UseraccountFacade useraccountFacade;
     @Inject
     private AuthBean authBean;
-    
-    
+
     private String username;
     private String password;
 
     public LoginController() {
         this.clearUsernamePassword();
+    }
+
+    public void onload() {
+        this.prepareMessages();
     }
 
     public AuthBean getAuthBean() {
@@ -67,29 +72,29 @@ public class LoginController implements Serializable {
     }
 
     /**
-     * If no user is logged in, validate the username and password. 
-     * On succes, redirect. Else add an error message.
+     * If no user is logged in, validate the username and password. On succes,
+     * redirect. Else add an error message.
      *
      * @throws IOException If the redirect can't be executed.
      */
     public void login() throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
-        
+
         if (this.authBean.isLoggedIn()) {
             FacesMessage loginErrorMessage = new FacesMessage("A user is still logged in.");
             context.addMessage(null, loginErrorMessage);
-            
+
         } else {
             ExternalContext externalContext = context.getExternalContext();
             Useraccount foundUser = this.useraccountFacade.findByUsernamePassword(this.username, this.password);
-            
+
             if (foundUser != null) {
                 // User met zelfde username en password is gevonden
                 this.authBean.setUser((foundUser));
                 // Als de user is geredirect naar de login pagina, redirect dan terug.
                 String redirectUrl = LoginController.originalURL(externalContext);
                 externalContext.redirect(redirectUrl);
-                
+
             } else {
                 FacesMessage loginErrorMessage = new FacesMessage("Username or password are incorrect.");
                 context.addMessage(null, loginErrorMessage);
@@ -100,7 +105,9 @@ public class LoginController implements Serializable {
     /**
      * Get the original request URI and any possible query string.
      * https://stackoverflow.com/a/2207147
-     * @param externalContext Can be found by FacesContext.getCurrentInstance().getExternalContext();
+     *
+     * @param externalContext Can be found by
+     * FacesContext.getCurrentInstance().getExternalContext();
      * @return An URL as a String
      */
     static public String originalURL(ExternalContext externalContext) {
@@ -120,12 +127,35 @@ public class LoginController implements Serializable {
 
     /**
      * Momenteel wordt LogoutServlet gebruikt.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     public void logout() throws IOException {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         externalContext.invalidateSession();
         this.authBean.clearUser();
         externalContext.redirect(externalContext.getRequestContextPath() + "/login.xhtml");
+    }
+
+    
+    private void prepareMessages(){
+        final Map<String, Object> sessionMap = FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap();
+        List<String> msgs = (List<String>)sessionMap.get("loginMessages");
+        this.createFacesMessages(msgs);
+        sessionMap.remove("loginMessages");
+    }
+    
+    /**
+     * Create FacesMessages from a list of strings.
+     * https://stackoverflow.com/a/48228893 | answer Oscar Pérez
+     */
+    private void createFacesMessages(List<String> msgs) {
+        if (msgs != null) {
+            msgs.forEach((msg) -> {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(msg));
+            });
+        }
     }
 }
