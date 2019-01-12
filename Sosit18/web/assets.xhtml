@@ -79,7 +79,7 @@
                                                      ajax="true"
                                                      update="@(.editableAssetTable)"
                                                      onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.setEditRow(asset)"/>
-                                    <b:commandButton icon="refresh" value="cancel" look="warning"
+                                    <b:commandButton icon="refresh" look="warning"
                                                      rendered="#{assetController.isRowEditable(asset)}"
                                                      ajax="true"
                                                      update="@(.editableAssetTable)"
@@ -98,23 +98,21 @@
                                 <b:dataTableColumn rendered="false" value="#{asset.supportcontract}" label="Support Contract" />
                                 <b:dataTableColumn rendered="false" value="#{asset.value}"/>
                             </b:dataTable>
-                            <b:commandButton value="save" icon="save" look="primary"
+                            <b:commandButton value="Save" icon="save" look="success" style-class="save"
                                              disabled="#{not assetController.editMode}"
                                              rendered="#{auth.supporter or auth.admin}"
                                              ajax="true" auto-update="true"
                                              update="@(.editableAssetTable)"
                                              onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.saveAsset()"
                                              />
-                            <b:button value="new asset" icon="plus" look="info"
-                                      outcome="newasset"
-                                      rendered="#{auth.supporter or auth.admin}"/>
                         </b:formGroup>
                     </b:panelGrid>
                 </b:form>
             </b:panel>
             <b:form>
                 <b:commandButton value="Add new asset" look="warning" style-class="new"
-                                 action="#{assetController.loadCreateAsset()}"/>
+                                 action="#{assetController.loadCreateAsset()}"
+                                 rendered="#{auth.supporter or auth.admin}"/>
             </b:form>
         </ui:define>
     </ui:composition>
