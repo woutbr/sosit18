@@ -15,16 +15,16 @@
                 
                
                 <b:form>
-                    <b:panel title="Company " collapsible="false">
+                    <b:panel title="Company list " collapsible="false">
                         
-                        <b:dataTable value="#{companyController.listAllCompanies()}" var="item">
+                        <b:dataTable value="#{companyController.listAllCompanies()}" var="item" columnVisibility="true">
 
                             <f:facet name="header">
                                 <tr>
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Street</th>
-                                     <th>housenumber</th>
+                                     <th>Housenumber</th>
                                       <th>Postal code</th>
                                        <th>Place</th>
                                         <th>VAT</th>
@@ -49,7 +49,7 @@
                         </b:dataTable>        
                     </b:panel>
                     
-                    <b:commandButton value="New" look="warning" action="#{companyController.New()}"></b:commandButton>
+                    <b:commandButton value="Add new company" look="warning" action="#{companyController.New()}"></b:commandButton>
                                       
                 </b:form>
             </f:view>

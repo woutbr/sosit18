@@ -31,10 +31,15 @@
                                          action="#{loginController.login()}">
                         </b:commandButton>
                         <b:messages global-only="true"/>
-
-                        <b:link value="Forgot password?" href="ForgotPW.xhtml" />  
+                        
+                        
+                        
+                        <b:link value="Forgot password?" href="mailto:admin@sosit.com" />  
                     </b:formGroup>
-                </b:panelGrid>        
+                </b:panelGrid>     
+                
+                <h4> New users please contact <b:link value="admin@sosit.com" href="mailto:admin@sosit.com"/> for the creation of a new account.</h4>
+                
             </h:form> 
         </ui:define>
     </ui:composition>

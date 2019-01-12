@@ -16,13 +16,12 @@
             
             <b:form>
                 <b:panel title="Company" collapsible="false">
-                    <h4><u>Nieuw bedrijf toevoegen</u></h4>
+                    
                       
                       <b:panelGrid colSpans="6,6">
                           <b:formGroup>
-                            <h:outputLabel>Company ID</h:outputLabel>
-                           
-                            <b:inputText value="#{companyController.company.companyid}"></b:inputText>
+                                                      
+                            
                             <h:outputLabel>Name</h:outputLabel>
                             <b:inputText value="#{companyController.company.name}" required="true" required-message="Please fill in a companyname!"                                       
                             ></b:inputText>                                                   
@@ -49,6 +48,8 @@
                           </b:formGroup>                          
                           
                       </b:panelGrid>
+                    
+                    <H4>Company asset list</H4>
 
                       <b:dataTable value="#{companyController.company.assetCollection}"
                                          var="asset"
@@ -99,8 +100,8 @@
                             </b:dataTable>
                     
                      <div class="text-center">
-                        <b:commandButton value="Save" look="success" style="margin-right: 2em" action="#{companyController.save()}"></b:commandButton>
-                        <b:button value="cancel" look="warning" outcome="companyList"/>
+                        <b:commandButton value="Save" icon="save" look="success" style="margin-right: 2em" action="#{companyController.save()}"></b:commandButton>
+                        <b:button value="Cancel" look="warning" outcome="companyList"/>
                     </div>
                     
     

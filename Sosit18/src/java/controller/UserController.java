@@ -143,7 +143,7 @@ public class UserController implements Serializable {
     public boolean canDeleteUser(Useraccount u){
         if (!u.getUseraccountroleCollection().isEmpty()){
             return false;
-        }
+       }
         return true;
     }
     
