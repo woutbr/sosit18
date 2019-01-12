@@ -131,6 +131,24 @@
                         </b:button>
                         <b:commandButton action="#{ticketstatusController.ListAllTicketstatus()}">test</b:commandButton>
                     </div>
+                    
+                    <b:dataTable value="#{actionController.listAllActionsByTicket(TicketController.ticket.ticketid)}" var="action">
+                            <f:facet name="header">
+                                <tr>
+                                    <th>Action number</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                            </f:facet>
+                            <b:dataTableColumn value="#{action.actionid}" order="asc"/>
+                            <b:dataTableColumn value="#{action.description}" />
+                            <b:dataTableColumn value="">  
+                                 <b:button icon="pencil" outcome="action">
+                                     <f:param name="actionId" value="#{action.actionid}"/>
+                                 </b:button>
+                                <b:commandButton title="remove" style="margin-left: 1em" icon="remove" action="#{actionController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
+                            </b:dataTableColumn>
+                        </b:dataTable>        
 
                 </b:panel>
             </b:form>

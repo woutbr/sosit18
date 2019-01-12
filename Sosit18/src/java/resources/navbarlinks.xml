@@ -8,7 +8,7 @@
         <link name="Ticket status" outcome="ticketstatus" roles="Admin"/>
         <link name="Ticket severity" outcome="ticketseverity" roles="Admin"/>
         <link name="Ticket priority" outcome="ticketpriority" roles="Admin"/>
-        <link name="Assign new action" outcome="action" roles="Admin Supporter"/>
+        <link name="Assign new action" outcome="action" roles="Admin Supporter User"/>
     </list>
     <list name="Company " roles="Admin Supporter User">
         <link name="All companies" outcome="companyList" roles="Admin Supporter User"/>

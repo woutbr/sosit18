@@ -8,8 +8,10 @@
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Index - SosIT"/>
         <f:metadata>
-            <f:viewParam name="ticket"/>
-            <f:viewAction action="#{actionController.onload(ticket)}"/>
+            <f:viewParam name="ticketId"/>
+            <f:viewParam name="actionId"/>
+            <f:viewAction action="#{actionController.onload2(actionId)}"/>
+            
         </f:metadata>
         <ui:define name="main">
             <b:form>
@@ -27,9 +29,18 @@
                         
                         <b:formGroup>
                             <b:dateTimePicker id="startdate" 
+                                              value="#{actionController.action.creationdate}"
+                                              format="DD.MM.YYYY"
+                                              label="Start Date" 
+                                              readonly="false"/>
+                                              
+                            
+                            <b:dateTimePicker id="startdate" 
                                               value="#{actionController.action.startdate}"
                                               format="DD.MM.YYYY"
                                               label="Start Date"/>
+                            
+                            
                             <b:dateTimePicker id="enddate"
                                               value="#{actionController.action.enddate}"
                                               format="DD.MM.YYYY"
