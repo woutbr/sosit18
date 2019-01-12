@@ -92,7 +92,7 @@ public class AssetController extends AbstractController<Asset>{
 
     public String createNewAsset() {
         this.assetFacade.edit(asset);
-        return "assets?faces-redirect=true";
+        return "assetList?faces-redirect=true";
     }
     
     public String loadCreateAsset(){
@@ -102,7 +102,7 @@ public class AssetController extends AbstractController<Asset>{
     
     public String erase(Asset a) {
         this.assetFacade.remove(a);
-        return "assets?faces-redirect=true";
+        return "assetList?faces-redirect=true";
 
     }
     

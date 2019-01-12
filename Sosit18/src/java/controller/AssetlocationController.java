@@ -42,6 +42,6 @@ public class AssetlocationController implements Serializable {
 
     public String createNewAssetlocation() {
         this.assetlocationFacade.edit(assetlocation);
-        return "assets?faces-redirect=true";
+        return "assetList?faces-redirect=true";
     }
 }

@@ -43,7 +43,7 @@ public class AssetgroupController implements Serializable {
     
     public String createNewAssetgroup(){
         this.assetgroupFacade.edit(assetgroup);
-        return "assets?faces-redirect=true";
+        return "assetList?faces-redirect=true";
     }
 
 }

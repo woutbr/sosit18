@@ -15,7 +15,7 @@
         <link name="New company" outcome="company" roles="Admin Supporter"/>
     </list>
     <list name="Asset " roles="Admin Supporter User">
-        <link name="All assets" outcome="assets" roles="Admin Supporter User"/>
+        <link name="All assets" outcome="assetList" roles="Admin Supporter User"/>
         <link name="New asset" outcome="asset" roles="Admin Supporter"/>
         <link name="New asset group" outcome="assetgroup" roles="Admin Supporter"/>
         <link name="New asset location" outcome="assetlocation" roles="Admin Supporter"/>
