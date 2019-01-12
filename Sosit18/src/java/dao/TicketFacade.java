@@ -100,5 +100,10 @@ public class TicketFacade extends AbstractFacade<Ticket> {
         return queryParameter  ;
     }
     
-   
+   public List<Ticket> getTicketsByAssetid(BigDecimal assetid){
+       Query q = this.em.createNamedQuery("Ticket.findByAssetid");
+       q.setParameter("assetid", assetid);
+       List<Ticket> l = (List<Ticket>)q.getResultList();
+       return l;
+   }
 }

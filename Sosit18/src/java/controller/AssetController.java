@@ -2,6 +2,7 @@ package controller;
 
 import dao.AbstractFacade;
 import dao.AssetFacade;
+import dao.TicketFacade;
 import entity.Asset;
 import entity.Company;
 import java.math.BigDecimal;
@@ -19,6 +20,9 @@ public class AssetController extends AbstractController<Asset>{
 
     @EJB
     private AssetFacade assetFacade;
+    @EJB
+    private TicketFacade ticketFacade;
+    
     private Asset asset;
     private BigDecimal assetidSelected = null;
     private boolean editMode = false;
@@ -105,11 +109,13 @@ public class AssetController extends AbstractController<Asset>{
     /**
      * Checks whether an Asset can be safely deleted.
      * If there are sub-assets, this asset can not be deleted.
+     * If there are tickets with this asset, this asset can not be deleted.
      * @param a The Asset to check
      * @return True if the given Asset can be deleted
      */
     public boolean canDeleteAsset(Asset a) {
-        if(!a.getAssetCollection().isEmpty()){
+        if(!a.getAssetCollection().isEmpty()
+                && !ticketFacade.getTicketsByAssetid(a.getAssetid()).isEmpty()){
             return false;
         }
         return true;

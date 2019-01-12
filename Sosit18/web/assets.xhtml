@@ -83,22 +83,6 @@
                                                      rendered="#{auth.rights(false, false, true)}"
                                                      disabled="#{!assetController.canDeleteAsset(asset)}"
                                                      onclick="return confirm('Are you sure you want to delete &quot;#{asset.name}&quot;?')"/>
-                                    <b:commandButton icon="pencil"
-                                                     rendered="false"
-                                                     ajax="true"
-                                                     update="@(.editableAssetTable)"
-                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.setEditRow(asset)"/>
-                                    <b:commandButton value="" icon="save" look="success"
-                                                     rendered="false"
-                                                     ajax="true" auto-update="true"
-                                                     update="@(.editableAssetTable)"
-                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.saveAsset()"
-                                                     />
-                                    <b:commandButton icon="refresh" look="warning"
-                                                     rendered="false"
-                                                     ajax="true"
-                                                     update="@(.editableAssetTable)"
-                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.cancelEditRow()"/>
                                 </b:dataTableColumn>
                                 <b:dataTableColumn rendered="false" value="#{asset.assetlocationid.description}" label="Location"/>
                                 <b:dataTableColumn rendered="false" value="#{asset.assetmasterid.name}" label="Asset master"/>
