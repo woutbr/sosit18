@@ -8,6 +8,10 @@
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="New Asset - SosIT"/>
         <ui:define name="main">
+            <f:metadata>
+                <f:viewParam name="ID"/>
+                <f:viewAction action="#{assetController.onloadAsset(ID)}"/>
+            </f:metadata>
             <b:panel title="New Asset" collapsible="false">
                 <b:form>
                     <b:panelGrid colSpans="2,5,5" size="xs">

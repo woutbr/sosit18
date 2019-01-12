@@ -49,16 +49,28 @@ public class AssetController extends AbstractController<Asset>{
         this.editMode = false;
     }
 
+    public void onloadAsset(BigDecimal id) {
+        if(id == null){
+            this.resetAsset();
+        }else{
+            this.setAsset(this.assetFacade.find(id));
+        }
+    }
+
     public void setEditRow(Asset a) {
-        this.asset = a;
+        this.setAsset(a);
         this.assetidSelected = a.getAssetid();
         this.editMode = true;
     }
 
     public void cancelEditRow() {
-        this.asset = null;
+        this.resetAsset();
         this.assetidSelected = null;
         this.editMode = false;
+    }
+    
+    private void resetAsset(){
+        this.setAsset(new Asset());
     }
 
     public boolean isRowEditable(Asset a) {
@@ -80,7 +92,26 @@ public class AssetController extends AbstractController<Asset>{
     }
     
     public String loadCreateAsset(){
-        this.setAsset(new Asset());
-        return "newasset?faces-redirect=true";
+        this.resetAsset();
+        return "asset?faces-redirect=true";
+    }
+    
+    public String erase(Asset a) {
+        this.assetFacade.remove(a);
+        return "assets?faces-redirect=true";
+
+    }
+    
+    /**
+     * Checks whether an Asset can be safely deleted.
+     * If there are sub-assets, this asset can not be deleted.
+     * @param a The Asset to check
+     * @return True if the given Asset can be deleted
+     */
+    public boolean canDeleteAsset(Asset a) {
+        if(!a.getAssetCollection().isEmpty()){
+            return false;
+        }
+        return true;
     }
 }
