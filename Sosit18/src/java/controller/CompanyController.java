@@ -73,7 +73,7 @@ public class CompanyController implements Serializable {
     }
 
     public boolean canDeleteCompany(Company c) {
-        if (!c.getUseraccountCollection().isEmpty()) {
+        if (!c.getUseraccountCollection().isEmpty() || !c.getAssetCollection().isEmpty() ) {
             return false;
         }
 
