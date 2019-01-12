@@ -3,6 +3,7 @@ package controller;
 import entity.Role;
 import entity.Useraccount;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -19,6 +20,10 @@ public class AuthBean implements Serializable {
 
     private Useraccount user;
     private boolean debugMode;
+    private String currentTheme = "default";
+    private static final List<String> bootswatchThemes = Arrays.asList( 
+            "cerulean", "cosmo", "cyborg", "darkly", "flatly", "journal", "lumen", 
+            "sandstone", "simplex", "slate", "spacelab", "superhero", "united", "yeti");
 
     public AuthBean() {
         this.debugMode = false;//For testing. Ignores the logincheck in LoginFilter when true
@@ -31,6 +36,18 @@ public class AuthBean implements Serializable {
 
     public void setDebugMode(boolean debugMode) {
         this.debugMode = debugMode;
+    }
+
+    public String getCurrentTheme() {
+        return currentTheme;
+    }
+
+    public void setCurrentTheme(String currentTheme) {
+        this.currentTheme = currentTheme;
+    }
+
+    public List<String> getBootswatchThemes() {
+        return bootswatchThemes;
     }
 
     public Useraccount getUser() {
