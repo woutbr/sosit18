@@ -10,7 +10,7 @@
         <link name="Ticket priority" outcome="ticketpriority" roles="Admin"/>
         <link name="Assign new action" outcome="action" roles="Admin Supporter"/>
     </list>
-    <list name="Companies " roles="Admin Supporter User">
+    <list name="Company " roles="Admin Supporter User">
         <link name="All companies" outcome="companyList" roles="Admin Supporter User"/>
         <link name="New company" outcome="company" roles="Admin Supporter"/>
     </list>
@@ -26,5 +26,4 @@
         <link name="User role" outcome="role" roles="Admin"/>
     </list>
     <link name="SLA" outcome="sla" roles="Admin Supporter User"/>
-    <link name="Contact" outcome="contact"/>
 </list>

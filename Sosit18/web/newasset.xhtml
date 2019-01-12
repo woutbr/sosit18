@@ -80,10 +80,12 @@
                         <b:inputText value="#{assetController.asset.supportcontract}"
                                      id="inputassetsupport"/>
                         <b:message />
-                        <b:commandButton value="save" icon="save" look="primary"
-                                         action="#{assetController.createNewAsset()}" />
-                        <b:button value="cancel" look="warning"
-                                  outcome="assets"/>
+                        <div class="text-center">
+                            <b:commandButton value="Save" icon="save" look="success" style-class="save"
+                                             action="#{assetController.createNewAsset()}" />
+                            <b:button value="Cancel" look="warning" style-class="cancel"
+                                      outcome="assets"/>
+                        </div>
                     </b:panelGrid>
                 </b:form>
             </b:panel>

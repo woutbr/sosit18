@@ -78,4 +78,9 @@ public class AssetController extends AbstractController<Asset>{
         this.assetFacade.edit(asset);
         return "assets?faces-redirect=true";
     }
+    
+    public String loadCreateAsset(){
+        this.setAsset(new Asset());
+        return "newasset?faces-redirect=true";
+    }
 }
