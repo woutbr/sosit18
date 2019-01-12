@@ -115,7 +115,7 @@ public class AssetController extends AbstractController<Asset>{
      */
     public boolean canDeleteAsset(Asset a) {
         if(!a.getAssetCollection().isEmpty()
-                && !ticketFacade.getTicketsByAssetid(a.getAssetid()).isEmpty()){
+                || !ticketFacade.getTicketsByAssetid(a.getAssetid()).isEmpty()){
             return false;
         }
         return true;
