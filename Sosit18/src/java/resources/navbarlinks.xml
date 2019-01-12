@@ -26,4 +26,5 @@
         <link name="User role" outcome="role" roles="Admin"/>
     </list>
     <link name="SLA" outcome="sla" roles="Admin Supporter User"/>
+    <link name="Contact" outcome="contact" roles="Admin Supporter User"/>
 </list>
