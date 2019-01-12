@@ -6,7 +6,6 @@
     margin-left: 2em;
 }
 .btn.new{
-    
 }
 /* filter formgroup */
 .filterform{
@@ -14,4 +13,7 @@
 }
 .filterform .label {
     background-color: lightgray;
+}
+.colButtons{
+    width: 6em;
 }

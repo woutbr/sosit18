@@ -72,7 +72,7 @@
                                     <h:outputText value="#{asset.description}" rendered="#{not assetController.isRowEditable(asset)}" />
                                     <b:inputText value="#{assetController.asset.description}" rendered="#{assetController.isRowEditable(asset)}"/>
                                 </b:dataTableColumn>
-                                <b:dataTableColumn label="" searchable="false" orderable="false" >
+                                <b:dataTableColumn label="" searchable="false" orderable="false" style-class="colButtons">
                                     <b:button icon="pencil" outcome="asset" 
                                               tooltip="Edit">
                                         <f:param name="ID" value="#{asset.assetid}"/>
