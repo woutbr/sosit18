@@ -83,23 +83,6 @@ public class NavBarBean implements Serializable {
     }
 
     /**
-     * Returns an input stream for reading the specified resource. First tries
-     * the find on ClassLoader. If not found try from this class.
-     * @param resource The resource name
-     * @return An InputStream object 
-     * or null if no resource with this name is found
-     */
-    private InputStream getResourceAsStream(String resource) {
-        final InputStream in = getContextClassLoader().getResourceAsStream(resource);
-
-        return in == null ? getClass().getResourceAsStream(resource) : in;
-    }
-
-    private ClassLoader getContextClassLoader() {
-        return Thread.currentThread().getContextClassLoader();
-    }
-
-    /**
      * Get a list of resources from classpath directory
      * https://stackoverflow.com/a/3923685 : answer iirekm
      * @param path A path to an directory under the classpath found with
@@ -121,5 +104,22 @@ public class NavBarBean implements Serializable {
         }
 
         return filenames;
+    }
+
+    /**
+     * Returns an input stream for reading the specified resource. First tries
+     * to find on ClassLoader. If not found try from this class.
+     * @param resource The resource name
+     * @return An InputStream object 
+     * or null if no resource with this name is found
+     */
+    private InputStream getResourceAsStream(String resource) {
+        final InputStream in = getContextClassLoader().getResourceAsStream(resource);
+
+        return in == null ? getClass().getResourceAsStream(resource) : in;
+    }
+
+    private ClassLoader getContextClassLoader() {
+        return Thread.currentThread().getContextClassLoader();
     }
 }

@@ -59,28 +59,32 @@ public class AuthBean implements Serializable {
      * Is een UserAccount ingelogd en heeft het een Permission met canedit.
      */
     public boolean canEdit() {
-        return this.isLoggedIn() && this.user.getCanedit();
+        return this.isLoggedIn() 
+            && this.user.getCanedit();
     }
 
     /**
      * Is een UserAccount ingelogd en heeft het een Permission met canread.
      */
     public boolean canRead() {
-        return this.isLoggedIn() && this.user.getCanread();
+        return this.isLoggedIn() 
+            && this.user.getCanread();
     }
 
     /**
      * Is een UserAccount ingelogd en heeft het een Permission met caninsert.
      */
     public boolean canInsert() {
-        return this.isLoggedIn() && this.user.getCaninsert();
+        return this.isLoggedIn() 
+            && this.user.getCaninsert();
     }
 
     /**
      * Is een UserAccount ingelogd en heeft het een Permission met candelete.
      */
     public boolean canDelete() {
-        return this.isLoggedIn() && this.user.getCandelete();
+        return this.isLoggedIn() 
+            && this.user.getCandelete();
     }
 
     /**
@@ -89,7 +93,8 @@ public class AuthBean implements Serializable {
      * @return true als de user een Admin rol heeft.
      */
     public boolean isAdmin() {
-        return this.isLoggedIn() && this.user.hasRole(new Role("Admin"));
+        return this.isLoggedIn() 
+            && this.user.hasRole(new Role("Admin"));
     }
 
     /**
@@ -98,7 +103,8 @@ public class AuthBean implements Serializable {
      * @return true als de user een Supporter rol heeft.
      */
     public boolean isSupporter() {
-        return this.isLoggedIn() && this.user.hasRole(new Role("Supporter"));
+        return this.isLoggedIn() 
+            && this.user.hasRole(new Role("Supporter"));
     }
 
     /**
@@ -107,7 +113,8 @@ public class AuthBean implements Serializable {
      * @return true als de user een User rol heeft.
      */
     public boolean isGewoneUser() {
-        return this.isLoggedIn() && this.user.hasRole(new Role("User"));
+        return this.isLoggedIn() 
+            && this.user.hasRole(new Role("User"));
     }
     
     /**
@@ -117,10 +124,19 @@ public class AuthBean implements Serializable {
      * @return true als de user één van de rollen heeft.
      */
     public boolean hasAtLeastOneRole(List<String> roles) {
-        return this.isLoggedIn() && roles.stream().anyMatch((role) -> this.user.hasRole(new Role(role)));
-    //Methode die een boolean terug geeft afhankelijk van z'n userrole
+        return this.isLoggedIn() 
+            && roles.stream().anyMatch((role) -> 
+                    this.user.hasRole(new Role(role)));
     }
     
+    /**
+     * Methode die een boolean terug geeft afhankelijk van z'n userrole.
+     * @param user Returned als de User een user is
+     * @param supporter Returned als de User een supporter is
+     * @param admin Returned als de User een admin is
+     * @return Eén van de gegeven booleans afhankelijk van de role 
+     * van de ingelogde user
+     */
     public boolean rights(boolean user, boolean supporter, boolean admin){
         if (isGewoneUser()) {
             return user;

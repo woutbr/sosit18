@@ -39,7 +39,7 @@ public class MenuList extends MenuItem implements Iterable<MenuItem> {
     
     /**
      * Adds all it children which aren't a MenuList to the given List.
-     * Also add all the children of sub MenuList's.
+     * Also add all the children of sub MenuList's with recursion.
      * @param listOfItems List to which MenuItem's have to be added.
      */
     public void flattenList(List<MenuItem> listOfItems) {
