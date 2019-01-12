@@ -18,9 +18,9 @@
         <b:navbarLinks pull="right">
             <b:dropMenu value="#{auth.user.username}" rendered="#{auth.loggedIn}">
                 <b:navLink value="Admin" rendered="#{auth.admin}"/>
-                <b:navLink value="Supporter" rendered="#{auth.supporter}"/>
-                <b:navLink value="Gewone user" rendered="#{auth.gewoneUser}"/>
-                <b:navLink value="Edit useraccount" outcome="useraccount">
+                <b:navLink value="Handler" rendered="#{auth.supporter}"/>
+                <b:navLink value="User" rendered="#{auth.gewoneUser}"/>
+                <b:navLink value="Useraccount" outcome="useraccount">
                     <f:param name="UseraccountId" value="#{auth.user.useraccountid}"/>
                 </b:navLink>
                 <!--b:form>

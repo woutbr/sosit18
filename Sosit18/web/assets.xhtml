@@ -40,7 +40,6 @@
                             <b:label value="Purchase date"/>
                             <b:dateTimePicker show-time="false"
                                               onblur="AssetTableWidget.DataTable().search(this.value).draw();"/>
-                            <!-- TODO Filter en Clear buttons -->
                         </b:formGroup>
                         <b:formGroup>
                             <b:dataTable value="#{auth.gewoneUser ? assetController.findAssetsByCompany(auth.user.companyid) : assetController.listAll()}"
@@ -52,7 +51,7 @@
                                          scroll-x="true"
                                          save-state='false'
                                          columnVisibility="true"
-                                         row-group="rowGroup:{dataSrc:2,startRender:function ( rows, group ) {return 'Assets in the company '+ group +': '+rows.count();},endRender:null}">
+                                         row-group="rowGroup:{dataSrc:1,startRender:function ( rows, group ) {return 'Assets in the company '+ group +': '+rows.count();},endRender:null}">
                                 <b:dataTableColumn value="#{asset.assetid}"/>
                                 <b:dataTableColumn value="#{asset.companyid.name}" label="Company" order="asc"/>
                                 <b:dataTableColumn label="Assetgroup">
@@ -74,17 +73,16 @@
                                     <b:inputText value="#{assetController.asset.description}" rendered="#{assetController.isRowEditable(asset)}"/>
                                 </b:dataTableColumn>
                                 <b:dataTableColumn label="" searchable="false" orderable="false">
-                                    <b:commandButton icon="pencil"
-                                                     rendered="#{not assetController.isRowEditable(asset)}"
-                                                     ajax="true"
-                                                     update="@(.editableAssetTable)"
-                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.setEditRow(asset)"/>
-                                    <b:commandButton icon="refresh" look="warning"
-                                                     rendered="#{assetController.isRowEditable(asset)}"
-                                                     ajax="true"
-                                                     update="@(.editableAssetTable)"
-                                                     onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.cancelEditRow()"/>
-                                    <!--TODO delete knop -->
+                                    <b:button icon="pencil" outcome="asset" 
+                                              tooltip="Edit">
+                                        <f:param name="ID" value="#{asset.assetid}"/>
+                                    </b:button>
+                                    <b:commandButton icon="remove"
+                                                     tooltip="Remove"
+                                                     action="#{assetController.erase(asset)}"
+                                                     rendered="#{auth.rights(false, false, true)}"
+                                                     disabled="#{!assetController.canDeleteAsset(asset)}"
+                                                     onclick="return confirm('Are you sure you want to delete &quot;#{asset.name}&quot;?')"/>
                                 </b:dataTableColumn>
                                 <b:dataTableColumn rendered="false" value="#{asset.assetlocationid.description}" label="Location"/>
                                 <b:dataTableColumn rendered="false" value="#{asset.assetmasterid.name}" label="Asset master"/>
@@ -98,13 +96,6 @@
                                 <b:dataTableColumn rendered="false" value="#{asset.supportcontract}" label="Support Contract" />
                                 <b:dataTableColumn rendered="false" value="#{asset.value}"/>
                             </b:dataTable>
-                            <b:commandButton value="Save" icon="save" look="success" style-class="save"
-                                             disabled="#{not assetController.editMode}"
-                                             rendered="#{auth.supporter or auth.admin}"
-                                             ajax="true" auto-update="true"
-                                             update="@(.editableAssetTable)"
-                                             onclick="AssetTableWidget.DataTable().destroy();ajax:assetController.saveAsset()"
-                                             />
                         </b:formGroup>
                     </b:panelGrid>
                 </b:form>
@@ -112,7 +103,7 @@
             <b:form>
                 <b:commandButton value="Add new asset" look="warning" style-class="new"
                                  action="#{assetController.loadCreateAsset()}"
-                                 rendered="#{auth.supporter or auth.admin}"/>
+                                 rendered="#{auth.debugMode or auth.supporter or auth.admin}"/>
             </b:form>
         </ui:define>
     </ui:composition>

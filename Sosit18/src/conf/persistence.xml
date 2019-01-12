@@ -3,6 +3,7 @@
   <persistence-unit name="Sosit18PU" transaction-type="JTA">
     <jta-data-source>java:app/Db_SosIT</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <shared-cache-mode>NONE</shared-cache-mode>
     <properties/>
   </persistence-unit>
 </persistence>
