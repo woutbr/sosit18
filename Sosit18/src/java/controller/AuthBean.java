@@ -21,7 +21,7 @@ public class AuthBean implements Serializable {
     private boolean debugMode;
 
     public AuthBean() {
-        this.debugMode = true;//For testing. Ignores the logincheck in LoginFilter
+        this.debugMode = false;//For testing. Ignores the logincheck in LoginFilter
     }
 
     public boolean isDebugMode() {
