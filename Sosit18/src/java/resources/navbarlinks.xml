@@ -17,13 +17,12 @@
     <list name="Asset " roles="Admin Supporter User">
         <link name="All assets" outcome="assets" roles="Admin Supporter User"/>
         <link name="New asset" outcome="newasset" roles="Admin Supporter"/>
-        <link name="Asset group" outcome="assetgroup" roles="Admin Supporter"/>
-        <link name="Asset location" outcome="assetlocation" roles="Admin Supporter"/>
+        <link name="New asset group" outcome="assetgroup" roles="Admin Supporter"/>
+        <link name="New asset location" outcome="assetlocation" roles="Admin Supporter"/>
     </list>>
     <list name="User " roles="Admin Supporter User">
         <link name="All users" outcome="userlist" roles="Admin Supporter User"/>
-        <link name="New User" outcome="useraccount" roles="Admin"/>
-        <link name="User role" outcome="role" roles="Admin"/>
+        <link name="New user" outcome="useraccount" roles="Admin"/>
     </list>
     <link name="SLA" outcome="sla" roles="Admin Supporter User"/>
 </list>
