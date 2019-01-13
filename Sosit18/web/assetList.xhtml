@@ -84,17 +84,18 @@
                                                      disabled="#{!assetController.canDeleteAsset(asset)}"
                                                      onclick="return confirm('Are you sure you want to delete &quot;#{asset.name}&quot;?')"/>
                                 </b:dataTableColumn>
-                                <b:dataTableColumn rendered="false" value="#{asset.assetlocationid.description}" label="Location"/>
-                                <b:dataTableColumn rendered="false" value="#{asset.assetmasterid.name}" label="Asset master"/>
-                                <b:dataTableColumn rendered="false" label="Date of Purchase" 
+                                <b:dataTableColumn value="#{asset.assetlocationid.description}" label="Location"/>
+                                <b:dataTableColumn value="#{asset.assetmasterid.name}" label="Asset master"/>
+                                <b:dataTableColumn label="Date of Purchase" 
                                                    data-order="#{asset.purchasedate.getTime()}" data-type="numeric">
                                     <h:outputText value="#{asset.purchasedate}">
                                         <f:convertDateTime pattern="dd/MM/yyyy" />
                                     </h:outputText>	
                                 </b:dataTableColumn>
-                                <b:dataTableColumn rendered="false" value="#{asset.warranty}"/>
-                                <b:dataTableColumn rendered="false" value="#{asset.supportcontract}" label="Support Contract" />
-                                <b:dataTableColumn rendered="false" value="#{asset.value}"/>
+                                <b:dataTableColumn value="#{asset.warranty}"/>
+                                <b:dataTableColumn value="#{asset.supportcontract}" label="Support Contract" />
+                                <b:dataTableColumn value="#{asset.value}"/>
+                                <b:dataTableColumn value="#{asset.assetCollection.size()}" label="Aantal subassets"/>
                             </b:dataTable>
                         </b:formGroup>
                     </b:panelGrid>
@@ -105,6 +106,9 @@
                                  action="#{assetController.loadCreateAsset()}"
                                  rendered="#{auth.debugMode or auth.supporter or auth.admin}"/>
             </b:form>
+            <script>$(document).ready(function () {
+                    AssetTableWidget.DataTable().columns([-7,-6,-5,-4,-3,-2,-1]).visible(false);
+                });</script>
         </ui:define>
     </ui:composition>
 </html>
