@@ -5,6 +5,7 @@ import dao.AssetFacade;
 import dao.TicketFacade;
 import entity.Asset;
 import entity.Company;
+import entity.Ticket;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
@@ -119,5 +120,9 @@ public class AssetController extends AbstractController<Asset>{
             return false;
         }
         return true;
+    }
+    
+    public List<Ticket> getTicketsByAsset(){
+        return ticketFacade.getTicketsByAssetid(this.asset.getAssetid());
     }
 }

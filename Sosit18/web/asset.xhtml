@@ -84,6 +84,17 @@
                         <b:inputText value="#{assetController.asset.supportcontract}"
                                      id="inputassetsupport"/>
                         <b:message />
+                        <h:outputLabel value="Gelinkte tickets" for="listlinkedtickets"/>
+                        <b:panel id="listlinkedtickets">
+                            <b:listLinks>
+                                <ui:repeat value="#{assetController.ticketsByAsset}" var="ticket">
+                                    <b:navLink value="#{ticket.title}" outcome="ticket">
+                                        <f:param name="TicketId" value="#{ticket.ticketid}"/>
+                                    </b:navLink>
+                                </ui:repeat>
+                            </b:listLinks>
+                        </b:panel>
+                        <b:message />
                         <div class="text-center">
                             <b:commandButton value="Save" icon="save" look="success" style-class="save"
                                              action="#{assetController.createNewAsset()}" />
