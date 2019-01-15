@@ -17,18 +17,15 @@
         </b:navbarLinks>
         <b:navbarLinks pull="right">
             <b:dropMenu value="#{auth.user.username}" rendered="#{auth.loggedIn}">
-                <b:navLink value="Admin" rendered="#{auth.admin}"/>
-                <b:navLink value="Handler" rendered="#{auth.supporter}"/>
-                <b:navLink value="User" rendered="#{auth.gewoneUser}"/>
-                <b:navLink value="Useraccount" outcome="useraccount">
-                    <f:param name="UseraccountId" value="#{auth.user.useraccountid}"/>
-                </b:navLink>
+                <b:navLink header="Admin" rendered="#{auth.admin}"/>
+                <b:navLink header="Handler" rendered="#{auth.supporter}"/>
+                <b:navLink header="User" rendered="#{auth.gewoneUser}"/>
                 <!--b:form>
                     <b:commandLink value="Logout" action="{loginController.logout()}"/>
                 </b:form-->
-                <b:navLink value="Logout" href="logout"/>
+                <b:navLink value="Sign out" href="logout"/>
             </b:dropMenu>
-            <b:navLink value="Login" outcome="login"
+            <b:navLink value="Sign in" outcome="login"
                        rendered="#{not auth.loggedIn}"/>
         </b:navbarLinks>
         <b:form inline="true"

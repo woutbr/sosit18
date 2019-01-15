@@ -22,7 +22,7 @@ public class AssetgroupController implements Serializable {
     private Assetgroup assetgroup = null;
 
     public AssetgroupController() {
-        this.assetgroup = new Assetgroup();
+        this.resetAssetgroup();
     }
 
     public Assetgroup getAssetgroup() {
@@ -31,6 +31,13 @@ public class AssetgroupController implements Serializable {
 
     public void setAssetgroup(Assetgroup assetgroup) {
         this.assetgroup = assetgroup;
+    }
+
+    public void onload() {
+        this.resetAssetgroup();
+    }
+    private void resetAssetgroup() {
+        this.setAssetgroup(new Assetgroup());
     }
 
     public List<Assetgroup> listAllAssetgroups() {

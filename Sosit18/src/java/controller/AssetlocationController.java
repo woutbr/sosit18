@@ -21,7 +21,7 @@ public class AssetlocationController implements Serializable {
     private Assetlocation assetlocation;
 
     public AssetlocationController() {
-        this.assetlocation = new Assetlocation();
+        this.resetAssetlocation();
     }
 
     public Assetlocation getAssetlocation() {
@@ -30,6 +30,13 @@ public class AssetlocationController implements Serializable {
 
     public void setAssetlocation(Assetlocation assetlocation) {
         this.assetlocation = assetlocation;
+    }
+
+    public void onload() {
+        this.resetAssetlocation();
+    }
+    private void resetAssetlocation() {
+        this.setAssetlocation(new Assetlocation());
     }
 
     public List<Assetlocation> listAllAssetlocations() {
