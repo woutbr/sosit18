@@ -86,10 +86,25 @@
                                       id="pickassetdate"
                                       tooltip="Pick the date of purchase."/>
                         <b:message />
+                        <h:outputLabel value="Value" for="inputassetvalue"/>
+                        <b:inputText value="#{assetController.asset.value}"
+                                     id="inputassetvalue"
+                                     mask="integer"
+                                     converter-message="Please enter a number.">
+                                <f:facet name="append">
+                                    <h:outputText value="€" />
+                                </f:facet>
+                            </b:inputText>
+                        <b:message />
                         <h:outputLabel value="Warranty" for="inputassetwaranty"/>
                         <b:inputText value="#{assetController.asset.warranty}"
                                      id="inputassetwaranty"
-                                     converter-message="Please enter a number."/>
+                                     mask="integer"
+                                     converter-message="Please enter a number.">
+                                <f:facet name="append">
+                                    <h:outputText value="months" />
+                                </f:facet>
+                            </b:inputText>
                         <b:message />
                         <h:outputLabel value="Support contract" for="inputassetsupport"/>
                         <b:inputText value="#{assetController.asset.supportcontract}"

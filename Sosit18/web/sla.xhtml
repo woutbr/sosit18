@@ -29,7 +29,11 @@
                                          id="inputslaresponse"
                                          type="number"
                                          required="true"
-                                         required-message="Please fill in a number."/>
+                                         required-message="Please fill in a number.">
+                                <f:facet name="append">
+                                    <h:outputText value="hours" />
+                                </f:facet>
+                            </b:inputText>
                             <b:message />
                         </b:formGroup>
                     </b:panelGrid>
@@ -41,7 +45,7 @@
                         <b:commandButton value="Save" icon="save" look="success" style-class="save"
                                          action="#{slaController.createNewSla()}"/>
                         <b:button value="Cancel" look="warning" style-class="cancel"
-                                  outcome="assetList"/>
+                                  outcome="assetgroup"/>
                     </div>
                 </b:panel>
             </b:form>
