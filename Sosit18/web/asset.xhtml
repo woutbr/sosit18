@@ -89,7 +89,7 @@
                         <h:outputLabel value="Value" for="inputassetvalue"/>
                         <b:inputText value="#{assetController.asset.value}"
                                      id="inputassetvalue"
-                                     mask="integer"
+                                     type="number"
                                      converter-message="Please enter a number.">
                                 <f:facet name="append">
                                     <h:outputText value="€" />
@@ -99,7 +99,7 @@
                         <h:outputLabel value="Warranty" for="inputassetwaranty"/>
                         <b:inputText value="#{assetController.asset.warranty}"
                                      id="inputassetwaranty"
-                                     mask="integer"
+                                     type="number"
                                      converter-message="Please enter a number.">
                                 <f:facet name="append">
                                     <h:outputText value="months" />
