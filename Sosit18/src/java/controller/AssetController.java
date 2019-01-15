@@ -17,13 +17,13 @@ import javax.inject.Named;
  */
 @Named(value = "assetController")
 @SessionScoped
-public class AssetController extends AbstractController<Asset>{
+public class AssetController extends AbstractController<Asset> {
 
     @EJB
     private AssetFacade assetFacade;
     @EJB
     private TicketFacade ticketFacade;
-    
+
     private Asset asset;
     private BigDecimal assetidSelected = null;
     private boolean editMode = false;
@@ -44,7 +44,7 @@ public class AssetController extends AbstractController<Asset>{
     public void setAsset(Asset asset) {
         this.asset = asset;
     }
-    
+
     public List<Asset> findAssetsByCompany(Company c) {
         return this.assetFacade.findAssetsByCompany(c);
     }
@@ -55,10 +55,15 @@ public class AssetController extends AbstractController<Asset>{
     }
 
     public void onloadAsset(BigDecimal id) {
-        if(id == null){
+        if (id == null) {
             this.resetAsset();
-        }else{
-            this.setAsset(this.assetFacade.find(id));
+        } else {
+            Asset foundAsset = this.assetFacade.find(id);
+            if (foundAsset != null) {
+                this.setAsset(foundAsset);
+            } else {
+                this.resetAsset();
+            }
         }
     }
 
@@ -73,8 +78,8 @@ public class AssetController extends AbstractController<Asset>{
         this.assetidSelected = null;
         this.editMode = false;
     }
-    
-    private void resetAsset(){
+
+    private void resetAsset() {
         this.setAsset(new Asset());
     }
 
@@ -95,34 +100,45 @@ public class AssetController extends AbstractController<Asset>{
         this.assetFacade.edit(asset);
         return "assetList?faces-redirect=true";
     }
-    
-    public String loadCreateAsset(){
+
+    public String loadCreateAsset() {
         this.resetAsset();
         return "asset?faces-redirect=true";
     }
-    
+
     public String erase(Asset a) {
         this.assetFacade.remove(a);
         return "assetList?faces-redirect=true";
 
     }
-    
+
     /**
-     * Checks whether an Asset can be safely deleted.
-     * If there are sub-assets, this asset can not be deleted.
-     * If there are tickets with this asset, this asset can not be deleted.
+     * Checks whether an Asset can be safely deleted. If there are sub-assets,
+     * this asset can not be deleted. If there are tickets with this asset, this
+     * asset can not be deleted.
+     *
      * @param a The Asset to check
      * @return True if the given Asset can be deleted
      */
     public boolean canDeleteAsset(Asset a) {
-        if(!a.getAssetCollection().isEmpty()
-                || !ticketFacade.getTicketsByAssetid(a.getAssetid()).isEmpty()){
+        if (!a.getAssetCollection().isEmpty()
+                || !ticketFacade.getTicketsByAssetid(a.getAssetid()).isEmpty()) {
             return false;
         }
         return true;
     }
-    
-    public List<Ticket> getTicketsByAsset(){
+
+    public String getTooltipRemoveAsset(Asset a) {
+        if (!a.getAssetCollection().isEmpty()) {
+            return "Has subassets";
+        }
+        if (!ticketFacade.getTicketsByAssetid(a.getAssetid()).isEmpty()) {
+            return "Is linked to ticket";
+        }
+        return "Remove";
+    }
+
+    public List<Ticket> getTicketsByAsset() {
         return ticketFacade.getTicketsByAssetid(this.asset.getAssetid());
     }
 }

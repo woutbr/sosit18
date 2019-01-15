@@ -51,7 +51,7 @@
                                          scroll-x="true"
                                          save-state='false'
                                          columnVisibility="true"
-                                         row-group="rowGroup:{dataSrc:1,startRender:function ( rows, group ) {return 'Assets in the company '+ group +': '+rows.count();},endRender:null}">
+                                         row-group="rowGroup:{dataSrc:1,startRender:function ( rows, group ) {return 'Company '+ group +': '+rows.count()+' assets';},endRender:null}">
                                 <b:dataTableColumn value="#{asset.assetid}"/>
                                 <b:dataTableColumn value="#{asset.companyid.name}" label="Company" order="asc"/>
                                 <b:dataTableColumn label="Assetgroup">
@@ -78,7 +78,7 @@
                                         <f:param name="ID" value="#{asset.assetid}"/>
                                     </b:button>
                                     <b:commandButton icon="remove"
-                                                     tooltip="Remove"
+                                                     tooltip="#{assetController.getTooltipRemoveAsset(asset)}"
                                                      action="#{assetController.erase(asset)}"
                                                      rendered="#{auth.rights(false, false, true)}"
                                                      disabled="#{!assetController.canDeleteAsset(asset)}"

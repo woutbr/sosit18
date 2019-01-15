@@ -10,7 +10,7 @@
         <b:navbarLinks>
             <ui:repeat value="#{navBarBean.links.children}" var="item" >
                 <b:navLink rendered="#{item.class.simpleName == 'MenuLink' and navBarBean.canDisplayMenuItem(item)}"
-                    value="#{item.name}" outcome="#{item.outcome}"/>
+                           value="#{item.name}" outcome="#{item.outcome}"/>
                 <my:customDropMenu menulist="#{item}" 
                                    rendered="#{item.class.simpleName == 'MenuList' and navBarBean.canDisplayMenuItem(item)}"/>
             </ui:repeat>
@@ -33,13 +33,15 @@
         </b:navbarLinks>
         <b:form inline="true"
                 style="margin: 1em 0.4em 0; height: 36px; color: #{auth.debugMode?'#fb0':'#eee'}; float: right;" >
-            <b:selectOneMenu value="#{auth.currentTheme}" ajax="true" oncomplete="location.reload();"
-                             rendered="#{auth.debugMode}" label-col-sm="2" field-size="xs">
-                <f:selectItem itemValue="default" itemLabel="Theme"/>
-                <f:selectItems value="#{auth.bootswatchThemes}"/>
-            </b:selectOneMenu>
-            <b:switch value="#{auth.debugMode}" caption="debugMode" tooltip="Ignore the login check" ajax="true" update="@form"
-                      onColor="warning" switchsize="mini" />
+            <b:column hidden="sm" >
+                <b:selectOneMenu value="#{auth.currentTheme}" ajax="true" oncomplete="location.reload();"
+                                 rendered="#{auth.debugMode}" label-col-sm="2" field-size="xs">
+                    <f:selectItem itemValue="default" itemLabel="Theme"/>
+                    <f:selectItems value="#{auth.bootswatchThemes}"/>
+                </b:selectOneMenu>
+                <b:switch value="#{auth.debugMode}" caption="debugMode" tooltip="Ignore the login check" ajax="true" update="@form"
+                          onColor="warning" switchsize="mini" />
+            </b:column>
         </b:form>
     </b:navBar>
 </ui:composition>
