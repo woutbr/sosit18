@@ -90,7 +90,7 @@
 
                             <b:selectOneMenu label="Asset" 
                                              value="#{TicketController.ticket.assetid}">
-                                <f:selectItems value="#{assetController.listAll()}"
+                                <f:selectItems value="#{assetController.findAssetsByCompany(companyController.company)}"
                                                var="a" 
                                                itemValue="#{a.assetid.toBigInteger()}" 
                                                itemLabel="#{a.description}"/>

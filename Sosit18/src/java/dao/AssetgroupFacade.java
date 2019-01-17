@@ -6,9 +6,11 @@
 package dao;
 
 import entity.Assetgroup;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +30,11 @@ public class AssetgroupFacade extends AbstractFacade<Assetgroup> {
     public AssetgroupFacade() {
         super(Assetgroup.class);
     }
+    
+    public List<Assetgroup> listAllAssetGroups() {
+        Query q = this.em.createNamedQuery("Assetgroup.findAll");
+        List<Assetgroup> l = (List<Assetgroup>)q.getResultList();
+        return l;
+    }    
     
 }
