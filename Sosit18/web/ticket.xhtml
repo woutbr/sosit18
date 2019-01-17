@@ -125,30 +125,69 @@
                                          look="success" 
                                          style="margin-right: 2em" 
                                          action="#{TicketController.save()}"/>
-                        <b:button value="Cancel" look="warning" style="margin-left: 2em" outcome="ticketList"/>
-                         <b:button value="new action" style="margin-left: 2em" outcome="action">
-                            <f:param value="#{TicketController.ticket.ticketid}" name="ticket"></f:param>
+                        <b:button value="Cancel" 
+                                  look="warning" 
+                                  style="margin-left: 2em" 
+                                  outcome="ticketList"/>
+                         <b:button value="new action" 
+                                   look="info"
+                                   style="margin-left: 2em" 
+                                   outcome="action" 
+                                   rendered="#{TicketController.hasTicketId()}"> 
+                            <f:param value="#{TicketController.ticket.ticketid}" name="TicketId"/>
                         </b:button>
-                        <b:commandButton action="#{ticketstatusController.ListAllTicketstatus()}">test</b:commandButton>
                     </div>
                     
-                    <b:dataTable value="#{actionController.listAllActionsByTicket(TicketController.ticket.ticketid)}" var="action">
+                    <b:dataTable value="#{actionController.listAllActionsByTicket(TicketController.ticket.ticketid)}" 
+                                 var="ac">
                             <f:facet name="header">
                                 <tr>
-                                    <th>Action number</th>
-                                    <th>Description</th>
+                                    <th>Id</th>
+                                    <th>User</th>
+                                    <th width="50px">Created</th>
+                                    <th width="50px">Started</th>
+                                    <th width="50px">Due</th>       
+                                    <th width="50%">Description</th>
                                     <th></th>
                                 </tr>
                             </f:facet>
-                            <b:dataTableColumn value="#{action.actionid}" order="asc"/>
-                            <b:dataTableColumn value="#{action.description}" />
+                            <b:dataTableColumn value="#{ac.actionid}" order="asc"/>
+                            <b:dataTableColumn value="#{ac.useraccountid.fullname}"  />
+                            <b:dataTableColumn>
+                                <h:outputText value = "#{ac.creationdate}" >
+                                            <f:convertDateTime pattern = "dd-MM-yyyy" />
+                                </h:outputText>
+                                <br/>
+                                <h:outputText value = "#{ac.creationdate}" >
+                                            <f:convertDateTime pattern = "hh:mm" />
+                                </h:outputText>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn>
+                                <h:outputText value = "#{ac.startdate}" >
+                                            <f:convertDateTime pattern = "dd-MM-yyyy" />
+                                </h:outputText>
+                            </b:dataTableColumn>                            
+                            <b:dataTableColumn>
+                                <h:outputText value = "#{ac.enddate}" >
+                                            <f:convertDateTime pattern = "dd-MM-yyyy" />
+                                </h:outputText>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn value="#{ac.description}" 
+                                               custom-options="'width':'15px'" />
+
                             <b:dataTableColumn value="">  
                                  <b:button icon="pencil" outcome="action">
-                                     <f:param name="actionId" value="#{action.actionid}"/>
+                                     <f:param name="ActionId" value="#{ac.actionid}"/>
                                  </b:button>
-                                <b:commandButton title="remove" style="margin-left: 1em" icon="remove" action="#{actionController.erase(item)}" onclick="return confirm('Are you sure ?')"/>  
+                                <b:commandButton title="remove" 
+                                                 style="margin-left: 1em" 
+                                                 icon="remove" 
+                                                 action="#{actionController.erase(ac)}" 
+                                                 onclick="return confirm('Are you sure ?')" 
+                                                 rendered="#{auth.rights(false,true,true)}"/>  
                             </b:dataTableColumn>
                         </b:dataTable>        
+
 
                 </b:panel>
             </b:form>

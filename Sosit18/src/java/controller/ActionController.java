@@ -18,6 +18,10 @@ import java.sql.Date;
 import javax.ejb.EJB;
 import java.util.List;
 import javax.inject.Inject;
+import helper.Helper;
+import java.util.HashSet;
+import java.util.Set;
+
 
 
 /**
@@ -34,10 +38,12 @@ public class ActionController implements Serializable {
     private TicketFacade ticketFacade;
     
     @Inject
-    private TicketController ticketController;
+    private AuthBean authBean;
+    
     
     private Action action = new Action();
-    private Ticket ticket = new Ticket();
+    
+
 
     public Action getAction() {
         return action;
@@ -65,28 +71,16 @@ public class ActionController implements Serializable {
         return "ticketList?faces-redirect=true";
     }
     
-    public void onload(BigDecimal ticketid){
 
-        LocalDate date = LocalDate.now();
-        Date today = Date.valueOf(date);
-        action.setCreationdate(today);
-        action.setTicketid(this.ticketFacade.FindById(ticketid));
-        
-    }
-    
-        public void onload2(BigDecimal actionId){
+        public void onload(BigDecimal actionId,BigDecimal ticketId){
             if (actionId!=null) {
                 this.action=this.actionFacade.FindById(actionId);
-                int a = 1 ; 
             }else{
-                resetAction();
-                LocalDate date = LocalDate.now();
-                Date today = Date.valueOf(date);
-                action.setCreationdate(today);
-                BigDecimal ticketid= ticketController.getTicket().getTicketid();
-                action.setTicketid(this.ticketFacade.FindById(ticketid));
+                    resetAction();
+                    this.action.setCreationdate(Helper.findCurrentDateTime());
+                    this.action.setTicketid(this.ticketFacade.FindById(ticketId));                    
+                    this.action.setUseraccountid(this.authBean.getUser());
             }
-   
     }
     
     public List<Action> GetAllActions(){
@@ -107,4 +101,5 @@ public class ActionController implements Serializable {
     public void resetAction(){
         this.action = new Action();
     } 
+
 }

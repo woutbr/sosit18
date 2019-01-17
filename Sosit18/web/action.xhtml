@@ -8,33 +8,29 @@
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Index - SosIT"/>
         <f:metadata>
-            <f:viewParam name="ticketId"/>
-            <f:viewParam name="actionId"/>
-            <f:viewAction action="#{actionController.onload2(actionId)}"/>
-            
+            <f:viewParam name="TicketId"/>
+            <f:viewParam name="ActionId"/>
+            <f:viewAction action="#{actionController.onload(ActionId,TicketId)}"/>
         </f:metadata>
         <ui:define name="main">
-            <b:form>
-                
+            <b:form >
                 <b:panel title="Action" collapsible="false">
-                    
-                    
-
                     <b:panelGrid colSpans="4,8">
                         <b:formGroup>
-                            <h:outputLabel id="useraccountid" value="User: #{actionController.action.useraccountid}" title="user"/><br/>
-                            <h:outputLabel id="ticketid" value="Ticket: #{actionController.action.ticketid}" title="ticketid"/><br/>
-                            <h:outputLabel id="creationdate" value="Created: #{actionController.action.creationdate}" title="creationdate"/>
+                            <h:outputLabel id="lblUseraccountId" 
+                                           value="User: #{actionController.action.useraccountid.fullname}" 
+                                           title="user"/><br/>
+                            <h:outputLabel id="lblTicketId" 
+                                           value="Ticket nr: #{actionController.action.ticketid.ticketid}" 
+                                           title="ticketid"/><br/>
+                            <h:outputLabel value="Action id: #{actionController.action.actionid}" 
+                                           title="ticketid"/><br/>
+                            <h:outputLabel id="lblActionCreationDate" value="Created: #{actionController.action.creationdate}" title="creationdate"/>
                         </b:formGroup>
                         
                         <b:formGroup>
-                            <b:dateTimePicker id="startdate" 
-                                              value="#{actionController.action.creationdate}"
-                                              format="DD.MM.YYYY"
-                                              label="Start Date" 
-                                              readonly="false"/>
                                               
-                            
+   
                             <b:dateTimePicker id="startdate" 
                                               value="#{actionController.action.startdate}"
                                               format="DD.MM.YYYY"
@@ -51,7 +47,10 @@
                     </b:panelGrid>
                     <div class="text-center">
                         <b:commandButton value="Save" look="success" style="margin-right: 2em" action="#{actionController.create()}"></b:commandButton>
-                        <b:button value="Delete" look="warning" style="margin-left: 2em"></b:button>
+                        <b:button value="Cancel" look="warning" style="margin-left: 2em" outcome="ticket">
+                            <f:param name="TicketId" value="#{actionController.action.ticketid.ticketid}" />
+                            
+                        </b:button>
                     </div>
 
                 </b:panel>

@@ -146,9 +146,10 @@ public class TicketController implements Serializable {
         
     }
     
-    public void test(){
-        int a=1;
     
+    public boolean hasTicketId(){
+        boolean hasticketId = (this.ticket.getTicketid()!=null);
+        return hasticketId;
     }
 
 }

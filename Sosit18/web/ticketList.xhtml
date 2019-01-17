@@ -110,8 +110,8 @@
                                         </b:button>
                                         <b:commandButton icon="remove" 
                                                          action="#{TicketController.erase(item)}" 
-                                                         onclick="return
-                                                                 confirm('Are you sure ?')" rendered="#{auth.rights(false, false, true)}"/>  
+                                                         onclick="return  confirm('Are you sure ?')" 
+                                                         rendered="#{auth.rights(false, false, true)}"/>  
                                     </b:dataTableColumn>
                                 </b:dataTable>  
                             </b:formGroup>
