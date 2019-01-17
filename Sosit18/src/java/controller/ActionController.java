@@ -40,7 +40,6 @@ public class ActionController implements Serializable {
     @Inject
     private AuthBean authBean;
     
-    
     private Action action = new Action();
     
 
@@ -61,12 +60,14 @@ public class ActionController implements Serializable {
     }
        
     public String create(){
+        
         if (this.action.getActionid()==null) {
             this.actionFacade.create(action);
             resetAction();
         }else{
             this.actionFacade.edit(action);
         }
+        
    
         return "ticketList?faces-redirect=true";
     }
@@ -101,5 +102,10 @@ public class ActionController implements Serializable {
     public void resetAction(){
         this.action = new Action();
     } 
+    
+    public String erase(Action a){
+        this.actionFacade.remove(a); 
+        return "ticketList?faces-redirect=true";
+    }
 
 }

@@ -120,22 +120,27 @@
                     <h4><u>Description</u></h4>
                     <b:inputTextarea value="#{TicketController.ticket.description}" ></b:inputTextarea>
                     <div class="text-center">
-                        <b:commandButton value="Save" 
+                        <b:commandButton style="margin-right: 1em" 
+                                         value="Save and return" 
                                          icon="save" 
                                          look="success" 
-                                         style="margin-right: 2em" 
                                          action="#{TicketController.save()}"/>
-                        <b:button value="Cancel" 
-                                  look="warning" 
-                                  style="margin-left: 2em" 
-                                  outcome="ticketList"/>
+                        <b:commandButton style="margin-right: 1em"  
+                                         value="Save"                                   
+                                         icon="save" 
+                                         look="success" 
+                                         action="#{TicketController.saveticket()}"/>
+
                          <b:button value="new action" 
                                    look="info"
-                                   style="margin-left: 2em" 
-                                   outcome="action" 
+                                   outcome="action"
                                    rendered="#{TicketController.hasTicketId()}"> 
                             <f:param value="#{TicketController.ticket.ticketid}" name="TicketId"/>
                         </b:button>
+                        <b:button value="Cancel" 
+                                  look="warning"  
+                                  style="margin-left: 3em" 
+                                  outcome="ticketList"/>
                     </div>
                     
                     <b:dataTable value="#{actionController.listAllActionsByTicket(TicketController.ticket.ticketid)}" 

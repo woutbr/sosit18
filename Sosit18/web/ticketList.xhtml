@@ -121,7 +121,8 @@
                                         <b:commandButton icon="remove" 
                                                          action="#{TicketController.erase(item)}" 
                                                          onclick="return  confirm('Are you sure ?')" 
-                                                         rendered="#{auth.rights(false, false, true)}"/>  
+                                                         rendered="#{auth.rights(false, false, true)}" 
+                                                         disabled="#{!TicketController.canDeleteTicket(item)}"/>  
                                     </b:dataTableColumn>
                                 </b:dataTable>  
                             </b:formGroup>
