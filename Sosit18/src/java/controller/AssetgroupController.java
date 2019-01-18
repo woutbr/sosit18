@@ -41,7 +41,8 @@ public class AssetgroupController implements Serializable {
     }
 
     public List<Assetgroup> listAllAssetgroups() {
-        return this.assetgroupFacade.findAll();
+        //return this.assetgroupFacade.findAll();
+        return this.assetgroupFacade.listAllAssetGroups();
     }
     
     public Assetgroup findByID(BigDecimal id){

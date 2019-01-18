@@ -61,7 +61,9 @@ public class UserController implements Serializable {
     }
     
     public List<Useraccount> findAllUsers(){
-        return this.useraccountFacade.findAll();
+        //return this.useraccountFacade.findAll();
+        // ondertsaande is beter -> querie is gesorteerd
+        return this.useraccountFacade.GetAllUsers();
     }
     
     public List<Useraccount> ListAllUsersByCompany(Company company){
@@ -146,7 +148,6 @@ public class UserController implements Serializable {
        }
         return true;
     }
-    
 
     
 }

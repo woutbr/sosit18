@@ -94,6 +94,7 @@
                                     <f:facet name="header">
                                         <tr>
                                             <th>Id</th>
+                                            <th>Created</th>
                                             <th>Title</th>
                                             <th>Description</th>
                                             <th>Handled By</th>
@@ -101,6 +102,15 @@
                                         </tr>
                                     </f:facet>
                                     <b:dataTableColumn value="#{item.ticketid}" order="asc" />
+                                                                <b:dataTableColumn>
+                                <h:outputText value = "#{item.creationdate}" >
+                                            <f:convertDateTime pattern = "dd-MM-yyyy" />
+                                </h:outputText>
+                                <br/>
+                                <h:outputText value = "#{item.creationdate}" >
+                                            <f:convertDateTime pattern = "hh:mm" />
+                                </h:outputText>
+                            </b:dataTableColumn>
                                     <b:dataTableColumn value="#{item.title}" />
                                     <b:dataTableColumn value="#{item.description}" />
                                     <b:dataTableColumn value="#{item.handlerid.fullname}"/>
@@ -110,8 +120,9 @@
                                         </b:button>
                                         <b:commandButton icon="remove" 
                                                          action="#{TicketController.erase(item)}" 
-                                                         onclick="return
-                                                                 confirm('Are you sure ?')" rendered="#{auth.rights(false, false, true)}"/>  
+                                                         onclick="return  confirm('Are you sure ?')" 
+                                                         rendered="#{auth.rights(false, false, true)}" 
+                                                         disabled="#{!TicketController.canDeleteTicket(item)}"/>  
                                     </b:dataTableColumn>
                                 </b:dataTable>  
                             </b:formGroup>

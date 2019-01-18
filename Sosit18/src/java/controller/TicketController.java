@@ -103,16 +103,7 @@ public class TicketController implements Serializable {
 
     public String save() {
 
-        if (ticket.getTicketid() == null) {
-            // een ticket dat nog geen nummer heeft moet een nieuw ticket zijn
-
-            ticket.setCreationdate(Helper.findCurrentDateTime());
-            this.ticketFacade.create(ticket);
-
-        } else {
-            // een bestaand ticket wordt enkel geupdate
-            this.ticketFacade.edit(ticket);
-        }
+       saveticket();
 
         //  ?faces-redirect=true zorgt ervoor dat de browser url meevolgt
         return "ticketList?faces-redirect=true";
@@ -146,9 +137,36 @@ public class TicketController implements Serializable {
         
     }
     
-    public void test(){
-        int a=1;
+    
+    public boolean hasTicketId(){
+        boolean hasticketId = (this.ticket.getTicketid()!=null);
+        return hasticketId;
+    }
+    
+    public String newAction(){
+        saveticket();
+         return "action?faces-redirect=true&"+"TicketId="+this.ticket.getTicketid();
+    }
+    
+    public void saveticket(){
+         if (ticket.getTicketid() == null) {
+            // een ticket dat nog geen nummer heeft moet een nieuw ticket zijn
+
+            ticket.setCreationdate(Helper.findCurrentDateTime());
+            this.ticketFacade.create(ticket);
+
+        } else {
+            // een bestaand ticket wordt enkel geupdate
+            this.ticketFacade.edit(ticket);
+        }
     
     }
+    public boolean canDeleteTicket(Ticket t){
+        if (!t.getActionCollection().isEmpty()){
+            return false;
+        }
+        return true;
+    }
+    
 
 }
