@@ -10,14 +10,6 @@
         <ui:param name="pageTitle" value="Ticketlist"/>
         <ui:define name="main">
             <f:view>
-                <f:metadata>
-                    <f:viewParam name="TicketstatusId" />
-                    <f:viewParam name="CompanyId" />
-                    <f:viewParam name="UseraccountId" />
-                    <f:viewParam name="SupporterId" />
-
-                    <f:viewAction action="#{ticketFilterBean.update(TicketstatusId,CompanyId,UseraccountId,SupporterId)}"/>
-                </f:metadata>
                 <b:form>
                     <b:panel title="Ticket list " collapsible="false">
                         <b:panelGrid colSpans='3,9' >
@@ -76,11 +68,6 @@
 
                                 <div class="text-center" style="margin-top: 1em">
                                     <b:button value="Filter" outcome="ticketList">
-                                        <f:param name="TicketstatusId" value="#{ticketFilterBean.ticketStatusId}"/>
-                                        <f:param name="CompanyId" value="#{ticketFilterBean.companyId}"/>
-                                        <f:param name="UseraccountId" value="#{ticketFilterBean.userAccountId}"/>
-                                        <f:param name="SupporterId" value="#{ticketFilterBean.supporterId}"/>
-                                        
                                     </b:button>
                                     <b:commandButton value="Clear" action="#{ticketFilterBean.clearFilter()}"/>
                                 </div>
