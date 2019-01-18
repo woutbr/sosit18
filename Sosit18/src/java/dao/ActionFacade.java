@@ -33,7 +33,7 @@ public class ActionFacade extends AbstractFacade<Action> {
     }
     
     public Action FindById(BigDecimal id){
-        Query q = this.em.createNamedQuery("Action.findByActiontid");
+        Query q = this.em.createNamedQuery("Action.findByActionid");
         q.setParameter("actionid", id);
         Action a = (Action)q.getSingleResult();
         return a;
@@ -44,4 +44,11 @@ public class ActionFacade extends AbstractFacade<Action> {
         List<Action> l = (List<Action>)q.getResultList();
         return l;
     }    
+    
+    public List<Action> listActionsByTicketId(BigDecimal id){
+        Query q = this.em.createNamedQuery("Action.findByTicketId");
+        q.setParameter("ticketid",id);
+        List<Action> l =(List<Action>)q.getResultList();
+        return l;
+    }
 }

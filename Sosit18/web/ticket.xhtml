@@ -90,7 +90,7 @@
 
                             <b:selectOneMenu label="Asset" 
                                              value="#{TicketController.ticket.assetid}">
-                                <f:selectItems value="#{assetController.listAll()}"
+                                <f:selectItems value="#{assetController.findAssetsByCompany(companyController.company)}"
                                                var="a" 
                                                itemValue="#{a.assetid.toBigInteger()}" 
                                                itemLabel="#{a.description}"/>
@@ -120,17 +120,79 @@
                     <h4><u>Description</u></h4>
                     <b:inputTextarea value="#{TicketController.ticket.description}" ></b:inputTextarea>
                     <div class="text-center">
-                        <b:commandButton value="Save" 
+                        <b:commandButton style="margin-right: 1em" 
+                                         value="Save and return" 
                                          icon="save" 
                                          look="success" 
-                                         style="margin-right: 2em" 
                                          action="#{TicketController.save()}"/>
-                        <b:button value="Cancel" look="warning" style="margin-left: 2em" outcome="ticketList"/>
-                         <b:button value="new action" style="margin-left: 2em" outcome="action">
-                            <f:param value="#{TicketController.ticket.ticketid}" name="ticket"></f:param>
+                        <b:commandButton style="margin-right: 1em"  
+                                         value="Save"                                   
+                                         icon="save" 
+                                         look="success" 
+                                         action="#{TicketController.saveticket()}"/>
+
+                         <b:button value="new action" 
+                                   look="info"
+                                   outcome="action"
+                                   rendered="#{TicketController.hasTicketId()}"> 
+                            <f:param value="#{TicketController.ticket.ticketid}" name="TicketId"/>
                         </b:button>
-                        <b:commandButton action="#{ticketstatusController.ListAllTicketstatus()}">test</b:commandButton>
+                        <b:button value="Cancel" 
+                                  look="warning"  
+                                  style="margin-left: 3em" 
+                                  outcome="ticketList"/>
                     </div>
+                    
+                    <b:dataTable value="#{actionController.listAllActionsByTicket(TicketController.ticket.ticketid)}" 
+                                 var="ac">
+                            <f:facet name="header">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>User</th>
+                                    <th width="50px">Created</th>
+                                    <th width="50px">Started</th>
+                                    <th width="50px">Due</th>       
+                                    <th width="50%">Description</th>
+                                    <th></th>
+                                </tr>
+                            </f:facet>
+                            <b:dataTableColumn value="#{ac.actionid}" order="asc"/>
+                            <b:dataTableColumn value="#{ac.useraccountid.fullname}"  />
+                            <b:dataTableColumn>
+                                <h:outputText value = "#{ac.creationdate}" >
+                                            <f:convertDateTime pattern = "dd-MM-yyyy" />
+                                </h:outputText>
+                                <br/>
+                                <h:outputText value = "#{ac.creationdate}" >
+                                            <f:convertDateTime pattern = "hh:mm" />
+                                </h:outputText>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn>
+                                <h:outputText value = "#{ac.startdate}" >
+                                            <f:convertDateTime pattern = "dd-MM-yyyy" />
+                                </h:outputText>
+                            </b:dataTableColumn>                            
+                            <b:dataTableColumn>
+                                <h:outputText value = "#{ac.enddate}" >
+                                            <f:convertDateTime pattern = "dd-MM-yyyy" />
+                                </h:outputText>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn value="#{ac.description}" 
+                                               custom-options="'width':'15px'" />
+
+                            <b:dataTableColumn value="">  
+                                 <b:button icon="pencil" outcome="action">
+                                     <f:param name="ActionId" value="#{ac.actionid}"/>
+                                 </b:button>
+                                <b:commandButton title="remove" 
+                                                 style="margin-left: 1em" 
+                                                 icon="remove" 
+                                                 action="#{actionController.erase(ac)}" 
+                                                 onclick="return confirm('Are you sure ?')" 
+                                                 rendered="#{auth.rights(false,true,true)}"/>  
+                            </b:dataTableColumn>
+                        </b:dataTable>        
+
 
                 </b:panel>
             </b:form>

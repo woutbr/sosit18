@@ -80,16 +80,19 @@ and open the template in the editor.
                             <b:message/>
 
                             <h:outputLabel>Account role</h:outputLabel>
-                            <b:panelGrid size="sm" columns="4">
+                            <b:panelGrid size="sm" columns="4" >
                                 <b:radiobutton value="#{useraccountRoleController.useraccountrole.roleid.roleid}"
                                                itemLabel="User"
-                                               itemValue="1" />
+                                               itemValue="1" 
+                                               disabled="#{auth.rights(true,true,False)}"/>
                                 <b:radiobutton value="#{useraccountRoleController.useraccountrole.roleid.roleid}"
                                                itemLabel="Supporter"
-                                               itemValue="2" />
+                                               itemValue="2" 
+                                               disabled="#{auth.rights(true,true,False)}"/>
                                 <b:radiobutton value="#{useraccountRoleController.useraccountrole.roleid.roleid}"
                                                itemLabel="Admin" 
-                                               itemValue="3" />
+                                               itemValue="3" 
+                                               disabled="#{auth.rights(true,true,False)}"/>
                             </b:panelGrid>
                         </b:formGroup>
 

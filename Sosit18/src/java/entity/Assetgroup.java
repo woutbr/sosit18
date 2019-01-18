@@ -35,8 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "ASSETGROUP")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Assetgroup.findAll", query = "SELECT a FROM Assetgroup a")
-    , @NamedQuery(name = "Assetgroup.findByAssetgroupid", query = "SELECT a FROM Assetgroup a WHERE a.assetgroupid = :assetgroupid")
+    @NamedQuery(name = "Assetgroup.findAll", query = "SELECT a FROM Assetgroup a order by a.description")
+    , @NamedQuery(name = "Assetgroup.findByAssetgroupid", query = "SELECT a FROM Assetgroup a WHERE a.assetgroupid = :assetgroupid order by a.description")
     , @NamedQuery(name = "Assetgroup.findByDescription", query = "SELECT a FROM Assetgroup a WHERE a.description = :description")
     , @NamedQuery(name = "Assetgroup.findByVersion", query = "SELECT a FROM Assetgroup a WHERE a.version = :version")})
 public class Assetgroup implements Serializable {

@@ -17,6 +17,11 @@ import java.time.LocalDate;
 import java.sql.Date;
 import javax.ejb.EJB;
 import java.util.List;
+import javax.inject.Inject;
+import helper.Helper;
+import java.util.HashSet;
+import java.util.Set;
+
 
 
 /**
@@ -32,8 +37,12 @@ public class ActionController implements Serializable {
     @EJB
     private TicketFacade ticketFacade;
     
+    @Inject
+    private AuthBean authBean;
+    
     private Action action = new Action();
-    private Ticket ticket = new Ticket();
+    
+
 
     public Action getAction() {
         return action;
@@ -51,23 +60,39 @@ public class ActionController implements Serializable {
     }
        
     public String create(){
-        this.actionFacade.create(action);
-        action = new Action();
-        //return "action?faces-redirect=true";
+        
+        if (this.action.getActionid()==null) {
+            this.actionFacade.create(action);
+            resetAction();
+        }else{
+            this.actionFacade.edit(action);
+        }
+        
+   
         return "ticketList?faces-redirect=true";
     }
     
-    public void onload(BigDecimal ticketid){
-        LocalDate date = LocalDate.now();
-        Date today = Date.valueOf(date);
-        action.setCreationdate(today);
-        action.setTicketid(this.ticketFacade.FindById(ticketid));
-        
+
+        public void onload(BigDecimal actionId,BigDecimal ticketId){
+            if (actionId!=null) {
+                this.action=this.actionFacade.FindById(actionId);
+            }else{
+                    resetAction();
+                    this.action.setCreationdate(Helper.findCurrentDateTime());
+                    this.action.setTicketid(this.ticketFacade.FindById(ticketId));                    
+                    this.action.setUseraccountid(this.authBean.getUser());
+            }
     }
     
     public List<Action> GetAllActions(){
         return this.actionFacade.GetAllActions();
 
+    }
+    
+    public List<Action> listAllActionsByTicket(BigDecimal id){
+        
+        List<Action> l = this.actionFacade.listActionsByTicketId(id);
+        return l;        
     }
     
     public String cancel(){
@@ -77,4 +102,10 @@ public class ActionController implements Serializable {
     public void resetAction(){
         this.action = new Action();
     } 
+    
+    public String erase(Action a){
+        this.actionFacade.remove(a); 
+        return "ticketList?faces-redirect=true";
+    }
+
 }

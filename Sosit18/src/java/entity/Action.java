@@ -43,6 +43,7 @@ import javax.persistence.SequenceGenerator;
     , @NamedQuery(name = "Action.findByCreationdate", query = "SELECT a FROM Action a WHERE a.creationdate = :creationdate")
     , @NamedQuery(name = "Action.findByStartdate", query = "SELECT a FROM Action a WHERE a.startdate = :startdate")
     , @NamedQuery(name = "Action.findByEnddate", query = "SELECT a FROM Action a WHERE a.enddate = :enddate")
+    , @NamedQuery(name = "Action.findByTicketId", query = "SELECT a FROM Action a WHERE a.ticketid.ticketid = :ticketid")
     , @NamedQuery(name = "Action.findByVersion", query = "SELECT a FROM Action a WHERE a.version = :version")})
 public class Action implements Serializable {
 
