@@ -22,7 +22,10 @@
                             <b:inputText value="#{slaController.sla.title}" 
                                          id="inputslatitle"
                                          required="true"
-                                         required-message="Please fill in a title."/>
+                                         required-message="Please fill in a title."
+                                         validator-message="Please fill in a title longer than 2 characters.">
+                                <f:validateLength minimum="2" />
+                            </b:inputText>
                             <b:message />
                             <h:outputLabel value="Response time" for="inputslaresponse"/>
                             <b:inputText value="#{slaController.sla.responsetime}"
