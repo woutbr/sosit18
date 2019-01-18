@@ -49,7 +49,7 @@ public class SlaController implements Serializable {
     
     public String createNewSla(){
         this.slaFacade.edit(sla);
-        return "assetList?faces-redirect=true";
+        return "assetgroup?faces-redirect=true";
     }
 
 }
