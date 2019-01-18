@@ -15,6 +15,10 @@
             <b:container style="padding-top: 60px">
                 <ui:insert name="main"/>
             </b:container>
+            <script>
+                $.blockUI.defaults.overlayCSS.opacity = 0;
+                $.blockUI.defaults.message = null;
+            </script>
         </h:body>
     </f:view>
 </html>

@@ -8,6 +8,11 @@
         <param-name>BootsFaces_THEME</param-name>
         <param-value>#{auth.currentTheme}</param-value>
     </context-param>
+    <!-- Activates the waitcursor and the double-click protection -->
+    <context-param>
+        <param-name>net.bootsfaces.blockUI</param-name>
+        <param-value>true</param-value>
+    </context-param>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
