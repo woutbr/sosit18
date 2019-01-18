@@ -45,12 +45,20 @@ public class AssetController extends AbstractController<Asset> {
         this.asset = asset;
     }
 
+    public BigDecimal getAssetidSelected() {
+        return assetidSelected;
+    }
+
+    public void setAssetidSelected(BigDecimal assetidSelected) {
+        this.assetidSelected = assetidSelected;
+    }
+
     public List<Asset> findAssetsByCompany(Company c) {
         return this.assetFacade.findAssetsByCompany(c);
     }
 
     public void onload() {
-        this.assetidSelected = null;
+        this.resetAsset();
         this.editMode = false;
     }
 
@@ -75,12 +83,12 @@ public class AssetController extends AbstractController<Asset> {
 
     public void cancelEditRow() {
         this.resetAsset();
-        this.assetidSelected = null;
         this.editMode = false;
     }
 
     private void resetAsset() {
         this.setAsset(new Asset());
+        this.assetidSelected = null;
     }
 
     public boolean isRowEditable(Asset a) {

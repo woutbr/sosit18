@@ -6,13 +6,13 @@
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/page.xhtml">
-        <ui:param name="pageTitle" value="#{ID!=null?'Asset '.concat(ID):'New Asset'} - SosIT"/>
+        <ui:param name="pageTitle" value="#{assetController.assetidSelected!=null?'Asset '.concat(assetController.assetidSelected):'New Asset'} - SosIT"/>
         <ui:define name="main">
             <f:metadata>
-                <f:viewParam name="ID"/>
-                <f:viewAction action="#{assetController.onloadAsset(ID)}"/>
+                <f:viewParam id="ID" name="ID" value="#{assetController.assetidSelected}"/>
+                <f:viewAction action="#{assetController.onloadAsset(assetController.assetidSelected)}"/>
             </f:metadata>
-            <b:panel title="#{ID!=null?'Asset '.concat(ID):'New Asset'}" collapsible="false">
+            <b:panel title="#{assetController.assetidSelected!=null?'Asset '.concat(assetController.assetidSelected):'New Asset'}" collapsible="false">
                 <b:form>
                     <b:panelGrid colSpans="2,5,5" size="xs">
                         <h:outputLabel value="Company" for="selectcompany"/>
@@ -31,7 +31,10 @@
                         <b:inputText value="#{assetController.asset.name}"
                                      id="inputassetname"
                                      required="true"
-                                     required-message="Please fill in a name."/>
+                                     required-message="Please fill in a name."
+                                     validator-message="Please fill in a name longer than 2 characters.">
+                            <f:validateLength minimum="2" />
+                        </b:inputText>
                         <b:message />
                         <h:outputLabel value="Master asset" for="selectmasterasset"/>
                         <b:selectOneMenu value="#{assetController.asset.assetmasterid}"
@@ -123,7 +126,9 @@
                         <b:message />
                         <div class="text-center">
                             <b:commandButton value="Save" icon="save" look="success" style-class="save"
-                                             action="#{assetController.createNewAsset()}" />
+                                             action="#{assetController.createNewAsset()}">
+                                <f:param name="ID" value="#{assetController.assetidSelected}"/>
+                            </b:commandButton>
                             <b:button value="Cancel" look="warning" style-class="cancel"
                                       outcome="assetList"/>
                         </div>
