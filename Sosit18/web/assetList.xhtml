@@ -39,7 +39,7 @@
                             </b:selectOneMenu>
                             <b:label value="Purchase date"/>
                             <b:dateTimePicker show-time="false"
-                                              format="DD/MM/YYYY"
+                                              format="DD-MM-YYYY"
                                               onblur="AssetTableWidget.DataTable().search(this.value).draw();"/>
                         </b:formGroup>
                         <b:formGroup>
@@ -90,7 +90,7 @@
                                 <b:dataTableColumn label="Date of Purchase" 
                                                    data-order="#{asset.purchasedate.getTime()}" data-type="numeric">
                                     <h:outputText value="#{asset.purchasedate}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        <f:convertDateTime pattern="dd-MM-yyyy"/>
                                     </h:outputText>	
                                 </b:dataTableColumn>
                                 <b:dataTableColumn value="#{asset.warranty}"/>
