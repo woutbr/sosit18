@@ -26,10 +26,10 @@ import java.util.Set;
 public class TicketFilterBean implements Serializable {
 
     
-    private BigDecimal ticketStatusId = null;
-    private BigDecimal companyId = null;
-    private BigDecimal userAccountId = null;
-    private BigDecimal supporterId = null;
+    private BigDecimal ticketStatusId;
+    private BigDecimal companyId;
+    private BigDecimal userAccountId;
+    private BigDecimal supporterId;
     
 
     public BigDecimal getTicketStatusId() {
@@ -66,16 +66,20 @@ public class TicketFilterBean implements Serializable {
     
 
     public TicketFilterBean() {
-        //ticket filter laat default enkel de open tickets zien;
-        this.ticketStatusId = new BigDecimal(1);
+        this.clearFilterVariables();
     }
     
     public String clearFilter(){
-        this.ticketStatusId=new BigDecimal(1);
+        this.clearFilterVariables();
+        return  "ticketList?faces-redirect=true";
+    }
+    
+    private void clearFilterVariables(){
+        //ticket filter laat default enkel de open tickets zien;
+        this.ticketStatusId=BigDecimal.valueOf(1);
         this.companyId=null;
         this.userAccountId=null;
         this.supporterId=null;
-        return  "ticketList?faces-redirect=true";
     }
     
     

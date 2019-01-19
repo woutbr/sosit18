@@ -10,30 +10,35 @@
         <b:navbarLinks>
             <ui:repeat value="#{navBarBean.links.children}" var="item" >
                 <b:navLink rendered="#{item.class.simpleName == 'MenuLink' and navBarBean.canDisplayMenuItem(item)}"
-                    value="#{item.name}" outcome="#{item.outcome}"/>
+                           value="#{item.name}" outcome="#{item.outcome}"/>
                 <my:customDropMenu menulist="#{item}" 
                                    rendered="#{item.class.simpleName == 'MenuList' and navBarBean.canDisplayMenuItem(item)}"/>
             </ui:repeat>
         </b:navbarLinks>
         <b:navbarLinks pull="right">
             <b:dropMenu value="#{auth.user.username}" rendered="#{auth.loggedIn}">
-                <b:navLink value="Admin" rendered="#{auth.admin}"/>
-                <b:navLink value="Handler" rendered="#{auth.supporter}"/>
-                <b:navLink value="User" rendered="#{auth.gewoneUser}"/>
-                <b:navLink value="Useraccount" outcome="useraccount">
-                    <f:param name="UseraccountId" value="#{auth.user.useraccountid}"/>
-                </b:navLink>
+                <b:navLink header="Admin" rendered="#{auth.admin}"/>
+                <b:navLink header="Handler" rendered="#{auth.supporter}"/>
+                <b:navLink header="User" rendered="#{auth.gewoneUser}"/>
                 <!--b:form>
                     <b:commandLink value="Logout" action="{loginController.logout()}"/>
                 </b:form-->
-                <b:navLink value="Logout" href="logout"/>
+                <b:navLink value="Sign out" href="logout"/>
             </b:dropMenu>
-            <b:navLink value="Login" outcome="login"
+            <b:navLink value="Sign in" outcome="login"
                        rendered="#{not auth.loggedIn}"/>
         </b:navbarLinks>
-        <b:form horizontal="true" style="margin: 1em 1em 0; height: 36px; color: #{auth.debugMode?'#fb0':'#eee'}; float: right;" >
-            <b:switch value="#{auth.debugMode}" caption="auth.debugMode" tooltip="Ignore the login check" ajax="true" update="@form"
-                      onColor="warning" switchsize="mini"/>
+        <b:form inline="true"
+                style="margin: 1em 0.4em 0; height: 36px; color: #{auth.debugMode?'#fb0':'#eee'}; float: right;" >
+            <b:column hidden="sm" >
+                <b:selectOneMenu value="#{auth.currentTheme}" ajax="true" oncomplete="location.reload();"
+                                 rendered="#{auth.debugMode}" label-col-sm="2" field-size="xs">
+                    <f:selectItem itemValue="default" itemLabel="Theme"/>
+                    <f:selectItems value="#{auth.bootswatchThemes}"/>
+                </b:selectOneMenu>
+                <b:switch value="#{auth.debugMode}" caption="debugMode" tooltip="Ignore the login check" ajax="true" update="@form"
+                          onColor="warning" switchsize="mini" />
+            </b:column>
         </b:form>
     </b:navBar>
 </ui:composition>

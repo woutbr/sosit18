@@ -16,7 +16,7 @@
                 </f:view>
                 <b:form>
                     <b:panelGrid colSpans="3,9">
-                        <b:formGroup id="fgfilter" style-class="filterform">
+                        <b:formGroup id="fgfilter" style-class="filterform bg-info">
                             <h3 class="text-center">Filter</h3>
                             <b:label value="Company"/>
                             <b:selectOneMenu value="#{auth.gewoneUser ? auth.user.companyid.name : companyController.company.name}" 
@@ -39,6 +39,7 @@
                             </b:selectOneMenu>
                             <b:label value="Purchase date"/>
                             <b:dateTimePicker show-time="false"
+                                              format="DD-MM-YYYY"
                                               onblur="AssetTableWidget.DataTable().search(this.value).draw();"/>
                         </b:formGroup>
                         <b:formGroup>
@@ -51,7 +52,7 @@
                                          scroll-x="true"
                                          save-state='false'
                                          columnVisibility="true"
-                                         row-group="rowGroup:{dataSrc:1,startRender:function ( rows, group ) {return 'Assets in the company '+ group +': '+rows.count();},endRender:null}">
+                                         row-group="rowGroup:{dataSrc:1,startRender:function ( rows, group ) {return 'Company '+ group +': '+rows.count()+' assets';},endRender:null}">
                                 <b:dataTableColumn value="#{asset.assetid}"/>
                                 <b:dataTableColumn value="#{asset.companyid.name}" label="Company" order="asc"/>
                                 <b:dataTableColumn label="Assetgroup">
@@ -72,29 +73,30 @@
                                     <h:outputText value="#{asset.description}" rendered="#{not assetController.isRowEditable(asset)}" />
                                     <b:inputText value="#{assetController.asset.description}" rendered="#{assetController.isRowEditable(asset)}"/>
                                 </b:dataTableColumn>
-                                <b:dataTableColumn label="" searchable="false" orderable="false">
+                                <b:dataTableColumn label="" searchable="false" orderable="false" style-class="colButtons">
                                     <b:button icon="pencil" outcome="asset" 
                                               tooltip="Edit">
                                         <f:param name="ID" value="#{asset.assetid}"/>
                                     </b:button>
                                     <b:commandButton icon="remove"
-                                                     tooltip="Remove"
+                                                     tooltip="#{assetController.getTooltipRemoveAsset(asset)}"
                                                      action="#{assetController.erase(asset)}"
                                                      rendered="#{auth.rights(false, false, true)}"
                                                      disabled="#{!assetController.canDeleteAsset(asset)}"
                                                      onclick="return confirm('Are you sure you want to delete &quot;#{asset.name}&quot;?')"/>
                                 </b:dataTableColumn>
-                                <b:dataTableColumn rendered="false" value="#{asset.assetlocationid.description}" label="Location"/>
-                                <b:dataTableColumn rendered="false" value="#{asset.assetmasterid.name}" label="Asset master"/>
-                                <b:dataTableColumn rendered="false" label="Date of Purchase" 
+                                <b:dataTableColumn value="#{asset.assetlocationid.description}" label="Location"/>
+                                <b:dataTableColumn value="#{asset.assetmasterid.name}" label="Asset master"/>
+                                <b:dataTableColumn label="Date of Purchase" 
                                                    data-order="#{asset.purchasedate.getTime()}" data-type="numeric">
                                     <h:outputText value="#{asset.purchasedate}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        <f:convertDateTime pattern="dd-MM-yyyy"/>
                                     </h:outputText>	
                                 </b:dataTableColumn>
-                                <b:dataTableColumn rendered="false" value="#{asset.warranty}"/>
-                                <b:dataTableColumn rendered="false" value="#{asset.supportcontract}" label="Support Contract" />
-                                <b:dataTableColumn rendered="false" value="#{asset.value}"/>
+                                <b:dataTableColumn value="#{asset.warranty}"/>
+                                <b:dataTableColumn value="#{asset.supportcontract}" label="Support Contract" />
+                                <b:dataTableColumn value="#{asset.value}"/>
+                                <b:dataTableColumn value="#{asset.assetCollection.size()}" label="Aantal subassets"/>
                             </b:dataTable>
                         </b:formGroup>
                     </b:panelGrid>
@@ -105,6 +107,9 @@
                                  action="#{assetController.loadCreateAsset()}"
                                  rendered="#{auth.debugMode or auth.supporter or auth.admin}"/>
             </b:form>
+            <script>$(document).ready(function () {
+                    AssetTableWidget.DataTable().columns([-7,-6,-5,-4,-3,-2,-1]).visible(false);
+                });</script>
         </ui:define>
     </ui:composition>
 </html>

@@ -3,10 +3,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="SLA - SosIT"/>
         <ui:define name="main">
+            <f:view>
+                <f:metadata>
+                    <f:viewAction action="#{slaController.onload()}"/>
+                </f:metadata>
+            </f:view>
             <b:form>
                 <b:panel title="SLA" collapsible="false">
                     <h4><u>Add new SLA</u></h4>
@@ -16,14 +22,21 @@
                             <b:inputText value="#{slaController.sla.title}" 
                                          id="inputslatitle"
                                          required="true"
-                                         required-message="Please fill in a title."/>
+                                         required-message="Please fill in a title."
+                                         validator-message="Please fill in a title longer than 2 characters.">
+                                <f:validateLength minimum="2" />
+                            </b:inputText>
                             <b:message />
                             <h:outputLabel value="Response time" for="inputslaresponse"/>
                             <b:inputText value="#{slaController.sla.responsetime}"
                                          id="inputslaresponse"
                                          type="number"
                                          required="true"
-                                         required-message="Please fill in a number."/>
+                                         required-message="Please fill in a number.">
+                                <f:facet name="append">
+                                    <h:outputText value="hours" />
+                                </f:facet>
+                            </b:inputText>
                             <b:message />
                         </b:formGroup>
                     </b:panelGrid>
@@ -32,10 +45,10 @@
                                      id="inputsladesc"/>
                     <b:message />
                     <div class="text-center">
-                        <b:commandButton value="Save" look="success" icon="save" style="margin-right: 2em"
+                        <b:commandButton value="Save" icon="save" look="success" style-class="save"
                                          action="#{slaController.createNewSla()}"/>
-                        <b:button value="Cancel" look="warning" style="margin-left: 2em"
-                                  outcome="assets"/>
+                        <b:button value="Cancel" look="warning" style-class="cancel"
+                                  outcome="assetList"/>
                     </div>
                 </b:panel>
             </b:form>

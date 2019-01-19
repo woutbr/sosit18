@@ -6,13 +6,14 @@
     margin-left: 2em;
 }
 .btn.new{
-    
 }
 /* filter formgroup */
 .filterform{
-    background-color: aliceblue;
     padding: 1em
 }
 .filterform .label {
     background-color: lightgray;
+}
+.colButtons{
+    width: 6em;
 }

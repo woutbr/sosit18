@@ -8,6 +8,11 @@
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Asset group - SosIT"/>
         <ui:define name="main">
+            <f:view>
+                <f:metadata>
+                    <f:viewAction action="#{assetgroupController.onload()}"/>
+                </f:metadata>
+            </f:view>
             <b:form>
                 <b:panel title="Asset group" collapsible="false">
                     <h4><u>Add new asset group</u></h4>
@@ -31,10 +36,10 @@
                                      id="inputassetgroupdesc"/>
                     <b:message />
                     <div class="text-center">
-                        <b:commandButton value="Save" look="success" icon="save" style="margin-right: 2em"
+                        <b:commandButton value="Save" icon="save" look="success" style-class="save"
                                          action="#{assetgroupController.createNewAssetgroup()}"/>
-                        <b:button value="Cancel" look="warning" style="margin-left: 2em"
-                                  outcome="assets"/>
+                        <b:button value="Cancel" look="warning" style-class="cancel"
+                                  outcome="assetList"/>
                     </div>
                 </b:panel>
             </b:form>

@@ -9,9 +9,12 @@
         <ui:param name="pageTitle" value="Login - SosIT"/>
         <ui:define name="main">
             <h:form id="loginform">
-
+                <f:view>
+                    <f:metadata>
+                        <f:viewAction action="#{loginController.onload()}"/>
+                    </f:metadata>
+                </f:view>
                 <b:panelGrid colSpans="6,6">
-
                     <b:formGroup>
                         <h:outputLabel>Username:</h:outputLabel>
                         <b:inputText value="#{loginController.username}"
@@ -31,8 +34,6 @@
                                          action="#{loginController.login()}">
                         </b:commandButton>
                         <b:messages global-only="true"/>
-                        
-                        
                         
                         <b:link value="Forgot password?" href="mailto:admin@sosit.com" />  
                     </b:formGroup>

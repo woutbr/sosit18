@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * Een servlet voor het uitloggen van een user. 
+ * Wordt enkel aangeroepen bij het navigeren naar "/logout".
  * Performing user authentication in Java EE / JSF using j_security_check : answer by Vítor E. Silva Souza
  * https://stackoverflow.com/a/2997254
  *

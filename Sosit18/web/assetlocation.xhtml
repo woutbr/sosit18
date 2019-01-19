@@ -3,10 +3,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/page.xhtml">
         <ui:param name="pageTitle" value="Asset location - SosIT"/>
         <ui:define name="main">
+            <f:view>
+                <f:metadata>
+                    <f:viewAction action="#{assetlocationController.onload()}"/>
+                </f:metadata>
+            </f:view>
             <b:form>
                 <b:panel title="Asset location" collapsible="false">
                     <h4><u>Add new asset location</u></h4>
@@ -20,10 +26,10 @@
                                      required-message="Please fill in an description."/>
                     <b:message />
                     <div class="text-center">
-                        <b:commandButton value="Save" look="success" icon="save" style="margin-right: 2em"
+                        <b:commandButton value="Save" icon="save" look="success" style-class="save"
                                          action="#{assetlocationController.createNewAssetlocation()}"/>
-                        <b:button value="Cancel" look="warning" style="margin-left: 2em"
-                                  outcome="assets"/>
+                        <b:button value="Cancel" look="warning" style-class="cancel"
+                                  outcome="assetList"/>
                     </div>
                 </b:panel>
             </b:form>

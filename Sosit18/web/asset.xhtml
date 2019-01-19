@@ -6,13 +6,13 @@
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/page.xhtml">
-        <ui:param name="pageTitle" value="New Asset - SosIT"/>
+        <ui:param name="pageTitle" value="#{assetController.assetidSelected!=null?'Asset '.concat(assetController.assetidSelected):'New Asset'} - SosIT"/>
         <ui:define name="main">
             <f:metadata>
-                <f:viewParam name="ID"/>
-                <f:viewAction action="#{assetController.onloadAsset(ID)}"/>
+                <f:viewParam id="ID" name="ID" value="#{assetController.assetidSelected}"/>
+                <f:viewAction action="#{assetController.onloadAsset(assetController.assetidSelected)}"/>
             </f:metadata>
-            <b:panel title="New Asset" collapsible="false">
+            <b:panel title="#{assetController.assetidSelected!=null?'Asset '.concat(assetController.assetidSelected):'New Asset'}" collapsible="false">
                 <b:form>
                     <b:panelGrid colSpans="2,5,5" size="xs">
                         <h:outputLabel value="Company" for="selectcompany"/>
@@ -31,7 +31,10 @@
                         <b:inputText value="#{assetController.asset.name}"
                                      id="inputassetname"
                                      required="true"
-                                     required-message="Please fill in a name."/>
+                                     required-message="Please fill in a name."
+                                     validator-message="Please fill in a name longer than 2 characters.">
+                            <f:validateLength minimum="2" />
+                        </b:inputText>
                         <b:message />
                         <h:outputLabel value="Master asset" for="selectmasterasset"/>
                         <b:selectOneMenu value="#{assetController.asset.assetmasterid}"
@@ -39,10 +42,21 @@
                                          tooltip="Optional">
                             <f:selectItem itemLabel="No master asset"/>
                             <f:selectItems value="#{assetController.listAll()}"
-                                           var="assetmaster"
-                                           itemLabel="#{assetmaster.name}"
-                                           itemValue="#{assetmaster}"/>
+                                           var="masterasset"
+                                           itemLabel="#{masterasset.name}"
+                                           itemValue="#{masterasset}"/>
                         </b:selectOneMenu>
+                        <b:message />
+                        <h:outputLabel value="Sub assets" for="listsubassets"/>
+                        <b:panel id="listsubassets">
+                            <b:listLinks>
+                                <ui:repeat value="#{assetController.asset.assetCollection}" var="subasset">
+                                    <b:navLink value="#{subasset.name}" outcome="asset">
+                                        <f:param name="ID" value="#{subasset.assetid}"/>
+                                    </b:navLink>
+                                </ui:repeat>
+                            </b:listLinks>
+                        </b:panel>
                         <b:message />
                         <h:outputLabel value="Assetgroups" for="selectassetgroup"/>
                         <b:selectOneMenu value="#{assetController.asset.assetgroupid}" 
@@ -75,20 +89,48 @@
                                       id="pickassetdate"
                                       tooltip="Pick the date of purchase."/>
                         <b:message />
+                        <h:outputLabel value="Value" for="inputassetvalue"/>
+                        <b:inputText value="#{assetController.asset.value}"
+                                     id="inputassetvalue"
+                                     type="number"
+                                     converter-message="Please enter a number.">
+                                <f:facet name="append">
+                                    <h:outputText value="€" />
+                                </f:facet>
+                            </b:inputText>
+                        <b:message />
                         <h:outputLabel value="Warranty" for="inputassetwaranty"/>
                         <b:inputText value="#{assetController.asset.warranty}"
                                      id="inputassetwaranty"
-                                     converter-message="Please enter a number."/>
+                                     type="number"
+                                     converter-message="Please enter a number.">
+                                <f:facet name="append">
+                                    <h:outputText value="months" />
+                                </f:facet>
+                            </b:inputText>
                         <b:message />
                         <h:outputLabel value="Support contract" for="inputassetsupport"/>
                         <b:inputText value="#{assetController.asset.supportcontract}"
                                      id="inputassetsupport"/>
                         <b:message />
+                        <h:outputLabel value="Gelinkte tickets" for="listlinkedtickets"/>
+                        <b:panel id="listlinkedtickets">
+                            <b:listLinks>
+                                <ui:repeat value="#{assetController.ticketsByAsset}" var="ticket">
+                                    <b:navLink value="#{ticket.title}" outcome="ticket">
+                                        <f:param name="TicketId" value="#{ticket.ticketid}"/>
+                                    </b:navLink>
+                                </ui:repeat>
+                            </b:listLinks>
+                        </b:panel>
+                        <b:message />
                         <div class="text-center">
                             <b:commandButton value="Save" icon="save" look="success" style-class="save"
-                                             action="#{assetController.createNewAsset()}" />
+                                             action="#{assetController.createNewAsset()}">
+                                <f:param name="ID" value="#{assetController.assetidSelected}"/>
+                            </b:commandButton>
                             <b:button value="Cancel" look="warning" style-class="cancel"
-                                      outcome="assets"/>
+                                      outcome="assetList"/>
                         </div>
                     </b:panelGrid>
                 </b:form>

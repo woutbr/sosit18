@@ -21,7 +21,7 @@ public class SlaController implements Serializable {
     private Sla sla;
 
     public SlaController() {
-        this.sla = new Sla();
+        this.resetSla();
     }
 
     public Sla getSla() {
@@ -30,6 +30,13 @@ public class SlaController implements Serializable {
 
     public void setSla(Sla sla) {
         this.sla = sla;
+    }
+
+    public void onload() {
+        this.resetSla();
+    }
+    private void resetSla() {
+        this.setSla(new Sla());
     }
 
     public List<Sla> listAllSlas() {
@@ -42,7 +49,7 @@ public class SlaController implements Serializable {
     
     public String createNewSla(){
         this.slaFacade.edit(sla);
-        return "assets?faces-redirect=true";
+        return "assetgroup?faces-redirect=true";
     }
 
 }

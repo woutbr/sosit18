@@ -5,6 +5,7 @@ import be.hbo5.java.menu.MenuLink;
 import controller.AuthBean;
 import controller.NavBarBean;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -21,9 +22,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
- * A Filter for every request that checks whether the user can access it.
+ * A Filter for every request
+ * It that checks whether the user can access it.
  * https://stackoverflow.com/tags/servlet-filters/info
  *
  * @author woutbr@student.hik.be
@@ -36,14 +39,13 @@ public class LoginFilter implements Filter {
     @Inject
     private NavBarBean navBarBean;
 
-    // The filter configuration object we are associated with.  If
-    // this value is null, this filter instance is not currently
-    // configured. 
+    // The filter configuration object we are associated with.
+    // If this value is null, this filter instance is not currently configured. 
     private FilterConfig filterConfig = null;
 
     private static final String AJAX_REDIRECT_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><partial-response><redirect url=\"%s\"></redirect></partial-response>";
     private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(
-            Arrays.asList("", "/index.xhtml", "/login.xhtml", "/logout", "ForgotPW.xhtml")));
+            Arrays.asList("", "/index.xhtml", "/login.xhtml", "/logout", "/contact.xhtml", "/ForgotPW.xhtml")));
 
     /**
      * How implement a login filter in JSF? : answer BalusC
@@ -56,7 +58,9 @@ public class LoginFilter implements Filter {
         String loginURL = request.getContextPath() + "/login.xhtml";
 
         if (this.isRequestAllowed(request, loginURL)) {
-            if (!isResourceRequest(request)) { // Prevent browser from caching restricted resources. See also https://stackoverflow.com/q/4194207/157882
+            if (!isResourceRequest(request)) {
+                // Prevent browser from caching restricted resources. 
+                // See also https://stackoverflow.com/q/4194207/157882
                 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
                 response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
                 response.setDateHeader("Expires", 0); // Proxies.
@@ -65,13 +69,14 @@ public class LoginFilter implements Filter {
             chain.doFilter(request, response); // So, just continue request.
 
         } else if (isAjaxRequest(request)) {
+            // So, return special XML response instructing JSF ajax to send a redirect.
             response.setContentType("text/xml");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().printf(AJAX_REDIRECT_XML, loginURL); // So, return special XML response instructing JSF ajax to send a redirect.
+            response.getWriter().printf(AJAX_REDIRECT_XML, loginURL);
+            
         } else {
-
-            response.sendRedirect(loginURL); // So, just perform standard synchronous redirect.
-
+             // So, just perform standard synchronous redirect.
+             this.redirectResponse(request, response, loginURL);
         }
     }
 
@@ -81,7 +86,7 @@ public class LoginFilter implements Filter {
 
         String path = request.getRequestURI().substring(request.getContextPath().length()).replaceAll("[/]+$", "");
         //DEBUG Print requested path
-        System.out.println("LoginFilter path: "+path);
+//        System.out.println("LoginFilter path: "+path);
         
         boolean allowedPath = ALLOWED_PATHS.contains(path);
         boolean loggedIn = this.authBean.isLoggedIn();
@@ -91,14 +96,23 @@ public class LoginFilter implements Filter {
     }
 
     private boolean isRoleAllowed(HttpServletRequest request, String path) {
-//        MenuList items = this.navBarBean.getLinks();
-        //TODO Create list of links without needing to walk it everytime.
-//        MenuLink link = walkUntilFound(items, request, path);
-    
         MenuLink link = this.findMatchingMenuItem(this.navBarBean.getLinksAsList(), path);
         return link != null && this.authBean.hasAtLeastOneRole(link.getRoles());
     }
+
+    private boolean isResourceRequest(HttpServletRequest request) {
+        return request.getRequestURI().startsWith(request.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER + "/");
+    }
+
+    private boolean isAjaxRequest(HttpServletRequest request) {
+        return "partial/ajax".equals(request.getHeader("Faces-Request"));
+    }
     
+    private void redirectResponse(HttpServletRequest request, HttpServletResponse response, String loginURL) throws IOException{
+        this.addMessageToSession(request, "You are not allowed to visit this page.");
+//        System.out.println("LoginFilter redirect to: "+loginURL);
+        response.sendRedirect(loginURL);
+    }
     
     /**
      * Search for a MenuLink in the given List 
@@ -116,13 +130,21 @@ public class LoginFilter implements Filter {
         }
         return null;
     }
-
-    private boolean isResourceRequest(HttpServletRequest request) {
-        return request.getRequestURI().startsWith(request.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER + "/");
-    }
-
-    private boolean isAjaxRequest(HttpServletRequest request) {
-        return "partial/ajax".equals(request.getHeader("Faces-Request"));
+    
+    /**
+     * Add a String message to an ArrayList in the session map.
+     * The ArrayList is stored under "loginMessages".
+     */
+    private void addMessageToSession(HttpServletRequest request, String msg){
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            List<String> loginMessages = (List<String>)session.getAttribute("loginMessages");
+            if(loginMessages == null){
+                loginMessages = new ArrayList<>();
+            }
+            loginMessages.add(msg);
+            session.setAttribute("loginMessages", loginMessages);
+        }
     }
 
     @Override
