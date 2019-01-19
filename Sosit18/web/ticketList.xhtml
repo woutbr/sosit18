@@ -83,7 +83,7 @@
                                             <th>Id</th>
                                             <th>Created</th>
                                             <th>Title</th>
-                                            <th>Description</th>
+                                            <th>Company</th>
                                             <th>Handled By</th>
                                             <th></th>
                                         </tr>
@@ -99,7 +99,7 @@
                                 </h:outputText>
                             </b:dataTableColumn>
                                     <b:dataTableColumn value="#{item.title}" />
-                                    <b:dataTableColumn value="#{item.description}" />
+                                    <b:dataTableColumn value="#{item.useraccountid.companyid.name}" />
                                     <b:dataTableColumn value="#{item.handlerid.fullname}"/>
                                     <b:dataTableColumn value="">
                                         <b:button icon="pencil" outcome="ticket">
